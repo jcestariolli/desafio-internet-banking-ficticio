@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static internetbankingficticio.test.utils.TestUtils.*;
-import static internetbankingficticio.test.utils.customer.CustomerTestUtils.*;
+import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.*;
+import static internetbankingficticio.test.utils.customer.CustomerServiceMockTestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@ContextConfiguration(classes = {CustomerController.class})
 @WebMvcTest(CustomerController.class)
 public class CustomerControllerTest extends AbstractTest {
 

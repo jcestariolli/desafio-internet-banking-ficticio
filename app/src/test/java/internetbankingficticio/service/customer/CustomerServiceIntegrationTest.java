@@ -1,6 +1,5 @@
 package internetbankingficticio.service.customer;
 
-import internetbankingficticio.test.AbstractTest;
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
@@ -9,13 +8,15 @@ import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMap
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
 import internetbankingficticio.repository.customer.CustomerRepository;
+import internetbankingficticio.test.AbstractTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static internetbankingficticio.test.utils.customer.CustomerTestUtils.*;
+import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.generateCustomerDaoObject;
+import static internetbankingficticio.test.utils.customer.CustomerRepositoryMockTestUtils.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
