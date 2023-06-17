@@ -25,5 +25,6 @@ public class CustomerDao extends AbstractInternetBankingDao {
     private String name;
 
     @Column
+    @Temporal(TemporalType.DATE)
     private Date birthday;
 }
