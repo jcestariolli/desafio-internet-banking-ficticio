@@ -46,9 +46,12 @@ public class AccountService implements AccountServiceIF {
 
     @Override
     public Optional<AccountDto> updateAccount(String accountId, AccountUpdateDto accountDto) {
-        if (accountRepository.findById(accountId).isPresent()) {
+        Optional<AccountDao> accountDao = accountRepository.findById(accountId);
+        if (accountDao.isPresent()) {
             AccountDao accountToUpdate = accountUpdateDtoToAccountDaoMapper.map(accountDto);
             accountToUpdate.setId(accountId);
+            accountToUpdate.setBalance(accountDao.get().getBalance());
+            accountToUpdate.setExclusivePlan(accountToUpdate.getExclusivePlan());
             return Optional.of(accountDaoToAccountDtoMapper.map(accountRepository.save(accountToUpdate)));
         }
         return Optional.empty();
