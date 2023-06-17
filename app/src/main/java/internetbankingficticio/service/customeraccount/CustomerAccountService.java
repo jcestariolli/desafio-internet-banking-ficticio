@@ -10,6 +10,7 @@ import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerDtoToCustomerDaoMapper;
+import internetbankingficticio.mapper.customeraccount.CustomerAccountDaoToCustomerAccountDtoMapper;
 import internetbankingficticio.repository.customeraccount.CustomerAccountRepository;
 import internetbankingficticio.service.account.AccountServiceIF;
 import internetbankingficticio.service.customer.CustomerServiceIF;
@@ -40,6 +41,8 @@ public class CustomerAccountService implements CustomerAccountServiceIF {
     CustomerDaoToCustomerDtoMapper customerDaoToCustomerDtoMapper;
     @Autowired
     CustomerDtoToCustomerDaoMapper customerDtoToCustomerDaoMapper;
+    @Autowired
+    CustomerAccountDaoToCustomerAccountDtoMapper customerAccountDaoToCustomerAccountDtoMapper;
 
 
     @Override
@@ -65,12 +68,10 @@ public class CustomerAccountService implements CustomerAccountServiceIF {
         CustomerDto createdCustomerDto = customerService.createCustomer(customerAccountCreateDto.getCustomerDto());
         AccountDto createdAccountDto = accountService.createAccount(customerAccountCreateDto.getAccountDto());
 
-
         Optional<CustomerAccountDao> customerAccountDaoOpt = customerAccountRepository.findById(CustomerAccountIdDaoKey.builder().customerId(createdCustomerDto.getId()).accountId(createdAccountDto.getId()).build());
-        if (customerAccountDaoOpt.isPresent()){
-
+        if (customerAccountDaoOpt.isPresent()) {
+            return customerAccountDaoToCustomerAccountDtoMapper.map(customerAccountDaoOpt.get());
         }
-        CustomerAccountDao createdCustomerAccountDao = CustomerAccountDao.builder().customerId(customerDtoToCustomerDaoMapper.map(createdCustomerDto)).accountId(accountDtoToAccountDaoMapper.map(createdAccountDto)).build();
-        return null;
+        return customerAccountDaoToCustomerAccountDtoMapper.map(CustomerAccountDao.builder().customerId(customerDtoToCustomerDaoMapper.map(createdCustomerDto)).accountId(accountDtoToAccountDaoMapper.map(createdAccountDto)).build());
     }
 }
