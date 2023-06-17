@@ -1,4 +1,4 @@
-package internetbankingficticio.service.customer;
+package internetbankingficticio.test.utils.customer;
 
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
@@ -12,11 +12,11 @@ import internetbankingficticio.repository.customer.CustomerRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static internetbankingficticio.utils.TestUtils.getDateNow;
+import static internetbankingficticio.test.utils.TestUtils.getDateNow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class CustomerServiceTestUtils {
+public class CustomerTestUtils {
 
     public static void mockRepositoryFindAllWithCustomerList(CustomerRepository customerRepositoryMock, List<CustomerDao> customerDaoList) {
         when(customerRepositoryMock.findAll()).thenReturn(customerDaoList);

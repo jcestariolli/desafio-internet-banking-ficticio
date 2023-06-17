@@ -1,4 +1,4 @@
-package internetbankingficticio;
+package internetbankingficticio.test;
 
 import org.springframework.test.context.ActiveProfiles;
 

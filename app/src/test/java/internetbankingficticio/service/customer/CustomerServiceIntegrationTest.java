@@ -1,6 +1,6 @@
 package internetbankingficticio.service.customer;
 
-import internetbankingficticio.AbstractTest;
+import internetbankingficticio.test.AbstractTest;
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static internetbankingficticio.service.customer.CustomerServiceTestUtils.*;
+import static internetbankingficticio.test.utils.customer.CustomerTestUtils.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest

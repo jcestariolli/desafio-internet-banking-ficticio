@@ -1,6 +1,6 @@
 package internetbankingficticio.service.customer;
 
-import internetbankingficticio.AbstractTest;
+import internetbankingficticio.test.AbstractTest;
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static internetbankingficticio.service.customer.CustomerServiceTestUtils.*;
+import static internetbankingficticio.test.utils.customer.CustomerTestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
