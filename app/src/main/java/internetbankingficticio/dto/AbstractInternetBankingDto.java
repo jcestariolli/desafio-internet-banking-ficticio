@@ -1,4 +1,4 @@
 package internetbankingficticio.dto;
 
-public class AbstractInternetBankingDto {
+public abstract class AbstractInternetBankingDto {
 }

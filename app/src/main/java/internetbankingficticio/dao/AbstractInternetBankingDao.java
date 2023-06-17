@@ -1,4 +1,4 @@
 package internetbankingficticio.dao;
 
-public class AbstractInternetBankingDao {
+public abstract class AbstractInternetBankingDao {
 }
