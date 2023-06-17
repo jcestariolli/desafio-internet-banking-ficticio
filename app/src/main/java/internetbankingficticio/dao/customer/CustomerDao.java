@@ -1,4 +1,4 @@
-package internetbankingficticio.customer.dao;
+package internetbankingficticio.dao.customer;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

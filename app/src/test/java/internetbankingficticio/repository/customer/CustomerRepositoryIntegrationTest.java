@@ -1,7 +1,7 @@
-package internetbankingficticio.customer.repository;
+package internetbankingficticio.repository.customer;
 
 import internetbankingficticio.AbstractTest;
-import internetbankingficticio.customer.dao.CustomerDao;
+import internetbankingficticio.dao.customer.CustomerDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

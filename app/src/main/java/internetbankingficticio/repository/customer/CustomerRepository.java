@@ -1,6 +1,6 @@
-package internetbankingficticio.customer.repository;
+package internetbankingficticio.repository.customer;
 
-import internetbankingficticio.customer.dao.CustomerDao;
+import internetbankingficticio.dao.customer.CustomerDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
