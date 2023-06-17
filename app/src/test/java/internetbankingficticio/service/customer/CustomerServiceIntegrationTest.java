@@ -48,6 +48,14 @@ public class CustomerServiceIntegrationTest extends AbstractTest {
     }
 
     @Test
+    @DisplayName("Should call repository existsById() when existsById()")
+    public void shouldCallRepositoryExistsById_whenExistsById() {
+        Long customerTestId = 1L;
+        customerService.existsById(customerTestId);
+        verify(customerRepository, times(1)).existsById(customerTestId);
+    }
+
+    @Test
     @DisplayName("Should call repository save() when createCustomer()")
     public void shouldCallRepositorySave_whenCreateCustomer() {
         Long customerTestId = 1L;

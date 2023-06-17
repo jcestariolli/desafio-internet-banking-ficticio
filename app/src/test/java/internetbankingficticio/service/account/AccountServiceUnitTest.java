@@ -53,7 +53,7 @@ public class AccountServiceUnitTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should return Account when findAccountById() finds a Account")
+    @DisplayName("Should return Account when findAccountById() finds an Account")
     public void shouldReturnAccount_whenFindAccountByIdFindsAccount() {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
@@ -66,7 +66,7 @@ public class AccountServiceUnitTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should return Empty when findAccountById() does not find a Account")
+    @DisplayName("Should return Empty when findAccountById() does not find an Account")
     public void shouldReturnEmpty_whenFindAccountByIdDoesNotFindAccount() {
         String accountTestId = "12345678";
         mockRepositoryFindByIdWithEmptyResult(accountRepository, accountTestId);
@@ -74,6 +74,23 @@ public class AccountServiceUnitTest extends AbstractTest {
         Optional<AccountDto> returnedAccountDtoOpt = accountService.findAccountById(accountTestId);
 
         assertThat(returnedAccountDtoOpt).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Should return true when existsById() finds an Account")
+    public void shouldReturnTrue_whenExistsByIdFindsAccount() {
+        String accountTestId = "12345678";
+        mockRepositoryExistsByIdWithBoolean(accountRepository, accountTestId, true);
+        assertThat(accountService.existsById(accountTestId)).isTrue();
+
+    }
+
+    @Test
+    @DisplayName("Should return false when existsById() does not find an Account")
+    public void shouldReturnFalse_whenExistsByIdDoesNotFindAccount() {
+        String accountTestId = "12345678";
+        mockRepositoryExistsByIdWithBoolean(accountRepository, accountTestId, false);
+        assertThat(accountService.existsById(accountTestId)).isFalse();
     }
 
     @Test

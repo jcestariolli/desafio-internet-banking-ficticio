@@ -39,6 +39,11 @@ public class CustomerService implements CustomerServiceIF {
     }
 
     @Override
+    public boolean existsById(Long customerId) {
+        return customerRepository.existsById(customerId);
+    }
+
+    @Override
     public CustomerDto createCustomer(CustomerCreateDto customerDto) {
         return customerDaoToCustomerDtoMapper.map(customerRepository.save(customerCreateDtoToCustomerDaoMapper.map(customerDto)));
 

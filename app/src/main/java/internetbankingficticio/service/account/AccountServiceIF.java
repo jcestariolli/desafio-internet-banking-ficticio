@@ -12,6 +12,8 @@ public interface AccountServiceIF {
 
     Optional<AccountDto> findAccountById(String accountId);
 
+    boolean existsById(String accountId);
+
     AccountDto createAccount(AccountCreateDto accountDto);
 
     Optional<AccountDto> updateAccount(String accountId, AccountUpdateDto accountDto);

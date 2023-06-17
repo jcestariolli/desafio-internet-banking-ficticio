@@ -49,6 +49,14 @@ public class AccountServiceIntegrationTest extends AbstractTest {
     }
 
     @Test
+    @DisplayName("Should call repository existsById() when existsById()")
+    public void shouldCallRepositoryExistsById_whenExistsById() {
+        String accountTestId = "12345678";
+        accountService.existsById(accountTestId);
+        verify(accountRepository, times(1)).existsById(accountTestId);
+    }
+
+    @Test
     @DisplayName("Should call repository save() when createAccount()")
     public void shouldCallRepositorySave_whenCreateAccount() {
         String accountTestId = "12345678";

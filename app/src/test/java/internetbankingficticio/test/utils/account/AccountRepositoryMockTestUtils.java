@@ -29,6 +29,10 @@ public class AccountRepositoryMockTestUtils {
         when(accountRepositoryMock.findById(idToMock)).thenReturn(Optional.empty());
     }
 
+    public static void mockRepositoryExistsByIdWithBoolean(AccountRepository accountRepositoryMock, String idToMock, boolean existsById) {
+        when(accountRepositoryMock.existsById(idToMock)).thenReturn(existsById);
+    }
+
     public static void mockRepositorySaveWithAccount(AccountRepository accountRepositoryMock, AccountDao accountDao) {
         when(accountRepositoryMock.save(any(AccountDao.class))).thenReturn(accountDao);
     }

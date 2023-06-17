@@ -39,6 +39,11 @@ public class AccountService implements AccountServiceIF {
     }
 
     @Override
+    public boolean existsById(String accountId) {
+        return accountRepository.existsById(accountId);
+    }
+
+    @Override
     public AccountDto createAccount(AccountCreateDto accountDto) {
         return accountDaoToAccountDtoMapper.map(accountRepository.save(accountCreateDtoToAccountDaoMapper.map(accountDto)));
 

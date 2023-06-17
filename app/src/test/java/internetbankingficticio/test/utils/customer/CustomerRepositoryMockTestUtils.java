@@ -29,6 +29,10 @@ public class CustomerRepositoryMockTestUtils {
         when(customerRepositoryMock.findById(idToMock)).thenReturn(Optional.empty());
     }
 
+    public static void mockRepositoryExistsByIdWithBoolean(CustomerRepository customerRepositoryMock, Long idToMock, boolean existsById) {
+        when(customerRepositoryMock.existsById(idToMock)).thenReturn(existsById);
+    }
+
     public static void mockRepositorySaveWithCustomer(CustomerRepository customerRepositoryMock, CustomerDao customerDao) {
         when(customerRepositoryMock.save(any(CustomerDao.class))).thenReturn(customerDao);
     }

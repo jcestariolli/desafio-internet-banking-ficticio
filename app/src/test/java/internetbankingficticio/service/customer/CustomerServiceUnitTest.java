@@ -78,6 +78,23 @@ public class CustomerServiceUnitTest extends AbstractTest {
     }
 
     @Test
+    @DisplayName("Should return true when existsById() finds a Customer")
+    public void shouldReturnTrue_whenExistsByIdFindsCustomer() {
+        Long customerTestId = 1L;
+        mockRepositoryExistsByIdWithBoolean(customerRepository, customerTestId, true);
+        assertThat(customerService.existsById(customerTestId)).isTrue();
+
+    }
+
+    @Test
+    @DisplayName("Should return false when existsById() does not find a Customer")
+    public void shouldReturnFalse_whenExistsByIdDoesNotFindCustomer() {
+        Long customerTestId = 1L;
+        mockRepositoryExistsByIdWithBoolean(customerRepository, customerTestId, false);
+        assertThat(customerService.existsById(customerTestId)).isFalse();
+    }
+
+    @Test
     @DisplayName("Should return Customer when createCustomer()")
     public void shouldReturnCustomer_whenCreateCustomer() {
         Long customerTestId = 1L;
