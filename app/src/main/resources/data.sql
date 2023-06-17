@@ -10,8 +10,8 @@ insert into account (ID, BALANCE, EXCLUSIVE_PLAN) values ('99001122', 1000.12, t
 insert into account (ID, BALANCE, EXCLUSIVE_PLAN) values ('87654321', 500.10, false);
 insert into account (ID, BALANCE, EXCLUSIVE_PLAN) values ('12345678', 100.00, true);
 
-insert into customer_account (CUSTOMER_ID, ACCOUNT_ID_ID) values (1, '11223344');
-insert into customer_account (CUSTOMER_ID, ACCOUNT_ID_ID) values (2, '55667788');
-insert into customer_account (CUSTOMER_ID, ACCOUNT_ID_ID) values (3, '99001122');
-insert into customer_account (CUSTOMER_ID, ACCOUNT_ID_ID) values (4, '87654321');
-insert into customer_account (CUSTOMER_ID, ACCOUNT_ID_ID) values (5, '12345678');
+insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (1, '11223344');
+insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (2, '55667788');
+insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (3, '99001122');
+insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (4, '87654321');
+insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (5, '12345678');

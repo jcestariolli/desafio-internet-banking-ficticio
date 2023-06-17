@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static internetbankingficticio.test.utils.TestUtils.getDateNow;
+import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.generateCustomerDaoObject;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -46,11 +47,16 @@ public class CustomerAccountRepositoryTest extends AbstractTest {
     public void shouldFindAllCustomerAccounts_whenRepositoryHasData() {
         AccountDao accountABC = AccountDao.builder().id("accountIdTestABC").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountABC);
-        CustomerAccountDao customerAccountAbc = CustomerAccountDao.builder().customerId(1L).accountId(accountABC).build();
+        CustomerDao customerDaoAbc = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerDaoAbc);
+        CustomerAccountDao customerAccountAbc = CustomerAccountDao.builder().customerId(customerDaoAbc).accountId(accountABC).build();
         testEntityManager.persist(customerAccountAbc);
+
         AccountDao accountXPTO = AccountDao.builder().id("accountIdTestXPTO").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountXPTO);
-        CustomerAccountDao customerAccountXpto = CustomerAccountDao.builder().customerId(2L).accountId(accountXPTO).build();
+        CustomerDao customerDaoXPTO = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerDaoXPTO);
+        CustomerAccountDao customerAccountXpto = CustomerAccountDao.builder().customerId(customerDaoXPTO).accountId(accountXPTO).build();
         testEntityManager.persist(customerAccountXpto);
 
         List<CustomerAccountDao> customerAccountList = customerAccountRepository.findAll();
@@ -63,14 +69,19 @@ public class CustomerAccountRepositoryTest extends AbstractTest {
     public void shouldFindCustomerAccountByCustomerAccountId() {
         AccountDao accountABC = AccountDao.builder().id("accountIdTestABC").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountABC);
-        CustomerAccountDao customerAccountAbc = CustomerAccountDao.builder().customerId(1L).accountId(accountABC).build();
+        CustomerDao customerDaoAbc = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerDaoAbc);
+        CustomerAccountDao customerAccountAbc = CustomerAccountDao.builder().customerId(customerDaoAbc).accountId(accountABC).build();
         testEntityManager.persist(customerAccountAbc);
         AccountDao accountXPTO = AccountDao.builder().id("accountIdTestXPTO").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountXPTO);
-        CustomerAccountDao customerAccountXpto = CustomerAccountDao.builder().customerId(2L).accountId(accountXPTO).build();
+        CustomerDao customerDaoXPTO = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerDaoXPTO);
+        CustomerAccountDao customerAccountXpto = CustomerAccountDao.builder().customerId(customerDaoXPTO).accountId(accountXPTO).build();
         testEntityManager.persist(customerAccountXpto);
 
-        CustomerAccountIdDaoKey customerAccountId = CustomerAccountIdDaoKey.builder().customerId(customerAccountXpto.getCustomerId()).accountId(customerAccountXpto.getAccountId().getId()).build();
+
+        CustomerAccountIdDaoKey customerAccountId = CustomerAccountIdDaoKey.builder().customerId(customerAccountXpto.getCustomerId().getId()).accountId(customerAccountXpto.getAccountId().getId()).build();
         Optional<CustomerAccountDao> foundCustomerAccountDao = customerAccountRepository.findById(customerAccountId);
 
         assertThat(foundCustomerAccountDao).isPresent();
@@ -78,15 +89,19 @@ public class CustomerAccountRepositoryTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should find CustomerAccountDao by CustomerId")
-    public void shouldFindCustomerAccountByCustomerId() {
+    @DisplayName("Should find CustomerAccountDao by Customer")
+    public void shouldFindCustomerAccountByCustomer() {
         AccountDao accountABC = AccountDao.builder().id("accountIdTestABC").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountABC);
-        CustomerAccountDao customerAccountAbc = CustomerAccountDao.builder().customerId(1L).accountId(accountABC).build();
+        CustomerDao customerDaoAbc = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerDaoAbc);
+        CustomerAccountDao customerAccountAbc = CustomerAccountDao.builder().customerId(customerDaoAbc).accountId(accountABC).build();
         testEntityManager.persist(customerAccountAbc);
         AccountDao accountXPTO = AccountDao.builder().id("accountIdTestXPTO").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountXPTO);
-        CustomerAccountDao customerAccountXpto = CustomerAccountDao.builder().customerId(2L).accountId(accountXPTO).build();
+        CustomerDao customerDaoXPTO = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerDaoXPTO);
+        CustomerAccountDao customerAccountXpto = CustomerAccountDao.builder().customerId(customerDaoXPTO).accountId(accountXPTO).build();
         testEntityManager.persist(customerAccountXpto);
 
         List<CustomerAccountDao> foundCustomerAccountDao = customerAccountRepository.findByCustomerId(customerAccountXpto.getCustomerId());
@@ -100,11 +115,15 @@ public class CustomerAccountRepositoryTest extends AbstractTest {
     public void shouldFindCustomerAccountByAccountId() {
         AccountDao accountABC = AccountDao.builder().id("accountIdTestABC").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountABC);
-        CustomerAccountDao customerAccountAbc = CustomerAccountDao.builder().customerId(1L).accountId(accountABC).build();
+        CustomerDao customerDaoAbc = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerDaoAbc);
+        CustomerAccountDao customerAccountAbc = CustomerAccountDao.builder().customerId(customerDaoAbc).accountId(accountABC).build();
         testEntityManager.persist(customerAccountAbc);
         AccountDao accountXPTO = AccountDao.builder().id("accountIdTestXPTO").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountXPTO);
-        CustomerAccountDao customerAccountXpto = CustomerAccountDao.builder().customerId(2L).accountId(accountXPTO).build();
+        CustomerDao customerDaoXPTO = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerDaoXPTO);
+        CustomerAccountDao customerAccountXpto = CustomerAccountDao.builder().customerId(customerDaoXPTO).accountId(accountXPTO).build();
         testEntityManager.persist(customerAccountXpto);
 
         List<CustomerAccountDao> foundCustomerAccountDao = customerAccountRepository.findByAccountId(customerAccountXpto.getAccountId());
@@ -118,7 +137,10 @@ public class CustomerAccountRepositoryTest extends AbstractTest {
     public void shouldStoreCustomerAccount() {
         AccountDao accountIdTestSingle = AccountDao.builder().id("accountIdTestSingle").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountIdTestSingle);
-        CustomerAccountDao customerAccountDao = CustomerAccountDao.builder().customerId(1L).accountId(accountIdTestSingle).build();
+        CustomerDao customerTestSingle = generateCustomerDaoObject("Customer Test 1");
+        testEntityManager.persist(customerTestSingle);
+
+        CustomerAccountDao customerAccountDao = CustomerAccountDao.builder().customerId(customerTestSingle).accountId(accountIdTestSingle).build();
 
         CustomerAccountDao storedCustomerAccountDao = customerAccountRepository.save(customerAccountDao);
 
@@ -129,17 +151,15 @@ public class CustomerAccountRepositoryTest extends AbstractTest {
     @Test
     @DisplayName("Should find all Accounts by CustomerId")
     public void shouldFindAllAccountsByCustomerId() {
-        String accountId1 = "accountIdTestYYY";
-        String accountId2 = "accountIdTestZZZ";
-        AccountDao account1 = AccountDao.builder().id(accountId1).balance(new BigDecimal("100.00")).exclusivePlan(true).build();
-        AccountDao account2 = AccountDao.builder().id(accountId2).balance(new BigDecimal("50.10")).exclusivePlan(false).build();
+        AccountDao account1 = AccountDao.builder().id("accountIdTestYYY").balance(new BigDecimal("100.00")).exclusivePlan(true).build();
+        AccountDao account2 = AccountDao.builder().id("accountIdTestZZZ").balance(new BigDecimal("50.10")).exclusivePlan(false).build();
         testEntityManager.persist(account1);
         testEntityManager.persist(account2);
-        Long customerId = testEntityManager.persist(CustomerDao.builder().name("Customer Test").birthday(getDateNow()).build()).getId();
-        testEntityManager.persist(CustomerAccountDao.builder().customerId(customerId).accountId(account1).build());
-        testEntityManager.persist(CustomerAccountDao.builder().customerId(customerId).accountId(account2).build());
+        CustomerDao customerDao = testEntityManager.persist(CustomerDao.builder().name("Customer Test").birthday(getDateNow()).build());
+        testEntityManager.persist(CustomerAccountDao.builder().customerId(customerDao).accountId(account1).build());
+        testEntityManager.persist(CustomerAccountDao.builder().customerId(customerDao).accountId(account2).build());
 
-        List<CustomerAccountDao> accountList = customerAccountRepository.findByCustomerId(customerId);
+        List<CustomerAccountDao> accountList = customerAccountRepository.findByCustomerId(customerDao);
 
         assertThat(accountList).isNotEmpty();
         assertThat(accountList.size()).isEqualTo(2);

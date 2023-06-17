@@ -2,6 +2,7 @@ package internetbankingficticio.dao.customeraccount;
 
 import internetbankingficticio.dao.AbstractInternetBankingDao;
 import internetbankingficticio.dao.account.AccountDao;
+import internetbankingficticio.dao.customer.CustomerDao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,8 @@ import lombok.NoArgsConstructor;
 public class CustomerAccountDao extends AbstractInternetBankingDao {
 
     @Id
-    private Long customerId;
+    @OneToOne
+    private CustomerDao customerId;
 
     @Id
     @OneToOne

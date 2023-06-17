@@ -19,6 +19,9 @@ public class CustomerObjectsTestUtils {
     public static CustomerDao generateCustomerDaoObject(Long id, String name) {
         return CustomerDao.builder().id(id).name(name).birthday(getDateNow()).build();
     }
+    public static CustomerDao generateCustomerDaoObject(String name) {
+        return CustomerDao.builder().name(name).birthday(getDateNow()).build();
+    }
 
     public static List<CustomerDto> generateCustomerDtoListObject() {
         return List.of(generateCustomerDtoObject(1L, "Customer Test 1"), generateCustomerDtoObject(2L, "Customer Test 2"), generateCustomerDtoObject(3L, "Customer Test 3"));
