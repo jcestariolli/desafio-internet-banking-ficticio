@@ -1,9 +1,8 @@
 insert into customer (ID, NAME, BIRTHDAY) values (1, 'Fulano de Tal', '2000-01-01');
 insert into customer (ID, NAME, BIRTHDAY) values (2, 'Cicrano de Tal', '2005-12-31');
-insert into customer (ID, NAME, BIRTHDAY) values (3, 'Mariazinha de Jesus', '1990-09-01');
-insert into customer (ID, NAME, BIRTHDAY) values (4, 'Mariazinha de Jesus', '1990-09-01');
-insert into customer (ID, NAME, BIRTHDAY) values (5, 'Joãozinho Abençoado', '1995-01-04');
-insert into customer (ID, NAME, BIRTHDAY) values (6, 'Xuxu Beleza', '1985-05-15');
+insert into customer (ID, NAME, BIRTHDAY) values (3, 'Mariazinha de Jesus', '1990-09-07');
+insert into customer (ID, NAME, BIRTHDAY) values (4, 'Joãozinho Abençoado', '1995-01-04');
+insert into customer (ID, NAME, BIRTHDAY) values (5, 'Xuxu Beleza', '1985-05-15');
 
 insert into account (ID, BALANCE, EXCLUSIVE_PLAN) values ('11223344', 200.35, false);
 insert into account (ID, BALANCE, EXCLUSIVE_PLAN) values ('55667788', 50.01, false);
