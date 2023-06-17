@@ -4,7 +4,6 @@ import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dao.customeraccount.CustomerAccountDao;
 import internetbankingficticio.dao.customeraccount.CustomerAccountIdDaoKey;
-import internetbankingficticio.dto.customeraccount.CustomerAccountRepository;
 import internetbankingficticio.repository.account.AccountRepository;
 import internetbankingficticio.repository.customer.CustomerRepository;
 import internetbankingficticio.test.AbstractTest;

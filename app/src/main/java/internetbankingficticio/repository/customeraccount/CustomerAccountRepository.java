@@ -1,4 +1,4 @@
-package internetbankingficticio.dto.customeraccount;
+package internetbankingficticio.repository.customeraccount;
 
 import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dao.customeraccount.CustomerAccountDao;
