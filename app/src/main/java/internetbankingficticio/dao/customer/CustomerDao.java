@@ -1,5 +1,6 @@
 package internetbankingficticio.dao.customer;
 
+import internetbankingficticio.dao.AbstractInternetBankingDao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "customer")
-public class CustomerDao {
+public class CustomerDao extends AbstractInternetBankingDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
