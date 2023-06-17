@@ -11,10 +11,9 @@ import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMap
 import internetbankingficticio.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,15 +25,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class CustomerServiceUnitTest extends AbstractTest {
 
-    @InjectMocks
+    @Autowired
     CustomerService customerService;
-    @Mock
+    @MockBean
     CustomerRepository customerRepository;
-    @Spy
+    @Autowired
     CustomerDaoToCustomerDtoMapper customerDaoToCustomerDtoMapper;
-    @Spy
+    @Autowired
     CustomerCreateDtoToCustomerDaoMapper customerCreateDtoToCustomerDaoMapper;
-    @Spy
+    @Autowired
     CustomerUpdateDtoToCustomerDaoMapper customerUpdateDtoToCustomerDaoMapper;
 
 
