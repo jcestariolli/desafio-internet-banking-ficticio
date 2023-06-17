@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @Entity
-@Table
+@Table(name = "customer_account")
 @IdClass(CustomerAccountIdDaoKey.class)
 public class CustomerAccountDao extends AbstractInternetBankingDao {
 
