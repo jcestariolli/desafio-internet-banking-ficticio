@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: InternetBankingFicticio
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: jezz
+    password: changeit
+    initialization-mode: never # desabilita inicializacao do script de carga para testes
+
+  jpa:
+    properties.hibernate.dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true # logar as queries
+    hibernate.ddl-auto: update # config do hibernate para atualizar os schemas
+    defer-datasource-initialization: true # adia inicializacao datasource para carregar dados na base
+
+  h2:
+    console:
+      enabled: true # habilitar console h2 pelo navegador
+      path: /internetbanking-db-ui # url de acesso para o console h2 | default path: h2-console
+
+  sql:
+    init:
+      mode: never
