@@ -67,7 +67,7 @@
 					"response": []
 				},
 				{
-					"name": "getClienteById",
+					"name": "getClienteByIdCliente",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -93,6 +93,39 @@
 							"path": [
 								"clientes",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContasByIdCliente",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/1/contas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								"1",
+								"contas"
 							]
 						}
 					},
@@ -224,6 +257,39 @@
 					"response": []
 				},
 				{
+					"name": "getClientesByNumeroConta",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contas/11223344/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contas",
+								"11223344",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getAllContas",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -249,6 +315,70 @@
 							"port": "8080",
 							"path": [
 								"contas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Relacao Clientes e Conta",
+			"item": [
+				{
+					"name": "getAllClientesEContas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes-contas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes-contas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createClienteEConta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cliente\": {\r\n        \"nome\": \"Um novo cliente\",\r\n        \"data_nascimento\": \"2000-01-01\"\r\n    },\r\n    \"conta\": {\r\n        \"numero_conta\": \"112abcdjeka\",\r\n        \"saldo\": \"200.35\",\r\n        \"plano_exclusive\": false\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes-contas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes-contas"
 							]
 						}
 					},
