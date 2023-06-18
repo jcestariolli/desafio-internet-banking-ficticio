@@ -25,6 +25,10 @@ public class CustomerAccountRepositoryMockTestUtils {
         when(customerAccountRepository.findById(any())).thenReturn(Optional.empty());
     }
 
+    public static void mockRepositoryFindAllWithCustomerAccountList(CustomerAccountRepository customerAccountRepository, List<CustomerAccountDao> customerAccountDaoList) {
+        when(customerAccountRepository.findAll()).thenReturn(customerAccountDaoList);
+    }
+
     public static void mockRepositorySaveWithCustomerAccount(CustomerAccountRepository customerAccountRepository, CustomerAccountDao customerAccountDao) {
         when(customerAccountRepository.save(any())).thenReturn(customerAccountDao);
     }

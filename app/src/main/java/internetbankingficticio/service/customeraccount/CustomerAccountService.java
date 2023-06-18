@@ -75,4 +75,8 @@ public class CustomerAccountService implements CustomerAccountServiceIF {
         CustomerAccountDao createdCustomerAccountDao = customerAccountRepository.save(CustomerAccountDao.builder().customerId(customerDtoToCustomerDaoMapper.map(createdCustomerDto)).accountId(accountDtoToAccountDaoMapper.map(createdAccountDto)).build());
         return customerAccountDaoToCustomerAccountDtoMapper.map(createdCustomerAccountDao);
     }
+
+    public List<CustomerAccountDto> listAllCustomerAccounts() {
+        return customerAccountRepository.findAll().stream().map(customerAccountDao -> customerAccountDaoToCustomerAccountDtoMapper.map(customerAccountDao)).collect(Collectors.toList());
+    }
 }
