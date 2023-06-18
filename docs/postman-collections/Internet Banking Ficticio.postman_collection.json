@@ -99,39 +99,6 @@
 					"response": []
 				},
 				{
-					"name": "getContasByIdCliente",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/clientes/1/contas",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"clientes",
-								"1",
-								"contas"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "getAllClientes",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -242,7 +209,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/contas/981243",
+							"raw": "http://localhost:8080/contas/11223344",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -250,40 +217,7 @@
 							"port": "8080",
 							"path": [
 								"contas",
-								"981243"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getClientesByNumeroConta",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/contas/11223344/clientes",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"contas",
-								"11223344",
-								"clientes"
+								"11223344"
 							]
 						}
 					},
@@ -326,6 +260,72 @@
 			"name": "Relacao Clientes e Conta",
 			"item": [
 				{
+					"name": "getContasByIdCliente",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/1/contas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								"1",
+								"contas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getClientesByNumeroConta",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contas/11223344/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contas",
+								"11223344",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getAllClientesEContas",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -363,7 +363,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"cliente\": {\r\n        \"nome\": \"Um novo cliente\",\r\n        \"data_nascimento\": \"2000-01-01\"\r\n    },\r\n    \"conta\": {\r\n        \"numero_conta\": \"112abcdjeka\",\r\n        \"saldo\": \"200.35\",\r\n        \"plano_exclusive\": false\r\n    }\r\n}",
+							"raw": "{\r\n    \"cliente\": {\r\n        \"nome\": \"Um novo cliente\",\r\n        \"data_nascimento\": \"2000-01-01\"\r\n    },\r\n    \"conta\": {\r\n        \"numero_conta\": \"112abcdjeka\",\r\n        \"saldo\": 200.35,\r\n        \"plano_exclusive\": false\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -385,6 +385,182 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Transacoes",
+			"item": [
+				{
+					"name": "createSaqueConta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"operacao\": \"saque\",\r\n    \"valor\": 100,\r\n    \"data_transacao\": \"2023-06-18\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contas/11223344/transacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contas",
+								"11223344",
+								"transacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createDepositoConta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"operacao\": \"deposito\",\r\n    \"valor\": 100,\r\n    \"data_transacao\": \"2023-05-19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contas/11223344/transacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contas",
+								"11223344",
+								"transacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTransacoesByNumeroConta",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contas/11223344/transacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contas",
+								"11223344",
+								"transacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTransacoesByNumeroContaEData",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contas/11223344/transacoes?data_inicio=2023-06-18&data_fim=2023-06-18",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contas",
+								"11223344",
+								"transacoes"
+							],
+							"query": [
+								{
+									"key": "data_inicio",
+									"value": "2023-06-18"
+								},
+								{
+									"key": "data_fim",
+									"value": "2023-06-18"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTransacoes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Relacao Transacoes e Contas",
+			"item": []
 		}
 	]
 }
