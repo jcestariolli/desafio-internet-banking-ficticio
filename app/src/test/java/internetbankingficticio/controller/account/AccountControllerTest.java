@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.service.account.AccountServiceIF;
 import internetbankingficticio.service.customeraccount.CustomerAccountServiceIF;
+import internetbankingficticio.service.transaction.TransactionServiceIF;
 import internetbankingficticio.test.AbstractTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.List;
 
 import static internetbankingficticio.test.utils.TestUtils.*;
@@ -39,9 +39,10 @@ public class AccountControllerTest extends AbstractTest {
     private MockMvc mvc;
     @MockBean
     private AccountServiceIF accountService;
-
     @MockBean
     private CustomerAccountServiceIF customerAccountServiceIF;
+    @MockBean
+    private TransactionServiceIF transactionServiceIF;
 
     @BeforeAll
     public static void configureObjectMapperBeforeTests() {
@@ -49,24 +50,18 @@ public class AccountControllerTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should return Status Ok (200) And AccountDtoList when listAllAccounts API finds at least one Account")
-    public void shouldReturnStatusOkAndAccountDtoList_whenListAllAccountsFindsAccount() throws Exception {
+    @DisplayName("Should return Status Ok (200) And AccountDtoList when listAllAccounts API")
+    public void shouldReturnStatusOkAndAccountDtoList_whenListAllAccounts() throws Exception {
         List<AccountDto> expectedAccountDtoList = generateAccountDtoListObject();
         mockServiceListAllAccountsWithAccountList(accountService, expectedAccountDtoList);
 
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(API_ENDPOINT).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn();
 
-        List<AccountDto> returnedAccountDtoList = parseResponse(MAPPER, mvcResult, new TypeReference<List<AccountDto>>() {});
+        List<AccountDto> returnedAccountDtoList = parseResponse(MAPPER, mvcResult, new TypeReference<List<AccountDto>>() {
+        });
         assertThat(returnedAccountDtoList).isNotEmpty();
         assertThat(returnedAccountDtoList).size().isEqualTo(expectedAccountDtoList.size());
         assertEquals(returnedAccountDtoList, expectedAccountDtoList);
-    }
-
-    @Test
-    @DisplayName("Should return Status NoContent (204) when listAllAccounts API does not find any Account")
-    public void shouldReturnStatusNoContent_whenListAllAccountsApiDoesNotFindAnyAccount() throws Exception {
-        mockServiceListAllAccountsWithAccountList(accountService, new ArrayList<>());
-        mvc.perform(MockMvcRequestBuilders.get(API_ENDPOINT).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNoContent()).andReturn();
     }
 
     @Test
@@ -86,7 +81,7 @@ public class AccountControllerTest extends AbstractTest {
     @DisplayName("Should return Status NotFound (404) when findAccountById API does not find the Resource")
     public void shouldReturnStatusNotFound_whenFindAccountByIdApiDoesNotFindTheResource() throws Exception {
         String accountId = "12345678";
-        mockServiceFindAccountByIdWithEmptyResult(accountService, accountId);
+        mockServiceFindAccountByIdThrowAccountNotFoundExcept(accountService, accountId);
         mvc.perform(MockMvcRequestBuilders.get(API_ENDPOINT + "/" + accountId).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNotFound()).andReturn();
     }
 
@@ -119,8 +114,7 @@ public class AccountControllerTest extends AbstractTest {
     @DisplayName("Should return Status NotFound (404) when updateAccount API does not find the Resource")
     public void shouldReturnStatusNotFound_whenUpdateAccountApiDoesNotFindTheResource() throws Exception {
         String accountId = "12345678";
-        mockServiceUpdateAccountWithEmptyResult(accountService, accountId, generateAccountUpdateDtoObject(true));
+        mockServiceUpdateAccountThrowAccountNotFoundExcept(accountService, accountId, generateAccountUpdateDtoObject(true));
         mvc.perform(MockMvcRequestBuilders.put(API_ENDPOINT + "/" + accountId).content(asJsonString(MAPPER, generateAccountUpdateDtoObject(true))).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNotFound()).andReturn();
-
     }
 }

@@ -4,13 +4,13 @@ import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customeraccount.CustomerAccountCreateDto;
 import internetbankingficticio.dto.customeraccount.CustomerAccountDto;
+import internetbankingficticio.exception.entity.EntityNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomerAccountServiceIF {
-    Optional<List<AccountDto>> findAccountsByCustomerId(Long customerId);
-    Optional<List<CustomerDto>> findCustomersByAccountId(String accountId);
+    List<AccountDto> listAccountsByCustomerId(Long customerId) throws EntityNotFoundException;
+    List<CustomerDto> listCustomersByAccountId(String accountId) throws EntityNotFoundException;
     CustomerAccountDto createCustomerWithAccount(CustomerAccountCreateDto customerAccountCreateDto);
     List<CustomerAccountDto> listAllCustomerAccounts();
 }

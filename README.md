@@ -1,16 +1,6 @@
 # *internet-banking-ficticio*
 Desafio Técnico de um Internet Banking Fictício, com API Rest e base em memória
 
-
-<br>
-<hr>
-
-# Menu de Navegação
-*TODO*
-
-<br>
-<hr>
-
 # Premissas do Desafio
 
 ## Premissas de Negócio
@@ -53,7 +43,7 @@ ter as seguintes funcionalidades:
   Richardson no nível 2.
 
 <br>
-<hr>
+
 
 #  Stack de Tecnologias
 - **Java 17** - pré-requisito para execução;
@@ -64,29 +54,30 @@ ter as seguintes funcionalidades:
 - **TODO** - outras tecnologias e frameworks utilizados.
 
 <br>
-<hr>
+
 
 # Guia para execução local da aplicação
 A aplicação Java presente neste projeto encontra-se dentro do diretório `app/`.
 
 Além da configuração do Java em máquina local, a aplicação não possui nenhum outro pré-requisito de configuração.
-Basta compilar, utilizando Maven, e executar a classe `app/src/main/java/internetbankingficticio/InternetBankingFicticioApplication.java`
+Basta compilar, utilizando Maven, e executar a classe:
 
-## Para compilar o projeto utilizando o Maven
-**TODO**
-
-## Para executar a aplicação localmente
-**TODO**
-
-## Acessando o banco de dados em memória
-**TODO**
-
-(Usuário e senha da base local podem ser verificados / alterados dentro do arquivo `app/src/main/resources/application.yaml`)
-
-http://localhost:8080/internetbanking-db-ui/
+`app/src/main/java/internetbankingficticio/InternetBankingFicticioApplication.java`
 
 ## Utilizando a API disponível
-**TODO**
+Ao subir a aplicação, a interface do Swagger fica disponível em:
+http://localhost:8080/swagger-ui/index.html
+
+Há também uma collection Postman anexada a este repositório, no seguinte caminho:
+
+`docs/postman-collections/Internet Banking Ficticio.postman_collection.json`
+
+## Acessando o banco de dados em memória
+Ao subir a aplicação, a interface para a base em memória fica disponível em:
+http://localhost:8080/internetbanking-db-ui/
+
+Usuário e senha da base local podem ser verificados / alterados dentro do arquivo `app/src/main/resources/application.yaml`
+
 
 <br>
 <hr>

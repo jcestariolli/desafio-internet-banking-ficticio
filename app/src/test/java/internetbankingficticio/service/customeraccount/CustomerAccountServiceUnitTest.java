@@ -5,6 +5,9 @@ import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customeraccount.CustomerAccountCreateDto;
 import internetbankingficticio.dto.customeraccount.CustomerAccountDto;
+import internetbankingficticio.exception.entity.AccountEntityNotFoundException;
+import internetbankingficticio.exception.entity.CustomerEntityNotFoundException;
+import internetbankingficticio.exception.entity.EntityNotFoundException;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
@@ -24,7 +27,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static internetbankingficticio.test.utils.account.AccountObjectsTestUtils.generateAccountDtoObject;
 import static internetbankingficticio.test.utils.account.AccountServiceMockTestUtils.*;
@@ -34,6 +36,7 @@ import static internetbankingficticio.test.utils.customeraccount.CustomerAccount
 import static internetbankingficticio.test.utils.customeraccount.CustomerAccountObjectsTestUtils.generateCustomerAccountDaoObject;
 import static internetbankingficticio.test.utils.customeraccount.CustomerAccountRepositoryMockTestUtils.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class CustomerAccountServiceUnitTest extends AbstractTest {
@@ -63,42 +66,44 @@ public class CustomerAccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Account List when findAccountsByCustomerId() finds the Customer")
-    public void shouldReturnAccountList_whenFindAccountsByCustomerIdFindsCustomer() {
+    public void shouldReturnAccountList_whenFindAccountsByCustomerIdFindsCustomer() throws EntityNotFoundException {
         Long customerId = 1L;
         mockServiceFindCustomerByIdWithCustomer(customerService, customerId, generateCustomerDtoObject(customerId, "Customer Test 1"));
         mockRepositoryFindByCustomerIdWithCustomerAccountList(customerAccountRepository, new ArrayList<>());
 
-        Optional<List<AccountDto>> accountDtoList = customerAccountService.findAccountsByCustomerId(customerId);
-        assertThat(accountDtoList).isPresent();
+        List<AccountDto> accountDtoList = customerAccountService.listAccountsByCustomerId(customerId);
+        assertThat(accountDtoList).isNotNull();
     }
 
     @Test
-    @DisplayName("Should return Empty Result when findAccountsByCustomerId() does not find the Customer")
-    public void shouldReturnEmptyResult_whenFindAccountsByCustomerIdDoesNotFindCustomer() {
+    @DisplayName("Should throw CustomerEntityNotFoundException when findAccountsByCustomerId() does not find the Customer")
+    public void shouldThrowCustomerEntityNotFoundException_whenFindAccountsByCustomerIdDoesNotFindCustomer() throws EntityNotFoundException {
         Long customerId = 1L;
-        mockServiceFindCustomerByIdWithEmptyResult(customerService, customerId);
-        Optional<List<AccountDto>> accountDtoList = customerAccountService.findAccountsByCustomerId(customerId);
-        assertThat(accountDtoList).isEmpty();
+        mockServiceFindCustomerByIdThrowCustomerNotFoundExcept(customerService, customerId);
+        assertThrows(CustomerEntityNotFoundException.class, () -> {
+            customerAccountService.listAccountsByCustomerId(customerId);
+        });
     }
 
     @Test
     @DisplayName("Should return Customer List when findCustomersByAccountId() finds the Account")
-    public void shouldReturnCustomerList_whenFindCustomersByAccountIdFindsAccount() {
+    public void shouldReturnCustomerList_whenFindCustomersByAccountIdFindsAccount() throws EntityNotFoundException {
         String accountId = "12345678";
         mockServiceFindAccountByIdWithAccount(accountService, accountId, generateAccountDtoObject(accountId, BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP), true));
         mockRepositoryFindByAccountIdWithCustomerAccountList(customerAccountRepository, new ArrayList<>());
 
-        Optional<List<CustomerDto>> customerDtoList = customerAccountService.findCustomersByAccountId(accountId);
-        assertThat(customerDtoList).isPresent();
+        List<CustomerDto> customerDtoList = customerAccountService.listCustomersByAccountId(accountId);
+        assertThat(customerDtoList).isNotNull();
     }
 
     @Test
-    @DisplayName("Should return Empty Result when findCustomersByAccountId() does not find the Account")
-    public void shouldReturnEmptyResult_whenFindCustomersByAccountIdDoesNotFindAccount() {
+    @DisplayName("Should throw AccountEntityNotFoundException when findCustomersByAccountId() does not find the Account")
+    public void shouldThrowAccountEntityNotFoundException_whenFindCustomersByAccountIdDoesNotFindAccount() throws EntityNotFoundException {
         String accountId = "12345678";
-        mockServiceFindAccountByIdWithEmptyResult(accountService, accountId);
-        Optional<List<CustomerDto>> customerDtoList = customerAccountService.findCustomersByAccountId(accountId);
-        assertThat(customerDtoList).isEmpty();
+        mockServiceFindAccountByIdThrowAccountNotFoundExcept(accountService, accountId);
+        assertThrows(AccountEntityNotFoundException.class, () -> {
+            customerAccountService.listCustomersByAccountId(accountId);
+        });
     }
 
     @Test

@@ -15,3 +15,15 @@ insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (2, '5566778
 insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (3, '99001122');
 insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (4, '87654321');
 insert into customer_account (CUSTOMER_ID_ID, ACCOUNT_ID_ID) values (5, '12345678');
+
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('11223344','deposito', 200.35,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('11223344','saque', 20,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('55667788','deposito', 100,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('55667788','saque', 50,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('99001122','deposito', 100,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('99001122','saque', 90,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('87654321','deposito', 5500,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('87654321','saque', 1000,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('12345678','deposito', 55.05,  CURRENT_DATE());
+insert into transaction (ACCOUNT_ID, COMMAND, AMMOUNT, EXECUTED_ON) values ('12345678','saque', 55.05,  CURRENT_DATE());
+

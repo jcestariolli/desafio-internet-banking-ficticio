@@ -17,8 +17,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static internetbankingficticio.test.utils.TestUtils.getDateNow;
 import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.generateCustomerDaoObject;
+import static internetbankingficticio.utils.DateUtils.getDateNow;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
