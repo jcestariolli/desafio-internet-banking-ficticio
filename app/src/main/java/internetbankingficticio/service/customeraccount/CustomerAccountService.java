@@ -72,6 +72,7 @@ public class CustomerAccountService implements CustomerAccountServiceIF {
         if (customerAccountDaoOpt.isPresent()) {
             return customerAccountDaoToCustomerAccountDtoMapper.map(customerAccountDaoOpt.get());
         }
-        return customerAccountDaoToCustomerAccountDtoMapper.map(CustomerAccountDao.builder().customerId(customerDtoToCustomerDaoMapper.map(createdCustomerDto)).accountId(accountDtoToAccountDaoMapper.map(createdAccountDto)).build());
+        CustomerAccountDao createdCustomerAccountDao = customerAccountRepository.save(CustomerAccountDao.builder().customerId(customerDtoToCustomerDaoMapper.map(createdCustomerDto)).accountId(accountDtoToAccountDaoMapper.map(createdAccountDto)).build());
+        return customerAccountDaoToCustomerAccountDtoMapper.map(createdCustomerAccountDao);
     }
 }
