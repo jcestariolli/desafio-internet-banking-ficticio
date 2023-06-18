@@ -396,7 +396,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"operacao\": \"saque\",\r\n    \"valor\": 100,\r\n    \"data_transacao\": \"2023-06-18\"\r\n}",
+							"raw": "{\r\n    \"operacao\": \"saque\",\r\n    \"valor\": 301,\r\n    \"data_transacao\": \"2023-06-18\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -426,7 +426,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"operacao\": \"deposito\",\r\n    \"valor\": 100,\r\n    \"data_transacao\": \"2023-05-19\"\r\n}",
+							"raw": "{\r\n    \"operacao\": \"deposito\",\r\n    \"valor\": 1000,\r\n    \"data_transacao\": \"2023-06-19\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -500,7 +500,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/contas/11223344/transacoes?data_inicio=2023-06-18&data_fim=2023-06-18",
+							"raw": "http://localhost:8080/contas/11223344/transacoes?data_inicio=2023-06-18&data_fim=2023-06-19",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -518,7 +518,48 @@
 								},
 								{
 									"key": "data_fim",
+									"value": "2023-06-19"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTransacoesByData",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transacoes?data_inicio=2023-06-18&data_fim=2023-06-19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes"
+							],
+							"query": [
+								{
+									"key": "data_inicio",
 									"value": "2023-06-18"
+								},
+								{
+									"key": "data_fim",
+									"value": "2023-06-19"
 								}
 							]
 						}
