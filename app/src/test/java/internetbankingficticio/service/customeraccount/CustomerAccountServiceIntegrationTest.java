@@ -2,6 +2,7 @@ package internetbankingficticio.service.customeraccount;
 
 import internetbankingficticio.dao.customeraccount.CustomerAccountDao;
 import internetbankingficticio.dto.customeraccount.CustomerAccountCreateDto;
+import internetbankingficticio.exception.entity.EntityNotFoundException;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
@@ -28,6 +29,7 @@ import static internetbankingficticio.test.utils.customer.CustomerServiceMockTes
 import static internetbankingficticio.test.utils.customeraccount.CustomerAccountObjectsTestUtils.generateCustomerAccountCreateDtoObject;
 import static internetbankingficticio.test.utils.customeraccount.CustomerAccountObjectsTestUtils.generateCustomerAccountDaoObject;
 import static internetbankingficticio.test.utils.customeraccount.CustomerAccountRepositoryMockTestUtils.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -57,34 +59,36 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findByCustomerId() when finds the Customer")
-    public void shouldCallRepositoryFindByCustomerId_whenFindsCustomer() {
+    public void shouldCallRepositoryFindByCustomerId_whenFindsCustomer() throws EntityNotFoundException {
         Long customerId = 1L;
         mockServiceFindCustomerByIdWithCustomer(customerService, customerId, generateCustomerDtoObject(customerId, "Customer Test 1"));
         mockRepositoryFindByCustomerIdWithCustomerAccountList(customerAccountRepository, new ArrayList<>());
 
-        customerAccountService.findAccountsByCustomerId(customerId);
+        customerAccountService.listAccountsByCustomerId(customerId);
         verify(customerService, times(1)).findCustomerById(any());
         verify(customerAccountRepository, times(1)).findByCustomerId(any());
     }
 
     @Test
     @DisplayName("Should not call repository findByCustomerId() when does not find the Customer")
-    public void shouldNotCallRepositoryFindByCustomerId_whenDoesNotFindCustomer() {
+    public void shouldNotCallRepositoryFindByCustomerId_whenDoesNotFindCustomer() throws EntityNotFoundException {
         Long customerId = 1L;
-        mockServiceFindCustomerByIdWithEmptyResult(customerService, customerId);
-        customerAccountService.findAccountsByCustomerId(customerId);
+        mockServiceFindCustomerByIdThrowCustomerNotFoundExcept(customerService, customerId);
+        assertThrows(EntityNotFoundException.class, () -> {
+            customerAccountService.listAccountsByCustomerId(customerId);
+        });
         verify(customerService, times(1)).findCustomerById(any());
         verify(customerAccountRepository, times(0)).findByCustomerId(any());
     }
 
     @Test
     @DisplayName("Should call repository findByAccountId() when finds the Account")
-    public void shouldCallRepositoryFindByAccountId_whenFindsAccount() {
+    public void shouldCallRepositoryFindByAccountId_whenFindsAccount() throws EntityNotFoundException {
         String accountId = "12345678";
         mockServiceFindAccountByIdWithAccount(accountService, accountId, generateAccountDtoObject(accountId, BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP), true));
         mockRepositoryFindByAccountIdWithCustomerAccountList(customerAccountRepository, new ArrayList<>());
 
-        customerAccountService.findCustomersByAccountId(accountId);
+        customerAccountService.listCustomersByAccountId(accountId);
 
         verify(accountService, times(1)).findAccountById(any());
         verify(customerAccountRepository, times(1)).findByAccountId(any());
@@ -92,12 +96,12 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should not call repository findByAccountId() when does not find the Account")
-    public void shouldNotCallRepositoryFindByAccountId_whenDoesNotFindAccount() {
+    public void shouldNotCallRepositoryFindByAccountId_whenDoesNotFindAccount() throws EntityNotFoundException {
         String accountId = "12345678";
-        mockServiceFindAccountByIdWithEmptyResult(accountService, accountId);
-
-        customerAccountService.findCustomersByAccountId(accountId);
-
+        mockServiceFindAccountByIdThrowAccountNotFoundExcept(accountService, accountId);
+        assertThrows(EntityNotFoundException.class, () -> {
+            customerAccountService.listCustomersByAccountId(accountId);
+        });
         verify(accountService, times(1)).findAccountById(any());
         verify(customerAccountRepository, times(0)).findByAccountId(any());
     }

@@ -19,16 +19,11 @@ public class CustomerAccountController {
 
     @GetMapping
     public ResponseEntity<List<CustomerAccountDto>> listAllCustomerAccounts() {
-        List<CustomerAccountDto> customerAccountDtoList = customerAccountServiceIF.listAllCustomerAccounts();
-        if (customerAccountDtoList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(customerAccountDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(customerAccountServiceIF.listAllCustomerAccounts(), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<CustomerAccountDto> createCustomerAccount(@RequestBody CustomerAccountCreateDto customerAccountCreateDto) {
-        CustomerAccountDto createdCustomerAccountDto = customerAccountServiceIF.createCustomerWithAccount(customerAccountCreateDto);
-        return new ResponseEntity<>(createdCustomerAccountDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(customerAccountServiceIF.createCustomerWithAccount(customerAccountCreateDto), HttpStatus.CREATED);
     }
 }

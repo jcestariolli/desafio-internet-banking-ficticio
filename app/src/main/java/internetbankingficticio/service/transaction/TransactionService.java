@@ -3,10 +3,12 @@ package internetbankingficticio.service.transaction;
 import internetbankingficticio.dao.transaction.TransactionDao;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
-import internetbankingficticio.exception.EntityNotFoundException;
 import internetbankingficticio.exception.TransactionValidationException;
+import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.entity.TransactionEntityNotFoundException;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
+import internetbankingficticio.service.account.AccountServiceIF;
 import internetbankingficticio.service.transaction.creator.TransactionCreatorServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class TransactionService implements TransactionServiceIF {
 
     @Autowired
     TransactionRepository transactionRepository;
+
+    @Autowired
+    AccountServiceIF accountService;
     @Autowired
     TransactionDaoToTransactionDtoMapper transactionDaoToTransactionDtoMapper;
 
@@ -28,14 +33,15 @@ public class TransactionService implements TransactionServiceIF {
     TransactionCreatorServiceFactory transactionCreatorServiceFactory;
 
     @Override
-    public List<TransactionDto> findAllTransactions() {
+    public List<TransactionDto> listAllTransactions() {
         return transactionRepository.findAll().stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<TransactionDto> findTransactionById(Long transactionId) {
+    public TransactionDto findTransactionById(Long transactionId) throws TransactionEntityNotFoundException {
         Optional<TransactionDao> transactionDaoOpt = transactionRepository.findById(transactionId);
-        return transactionDaoOpt.isEmpty() ? Optional.empty() : Optional.of(transactionDaoToTransactionDtoMapper.map(transactionDaoOpt.get()));
+        if (transactionDaoOpt.isEmpty()) throw new TransactionEntityNotFoundException(transactionId.toString());
+        return transactionDaoToTransactionDtoMapper.map(transactionDaoOpt.get());
     }
 
     @Override
@@ -44,17 +50,17 @@ public class TransactionService implements TransactionServiceIF {
     }
 
     @Override
-    public List<TransactionDto> findAllByExecutedOnBetween(Date executedOnStart, Date executedOnEnd) {
+    public List<TransactionDto> listAllTransactionsByExecutedOnBetween(Date executedOnStart, Date executedOnEnd) {
         return transactionRepository.findAllByExecutedOnBetween(executedOnStart, executedOnEnd).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
     }
 
     @Override
-    public List<TransactionDto> findAllByAccountId(String accountId) {
+    public List<TransactionDto> listAllTransactionsByAccountId(String accountId) {
         return transactionRepository.findByAccountId(accountId).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
     }
 
     @Override
-    public List<TransactionDto> findAllByAccountIdAndExecutedOnBetween(String accountId, Date executedOnStart, Date executedOnEnd) {
+    public List<TransactionDto> listAllTransactionsByAccountIdAndExecutedOnBetween(String accountId, Date executedOnStart, Date executedOnEnd) {
         return transactionRepository.findAllByAccountIdAndExecutedOnBetween(accountId, executedOnStart, executedOnEnd).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
     }
 

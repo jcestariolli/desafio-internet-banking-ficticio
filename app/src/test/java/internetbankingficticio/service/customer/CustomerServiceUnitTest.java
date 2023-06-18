@@ -4,6 +4,7 @@ import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
+import internetbankingficticio.exception.entity.CustomerEntityNotFoundException;
 import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
@@ -16,13 +17,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.generateCustomerDaoListObject;
 import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.generateCustomerDaoObject;
 import static internetbankingficticio.test.utils.customer.CustomerRepositoryMockTestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class CustomerServiceUnitTest extends AbstractTest {
@@ -55,26 +56,23 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Customer when findCustomerById() finds a Customer")
-    public void shouldReturnCustomer_whenFindCustomerByIdFindsCustomer() {
+    public void shouldReturnCustomer_whenFindCustomerByIdFindsCustomer() throws CustomerEntityNotFoundException {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockRepositoryFindByIdWithCustomer(customerRepository, customerTestId, customerDao);
 
-        Optional<CustomerDto> returnedCustomerDtoOpt = customerService.findCustomerById(customerTestId);
-
-        assertThat(returnedCustomerDtoOpt).isPresent();
-        assertThat(returnedCustomerDtoOpt.get()).isEqualTo(customerDaoToCustomerDtoMapper.map(customerDao));
+        CustomerDto returnedCustomerDto = customerService.findCustomerById(customerTestId);
+        assertThat(returnedCustomerDto).isEqualTo(customerDaoToCustomerDtoMapper.map(customerDao));
     }
 
     @Test
-    @DisplayName("Should return Empty when findCustomerById() does not find a Customer")
-    public void shouldReturnEmpty_whenFindCustomerByIdDoesNotFindCustomer() {
+    @DisplayName("Should throw CustomerEntityNotFoundException when findCustomerById() does not find a Customer")
+    public void shouldThrowCustomerEntityNotFoundException_whenFindCustomerByIdDoesNotFindCustomer() {
         Long customerTestId = 1L;
         mockRepositoryFindByIdWithEmptyResult(customerRepository, customerTestId);
-
-        Optional<CustomerDto> returnedCustomerDtoOpt = customerService.findCustomerById(customerTestId);
-
-        assertThat(returnedCustomerDtoOpt).isEmpty();
+        assertThrows(CustomerEntityNotFoundException.class, () -> {
+            customerService.findCustomerById(customerTestId);
+        });
     }
 
     @Test
@@ -83,7 +81,6 @@ public class CustomerServiceUnitTest extends AbstractTest {
         Long customerTestId = 1L;
         mockRepositoryExistsByIdWithBoolean(customerRepository, customerTestId, true);
         assertThat(customerService.existsById(customerTestId)).isTrue();
-
     }
 
     @Test
@@ -100,35 +97,30 @@ public class CustomerServiceUnitTest extends AbstractTest {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockRepositorySaveWithCustomer(customerRepository, customerDao);
-
         CustomerDto returnedCustomerDto = customerService.createCustomer(CustomerCreateDto.builder().name(customerDao.getName()).birthday(customerDao.getBirthday()).build());
-
         assertThat(returnedCustomerDto).isEqualTo(customerDaoToCustomerDtoMapper.map(customerDao));
     }
 
     @Test
     @DisplayName("Should return Customer when updateCustomer() finds the Customer to update")
-    public void shouldReturnCustomer_whenUpdateCustomerFindsTheCustomerToUpdate() {
+    public void shouldReturnCustomer_whenUpdateCustomerFindsTheCustomerToUpdate() throws CustomerEntityNotFoundException {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockRepositoryFindByIdWithCustomer(customerRepository, customerTestId, customerDao);
         mockRepositorySaveWithCustomer(customerRepository, customerDao);
 
-        Optional<CustomerDto> returnedCustomerDtoOpt = customerService.updateCustomer(customerTestId, CustomerUpdateDto.builder().name(customerDao.getName()).birthday(customerDao.getBirthday()).build());
-
-        assertThat(returnedCustomerDtoOpt).isPresent();
-        assertThat(returnedCustomerDtoOpt.get()).isEqualTo(customerDaoToCustomerDtoMapper.map(customerDao));
+        CustomerDto returnedCustomer = customerService.updateCustomer(customerTestId, CustomerUpdateDto.builder().name(customerDao.getName()).birthday(customerDao.getBirthday()).build());
+        assertThat(returnedCustomer).isEqualTo(customerDaoToCustomerDtoMapper.map(customerDao));
     }
 
     @Test
-    @DisplayName("Should return Empty when updateCustomer() does not find the Customer to update")
-    public void shouldReturnCustomer_whenUpdateCustomerDoesNotFindTheCustomerToUpdate() {
+    @DisplayName("Should throw CustomerEntityNotFoundException when updateCustomer() does not find the Customer to update")
+    public void shouldThrowCustomerEntityNotFoundException_whenUpdateCustomerDoesNotFindTheCustomerToUpdate() {
         Long customerTestId = 1L;
         mockRepositoryFindByIdWithEmptyResult(customerRepository, customerTestId);
-
-        Optional<CustomerDto> returnedCustomerDtoOpt = customerService.updateCustomer(customerTestId, CustomerUpdateDto.builder().build());
-
-        assertThat(returnedCustomerDtoOpt).isEmpty();
+        assertThrows(CustomerEntityNotFoundException.class, () -> {
+            customerService.updateCustomer(customerTestId, CustomerUpdateDto.builder().build());
+        });
     }
 
 

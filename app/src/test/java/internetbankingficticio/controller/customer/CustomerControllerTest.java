@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static internetbankingficticio.test.utils.TestUtils.*;
@@ -47,25 +46,18 @@ public class CustomerControllerTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should return Status Ok (200) And CustomerDtoList when listAllCustomers API finds at least one Customer")
-    public void shouldReturnStatusOkAndCustomerDtoList_whenListAllCustomersFindsCustomer() throws Exception {
+    @DisplayName("Should return Status Ok (200) And CustomerDtoList when listAllCustomers API")
+    public void shouldReturnStatusOkAndCustomerDtoList_whenListAllCustomers() throws Exception {
         List<CustomerDto> expectedCustomerDtoList = generateCustomerDtoListObject();
         mockServiceListAllCustomersWithCustomerList(customerService, expectedCustomerDtoList);
-
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(API_ENDPOINT).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn();
-
-        List<CustomerDto> returnedCustomerDtoList = parseResponse(MAPPER, mvcResult, new TypeReference<List<CustomerDto>>() {});
+        List<CustomerDto> returnedCustomerDtoList = parseResponse(MAPPER, mvcResult, new TypeReference<List<CustomerDto>>() {
+        });
         assertThat(returnedCustomerDtoList).isNotEmpty();
         assertThat(returnedCustomerDtoList).size().isEqualTo(expectedCustomerDtoList.size());
         assertEquals(returnedCustomerDtoList, expectedCustomerDtoList);
     }
 
-    @Test
-    @DisplayName("Should return Status NoContent (204) when listAllCustomers API does not find any Customer")
-    public void shouldReturnStatusNoContent_whenListAllCustomersApiDoesNotFindAnyCustomer() throws Exception {
-        mockServiceListAllCustomersWithCustomerList(customerService, new ArrayList<>());
-        mvc.perform(MockMvcRequestBuilders.get(API_ENDPOINT).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNoContent()).andReturn();
-    }
 
     @Test
     @DisplayName("Should return Status Ok (200) And CustomerDto when findCustomerById API finds a Customer")
@@ -84,7 +76,7 @@ public class CustomerControllerTest extends AbstractTest {
     @DisplayName("Should return Status NotFound (404) when findCustomerById API does not find the Resource")
     public void shouldReturnStatusNotFound_whenFindCustomerByIdApiDoesNotFindTheResource() throws Exception {
         Long customerId = 1L;
-        mockServiceFindCustomerByIdWithEmptyResult(customerService, customerId);
+        mockServiceFindCustomerByIdThrowCustomerNotFoundExcept(customerService, customerId);
         mvc.perform(MockMvcRequestBuilders.get(API_ENDPOINT + "/" + customerId).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNotFound()).andReturn();
     }
 
@@ -118,8 +110,7 @@ public class CustomerControllerTest extends AbstractTest {
     @DisplayName("Should return Status NotFound (404) when updateCustomer API does not find the Resource")
     public void shouldReturnStatusNotFound_whenUpdateCustomerApiDoesNotFindTheResource() throws Exception {
         Long customerId = 1L;
-        mockServiceUpdateCustomerWithEmptyResult(customerService, customerId, generateCustomerUpdateDtoObject("Customer Test"));
+        mockServiceUpdateCustomerCustomerNotFoundExcept(customerService, customerId);
         mvc.perform(MockMvcRequestBuilders.put(API_ENDPOINT + "/" + customerId).content(asJsonString(MAPPER, CustomerUpdateDto.builder().name("Teste Update").build())).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNotFound()).andReturn();
-
     }
 }

@@ -1,8 +1,8 @@
 package internetbankingficticio.controller.transaction;
 
 import internetbankingficticio.dto.transaction.TransactionDto;
+import internetbankingficticio.exception.entity.EntityNotFoundException;
 import internetbankingficticio.service.transaction.TransactionServiceIF;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static internetbankingficticio.utils.DateUtils.getDateByString;
 
@@ -37,20 +36,16 @@ public class TransactionController {
             } catch (ParseException e) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            transactionDtoList = transactionService.findAllByExecutedOnBetween(startDate, endDate);
+            transactionDtoList = transactionService.listAllTransactionsByExecutedOnBetween(startDate, endDate);
         } else {
-            transactionDtoList = transactionService.findAllTransactions();
+            transactionDtoList = transactionService.listAllTransactions();
         }
         return new ResponseEntity<>(transactionDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionDto> findTransactionById(@PathVariable("id") Long transactionId) {
-        Optional<TransactionDto> transactionTransactionDtoOpt = transactionService.findTransactionById(transactionId);
-        if (transactionTransactionDtoOpt.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(transactionTransactionDtoOpt.get(), HttpStatus.OK);
+    public ResponseEntity<TransactionDto> findTransactionById(@PathVariable("id") Long transactionId) throws EntityNotFoundException {
+        return new ResponseEntity<>(transactionService.findTransactionById(transactionId), HttpStatus.OK);
     }
 
 }

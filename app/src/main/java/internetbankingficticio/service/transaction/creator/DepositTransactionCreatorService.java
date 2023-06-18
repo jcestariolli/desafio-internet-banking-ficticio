@@ -4,7 +4,7 @@ import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
-import internetbankingficticio.exception.EntityNotFoundException;
+import internetbankingficticio.exception.entity.EntityNotFoundException;
 import internetbankingficticio.exception.TransactionValidationException;
 import internetbankingficticio.mapper.transaction.TransactionCreateDtoToTransactionDaoMapper;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class DepositTransactionCreatorService implements TransactionCreatorServiceIF {
@@ -31,22 +30,16 @@ public class DepositTransactionCreatorService implements TransactionCreatorServi
     TransactionCreateDtoToTransactionDaoMapper transactionCreateDtoToTransactionDaoMapper;
 
     @Override
-    public TransactionCommand getTransactionCommand() {
+    public TransactionCommand getTransactionCreatorCommand() {
         return TRANSACTION_COMMAND;
     }
 
     @Override
     public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException, TransactionValidationException {
-        AccountDto accountDto = getAccountDtoFrom(transactionCreateDto);
+        AccountDto accountDto = accountService.findAccountById(transactionCreateDto.getAccountId());
         validate(transactionCreateDto);
         accountService.updateAccountBalance(accountDto.getId(), accountDto.getBalance().add(transactionCreateDto.getAmmount()));
         return transactionDaoToTransactionDtoMapper.map(transactionRepository.save(transactionCreateDtoToTransactionDaoMapper.map(transactionCreateDto)));
-    }
-
-    private AccountDto getAccountDtoFrom(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException {
-        Optional<AccountDto> accountDtoOpt = accountService.findAccountById(transactionCreateDto.getAccountId());
-        if (accountDtoOpt.isEmpty()) throw new EntityNotFoundException();
-        return accountDtoOpt.get();
     }
 
     public void validate(TransactionCreateDto transactionCreateDto) throws TransactionValidationException {

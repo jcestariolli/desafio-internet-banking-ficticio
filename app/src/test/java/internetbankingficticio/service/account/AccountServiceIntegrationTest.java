@@ -3,6 +3,8 @@ package internetbankingficticio.service.account;
 import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
+import internetbankingficticio.exception.entity.AccountEntityNotFoundException;
+import internetbankingficticio.exception.entity.EntityNotFoundException;
 import internetbankingficticio.mapper.account.AccountCreateDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountUpdateDtoToAccountDaoMapper;
@@ -18,6 +20,7 @@ import java.math.BigDecimal;
 
 import static internetbankingficticio.test.utils.account.AccountObjectsTestUtils.*;
 import static internetbankingficticio.test.utils.account.AccountRepositoryMockTestUtils.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -42,8 +45,10 @@ public class AccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findById() when findAccountById()")
-    public void shouldCallRepositoryFindById_whenFindAccountById() {
+    public void shouldCallRepositoryFindById_whenFindAccountById() throws AccountEntityNotFoundException {
         String accountTestId = "12345678";
+        AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
+        mockRepositoryFindByIdWithAccount(accountRepository, accountTestId, accountDao);
         accountService.findAccountById(accountTestId);
         verify(accountRepository, times(1)).findById(accountTestId);
     }
@@ -70,7 +75,7 @@ public class AccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findById() and save() when updateAccount() finds the Account to update")
-    public void shouldCallRepositoryFindByIdAndShouldCallSave_whenUpdateAccountFindsAccount() {
+    public void shouldCallRepositoryFindByIdAndShouldCallSave_whenUpdateAccountFindsAccount() throws AccountEntityNotFoundException {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockAccountUpdateDtoToAccountDaoMapperMap(accountUpdateDtoToAccountDaoMapperMock, accountDao);
@@ -88,9 +93,9 @@ public class AccountServiceIntegrationTest extends AbstractTest {
     public void shouldCallRepositoryFindByIdAndShouldNotCallSave_whenUpdateAccountDoesNotFindAccountToUpdate() {
         String accountTestId = "12345678";
         mockRepositoryFindByIdWithEmptyResult(accountRepository, accountTestId);
-
-        accountService.updateAccount(accountTestId, AccountUpdateDto.builder().build());
-
+        assertThrows(EntityNotFoundException.class, () -> {
+            accountService.updateAccount(accountTestId, AccountUpdateDto.builder().build());
+        });
         verify(accountRepository, times(1)).findById(accountTestId);
         verify(accountRepository, times(0)).save(any(AccountDao.class));
     }

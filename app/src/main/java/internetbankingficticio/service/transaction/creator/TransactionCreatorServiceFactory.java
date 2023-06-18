@@ -20,7 +20,7 @@ public class TransactionCreatorServiceFactory {
     @Autowired // inject MyService all implementations
     public TransactionCreatorServiceFactory(List<TransactionCreatorServiceIF> transactionCreatorServiceList) {
         this.myServices = transactionCreatorServiceList;
-        transactionCommandCreatorServiceMap = transactionCreatorServiceList.stream().collect(Collectors.toMap(TransactionCreatorServiceIF::getTransactionCommand, transactionCreatorServiceIF -> transactionCreatorServiceIF));
+        transactionCommandCreatorServiceMap = transactionCreatorServiceList.stream().collect(Collectors.toMap(TransactionCreatorServiceIF::getTransactionCreatorCommand, transactionCreatorServiceIF -> transactionCreatorServiceIF));
     }
 
     public TransactionCreatorServiceIF provide(TransactionCommand transactionCommand) {
