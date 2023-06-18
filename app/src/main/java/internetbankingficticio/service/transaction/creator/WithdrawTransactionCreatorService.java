@@ -9,7 +9,7 @@ import internetbankingficticio.exception.ValidationException;
 import internetbankingficticio.mapper.transaction.TransactionCreateDtoToTransactionDaoMapper;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
-import internetbankingficticio.service.account.AccountService;
+import internetbankingficticio.service.account.AccountServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class WithdrawTransactionCreatorService implements TransactionCreatorServ
     @Autowired
     TransactionRepository transactionRepository;
     @Autowired
-    AccountService accountService;
+    AccountServiceIF accountService;
 
     @Autowired
     TransactionDaoToTransactionDtoMapper transactionDaoToTransactionDtoMapper;
