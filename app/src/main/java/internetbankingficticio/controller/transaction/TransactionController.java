@@ -6,10 +6,7 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -26,7 +23,7 @@ public class TransactionController {
     private TransactionServiceIF transactionService;
 
     @GetMapping
-    public ResponseEntity<List<TransactionDto>> listAllTransactions(@PathParam("data_inicio") String startDateString, @PathParam("data_fim") String endDateString) {
+    public ResponseEntity<List<TransactionDto>> listAllTransactions(@RequestParam(value = "data_inicio", required = false) String startDateString, @RequestParam(value = "data_fim", required = false) String endDateString) {
         if (!((startDateString == null) == (endDateString == null))) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

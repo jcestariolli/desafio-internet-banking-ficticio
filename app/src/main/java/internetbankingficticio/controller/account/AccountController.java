@@ -82,7 +82,7 @@ public class AccountController {
     }
 
     @GetMapping("/{numero_conta}/transacoes")
-    public ResponseEntity<List<TransactionDto>> findAllAccountTransactions(@PathVariable("numero_conta") String accountId, @PathParam("data_inicio") String startDateString, @PathParam("data_fim") String endDateString) {
+    public ResponseEntity<List<TransactionDto>> findAllAccountTransactions(@PathVariable("numero_conta") String accountId, @RequestParam(value = "data_inicio", required = false) String startDateString, @RequestParam(value = "data_fim", required = false) String endDateString) {
         if (!((startDateString == null) == (endDateString == null))) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
