@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
-import static internetbankingficticio.test.utils.TestUtils.getDateNow;
+import static internetbankingficticio.utils.DateUtils.getDateNow;
 
 @SpringBootTest
 public class CustomerAccountDaoToCustomerAccountDtoMapperUnitTest extends AbstractTest {

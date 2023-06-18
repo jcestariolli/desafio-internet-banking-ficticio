@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
-import static internetbankingficticio.test.utils.TestUtils.getDateNow;
+import static internetbankingficticio.utils.DateUtils.getDateNow;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest

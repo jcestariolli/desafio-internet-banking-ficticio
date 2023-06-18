@@ -16,10 +16,10 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
-import static internetbankingficticio.test.utils.TestUtils.getDateByString;
-import static internetbankingficticio.test.utils.TestUtils.getDateNow;
 import static internetbankingficticio.test.utils.account.AccountObjectsTestUtils.generateAccountDaoObject;
 import static internetbankingficticio.test.utils.transaction.TransactionObjectsTestUtils.generateTransactionDaoObject;
+import static internetbankingficticio.utils.DateUtils.getDateByString;
+import static internetbankingficticio.utils.DateUtils.getDateNow;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest

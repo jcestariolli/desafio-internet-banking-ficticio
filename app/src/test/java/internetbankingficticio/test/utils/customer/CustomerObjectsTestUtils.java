@@ -7,7 +7,7 @@ import internetbankingficticio.dto.customer.CustomerUpdateDto;
 
 import java.util.List;
 
-import static internetbankingficticio.test.utils.TestUtils.getDateNow;
+import static internetbankingficticio.utils.DateUtils.getDateNow;
 
 public class CustomerObjectsTestUtils {
 
@@ -19,6 +19,7 @@ public class CustomerObjectsTestUtils {
     public static CustomerDao generateCustomerDaoObject(Long id, String name) {
         return CustomerDao.builder().id(id).name(name).birthday(getDateNow()).build();
     }
+
     public static CustomerDao generateCustomerDaoObject(String name) {
         return CustomerDao.builder().name(name).birthday(getDateNow()).build();
     }

@@ -1,15 +1,15 @@
 package internetbankingficticio.mapper.customer;
 
-import internetbankingficticio.test.AbstractTest;
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerDto;
+import internetbankingficticio.test.AbstractTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static internetbankingficticio.test.utils.TestUtils.getDateNow;
+import static internetbankingficticio.utils.DateUtils.getDateNow;
 
 @SpringBootTest
 public class CustomerDaoToCustomerDtoMapperUnitTest extends AbstractTest {
