@@ -2,7 +2,7 @@ package internetbankingficticio.repository.transaction;
 
 import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dao.transaction.TransactionDao;
-import internetbankingficticio.enums.TransactionCommand;
+import internetbankingficticio.enums.transaction.TransactionCommand;
 import internetbankingficticio.repository.account.AccountRepository;
 import internetbankingficticio.test.AbstractTest;
 import org.junit.jupiter.api.DisplayName;

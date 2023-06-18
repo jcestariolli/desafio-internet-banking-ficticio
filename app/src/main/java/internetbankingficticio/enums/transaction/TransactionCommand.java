@@ -1,4 +1,4 @@
-package internetbankingficticio.enums;
+package internetbankingficticio.enums.transaction;
 
 public enum TransactionCommand {
     DEPOSIT("deposito"), WITHDRAW("saque");

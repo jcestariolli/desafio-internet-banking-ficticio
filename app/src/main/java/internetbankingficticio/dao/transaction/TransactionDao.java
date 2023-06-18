@@ -3,7 +3,7 @@ package internetbankingficticio.dao.transaction;
 import internetbankingficticio.dao.AbstractInternetBankingDao;
 import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dao.transaction.converter.TransactionCommandConverter;
-import internetbankingficticio.enums.TransactionCommand;
+import internetbankingficticio.enums.transaction.TransactionCommand;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

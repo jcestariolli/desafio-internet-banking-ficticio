@@ -1,6 +1,6 @@
 package internetbankingficticio.dao.transaction.converter;
 
-import internetbankingficticio.enums.TransactionCommand;
+import internetbankingficticio.enums.transaction.TransactionCommand;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

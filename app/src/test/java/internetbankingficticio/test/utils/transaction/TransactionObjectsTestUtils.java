@@ -2,7 +2,7 @@ package internetbankingficticio.test.utils.transaction;
 
 import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dao.transaction.TransactionDao;
-import internetbankingficticio.enums.TransactionCommand;
+import internetbankingficticio.enums.transaction.TransactionCommand;
 
 import java.math.BigDecimal;
 import java.util.Date;
