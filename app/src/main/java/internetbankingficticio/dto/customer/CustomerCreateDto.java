@@ -20,6 +20,6 @@ public class CustomerCreateDto extends AbstractInternetBankingDto {
     private String name;
 
     @JsonProperty(value = "data_nascimento", required = true)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Sao_Paulo")
     private Date birthday;
 }

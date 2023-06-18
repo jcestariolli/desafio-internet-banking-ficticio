@@ -11,6 +11,7 @@ public interface CustomerServiceIF {
     List<CustomerDto> listAllCustomers();
 
     Optional<CustomerDto> findCustomerById(Long customerId);
+    boolean existsById(Long customerId);
 
     CustomerDto createCustomer(CustomerCreateDto customerDto);
 

@@ -1,6 +1,6 @@
 package internetbankingficticio.repository.customer;
 
-import internetbankingficticio.AbstractTest;
+import internetbankingficticio.test.AbstractTest;
 import internetbankingficticio.dao.customer.CustomerDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
-import static internetbankingficticio.utils.TestUtils.getDateNow;
+import static internetbankingficticio.test.utils.TestUtils.getDateNow;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest

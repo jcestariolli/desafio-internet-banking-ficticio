@@ -1,4 +1,4 @@
-package internetbankingficticio.service.customer;
+package internetbankingficticio.test.utils.customer;
 
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
@@ -12,11 +12,10 @@ import internetbankingficticio.repository.customer.CustomerRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static internetbankingficticio.utils.TestUtils.getDateNow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class CustomerServiceTestUtils {
+public class CustomerRepositoryMockTestUtils {
 
     public static void mockRepositoryFindAllWithCustomerList(CustomerRepository customerRepositoryMock, List<CustomerDao> customerDaoList) {
         when(customerRepositoryMock.findAll()).thenReturn(customerDaoList);
@@ -28,6 +27,10 @@ public class CustomerServiceTestUtils {
 
     public static void mockRepositoryFindByIdWithEmptyResult(CustomerRepository customerRepositoryMock, Long idToMock) {
         when(customerRepositoryMock.findById(idToMock)).thenReturn(Optional.empty());
+    }
+
+    public static void mockRepositoryExistsByIdWithBoolean(CustomerRepository customerRepositoryMock, Long idToMock, boolean existsById) {
+        when(customerRepositoryMock.existsById(idToMock)).thenReturn(existsById);
     }
 
     public static void mockRepositorySaveWithCustomer(CustomerRepository customerRepositoryMock, CustomerDao customerDao) {
@@ -46,11 +49,4 @@ public class CustomerServiceTestUtils {
         when(customerUpdateDtoToCustomerDaoMapperMock.map(any(CustomerUpdateDto.class))).thenReturn(customerDao);
     }
 
-    public static List<CustomerDao> generateCustomerDaoListObject() {
-        return List.of(generateCustomerDaoObject(1L, "Customer Test 1"), generateCustomerDaoObject(2L, "Customer Test 2"), generateCustomerDaoObject(3L, "Customer Test 3"));
-    }
-
-    public static CustomerDao generateCustomerDaoObject(Long id, String name) {
-        return CustomerDao.builder().id(id).name(name).birthday(getDateNow()).build();
-    }
 }

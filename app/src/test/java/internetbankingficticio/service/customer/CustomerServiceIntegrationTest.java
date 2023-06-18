@@ -1,6 +1,5 @@
 package internetbankingficticio.service.customer;
 
-import internetbankingficticio.AbstractTest;
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
@@ -9,26 +8,28 @@ import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMap
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
 import internetbankingficticio.repository.customer.CustomerRepository;
+import internetbankingficticio.test.AbstractTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static internetbankingficticio.service.customer.CustomerServiceTestUtils.*;
+import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.generateCustomerDaoObject;
+import static internetbankingficticio.test.utils.customer.CustomerRepositoryMockTestUtils.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CustomerServiceIntegrationTest extends AbstractTest {
-    @InjectMocks
+    @Autowired
     CustomerService customerService;
-    @Mock
+    @MockBean
     CustomerRepository customerRepository;
-    @Mock
+    @MockBean
     CustomerDaoToCustomerDtoMapper customerDaoToCustomerDtoMapperMock;
-    @Mock
+    @MockBean
     CustomerCreateDtoToCustomerDaoMapper customerCreateDtoToCustomerDaoMapperMock;
-    @Mock
+    @MockBean
     CustomerUpdateDtoToCustomerDaoMapper customerUpdateDtoToCustomerDaoMapperMock;
 
     @Test
@@ -44,6 +45,14 @@ public class CustomerServiceIntegrationTest extends AbstractTest {
         Long customerTestId = 1L;
         customerService.findCustomerById(customerTestId);
         verify(customerRepository, times(1)).findById(customerTestId);
+    }
+
+    @Test
+    @DisplayName("Should call repository existsById() when existsById()")
+    public void shouldCallRepositoryExistsById_whenExistsById() {
+        Long customerTestId = 1L;
+        customerService.existsById(customerTestId);
+        verify(customerRepository, times(1)).existsById(customerTestId);
     }
 
     @Test

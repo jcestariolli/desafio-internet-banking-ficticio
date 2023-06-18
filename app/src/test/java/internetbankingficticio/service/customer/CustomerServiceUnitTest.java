@@ -1,6 +1,5 @@
 package internetbankingficticio.service.customer;
 
-import internetbankingficticio.AbstractTest;
 import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
@@ -9,32 +8,34 @@ import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMap
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
 import internetbankingficticio.repository.customer.CustomerRepository;
+import internetbankingficticio.test.AbstractTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static internetbankingficticio.service.customer.CustomerServiceTestUtils.*;
+import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.generateCustomerDaoListObject;
+import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUtils.generateCustomerDaoObject;
+import static internetbankingficticio.test.utils.customer.CustomerRepositoryMockTestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class CustomerServiceUnitTest extends AbstractTest {
 
-    @InjectMocks
+    @Autowired
     CustomerService customerService;
-    @Mock
+    @MockBean
     CustomerRepository customerRepository;
-    @Spy
+    @Autowired
     CustomerDaoToCustomerDtoMapper customerDaoToCustomerDtoMapper;
-    @Spy
+    @Autowired
     CustomerCreateDtoToCustomerDaoMapper customerCreateDtoToCustomerDaoMapper;
-    @Spy
+    @Autowired
     CustomerUpdateDtoToCustomerDaoMapper customerUpdateDtoToCustomerDaoMapper;
 
 
@@ -74,6 +75,23 @@ public class CustomerServiceUnitTest extends AbstractTest {
         Optional<CustomerDto> returnedCustomerDtoOpt = customerService.findCustomerById(customerTestId);
 
         assertThat(returnedCustomerDtoOpt).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Should return true when existsById() finds a Customer")
+    public void shouldReturnTrue_whenExistsByIdFindsCustomer() {
+        Long customerTestId = 1L;
+        mockRepositoryExistsByIdWithBoolean(customerRepository, customerTestId, true);
+        assertThat(customerService.existsById(customerTestId)).isTrue();
+
+    }
+
+    @Test
+    @DisplayName("Should return false when existsById() does not find a Customer")
+    public void shouldReturnFalse_whenExistsByIdDoesNotFindCustomer() {
+        Long customerTestId = 1L;
+        mockRepositoryExistsByIdWithBoolean(customerRepository, customerTestId, false);
+        assertThat(customerService.existsById(customerTestId)).isFalse();
     }
 
     @Test

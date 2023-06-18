@@ -13,7 +13,11 @@ spring:
     initialization-mode: embedded # habilita inicializacao do script de carga apenas quando bd for em memoria
 
   jpa:
-    properties.hibernate.dialect: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        jdbc:
+          time_zone: UTC-3
     show-sql: true # logar as queries
     hibernate.ddl-auto: update # config do hibernate para atualizar os schemas
     defer-datasource-initialization: true # adia inicializacao datasource para carregar dados na base

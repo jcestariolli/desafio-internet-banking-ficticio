@@ -25,4 +25,16 @@ public class CustomerDto extends AbstractInternetBankingDto {
     @JsonProperty(value = "data_nascimento")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Sao_Paulo")
     private Date birthday;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        CustomerDto other = (CustomerDto) obj;
+        if (this.getId() != other.getId())
+            return false;
+        if (this.getName() == null ? (other.getName() != null) : !(this.getName().equals(other.getName())))
+            return false;
+        return (this.getBirthday() == null ? (other.getBirthday() == null) : (this.getBirthday().getDay() == other.getBirthday().getDay() && this.getBirthday().getMonth() == other.getBirthday().getMonth() && this.getBirthday().getYear() == other.getBirthday().getYear()));
+    }
 }
