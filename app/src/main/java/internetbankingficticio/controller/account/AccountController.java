@@ -6,7 +6,7 @@ import internetbankingficticio.dto.account.AccountUpdateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
-import internetbankingficticio.exception.TransactionValidationException;
+import internetbankingficticio.exception.TransactionAmmountValidationException;
 import internetbankingficticio.exception.entity.EntityNotFoundException;
 import internetbankingficticio.service.account.AccountServiceIF;
 import internetbankingficticio.service.customeraccount.CustomerAccountServiceIF;
@@ -82,7 +82,7 @@ public class AccountController {
     }
 
     @PostMapping("/{numero_conta}/transacoes")
-    public ResponseEntity<TransactionDto> createAccountTransaction(@PathVariable("numero_conta") String accountId, @RequestBody TransactionCreateDto transactionCreateDto) throws TransactionValidationException, EntityNotFoundException {
+    public ResponseEntity<TransactionDto> createAccountTransaction(@PathVariable("numero_conta") String accountId, @RequestBody TransactionCreateDto transactionCreateDto) throws TransactionAmmountValidationException, EntityNotFoundException {
         transactionCreateDto.setAccountId(accountId);
         return new ResponseEntity<>(transactionServiceIF.createTransaction(transactionCreateDto), HttpStatus.OK);
     }

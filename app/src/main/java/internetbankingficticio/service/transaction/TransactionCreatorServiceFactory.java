@@ -1,4 +1,4 @@
-package internetbankingficticio.service.transaction.creator;
+package internetbankingficticio.service.transaction;
 
 import internetbankingficticio.enums.transaction.TransactionCommand;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class TransactionCreatorServiceFactory {
 
     Map<TransactionCommand, TransactionCreatorServiceIF> transactionCommandCreatorServiceMap;
 
-    @Autowired // inject MyService all implementations
+    @Autowired
     public TransactionCreatorServiceFactory(List<TransactionCreatorServiceIF> transactionCreatorServiceList) {
         this.myServices = transactionCreatorServiceList;
         transactionCommandCreatorServiceMap = transactionCreatorServiceList.stream().collect(Collectors.toMap(TransactionCreatorServiceIF::getTransactionCreatorCommand, transactionCreatorServiceIF -> transactionCreatorServiceIF));

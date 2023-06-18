@@ -29,7 +29,7 @@ public class TransactionCreateDto extends AbstractInternetBankingDto {
 
     @JsonProperty(value = "valor", required = true)
     @JsonSerialize(using = MoneySerializer.class)
-    private BigDecimal ammount;
+    private BigDecimal amount;
 
     @JsonProperty(value = "data_transacao")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Sao_Paulo")

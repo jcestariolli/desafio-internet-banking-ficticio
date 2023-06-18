@@ -1,6 +1,6 @@
-package internetbankingficticio.controller.adviser;
+package internetbankingficticio.controller;
 
-import internetbankingficticio.exception.TransactionValidationException;
+import internetbankingficticio.exception.TransactionAmmountValidationException;
 import internetbankingficticio.exception.entity.AccountEntityNotFoundException;
 import internetbankingficticio.exception.entity.CustomerEntityNotFoundException;
 import internetbankingficticio.exception.entity.EntityNotFoundException;
@@ -43,10 +43,10 @@ public class InternetBankingControllerAdvice extends ResponseEntityExceptionHand
         return new ResponseEntity<>(errorResponsePojo, status);
     }
 
-    @ExceptionHandler(value = {TransactionValidationException.class})
-    public ResponseEntity<ErrorResponsePojo> transactionValidationException(TransactionValidationException ex, WebRequest request) {
+    @ExceptionHandler(value = {TransactionAmmountValidationException.class})
+    public ResponseEntity<ErrorResponsePojo> transactionValidationException(TransactionAmmountValidationException ex, WebRequest request) {
         HttpStatus status = HttpStatus.FORBIDDEN;
-        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message("Erro ao validar transação. Causa: %s".formatted(ex.getMessage())).status(status.value()).path(request.getContextPath()).build();
+        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message("Erro ao validar valor da transação. Causa: %s".formatted(ex.getMessage())).status(status.value()).path(request.getContextPath()).build();
         return new ResponseEntity<>(errorResponsePojo, status);
     }
 

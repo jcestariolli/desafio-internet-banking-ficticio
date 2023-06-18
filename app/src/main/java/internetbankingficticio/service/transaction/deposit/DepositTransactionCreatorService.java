@@ -1,19 +1,21 @@
-package internetbankingficticio.service.transaction.creator;
+package internetbankingficticio.service.transaction.deposit;
 
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
+import internetbankingficticio.exception.TransactionAmmountValidationException;
 import internetbankingficticio.exception.entity.EntityNotFoundException;
-import internetbankingficticio.exception.TransactionValidationException;
 import internetbankingficticio.mapper.transaction.TransactionCreateDtoToTransactionDaoMapper;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
 import internetbankingficticio.service.account.AccountServiceIF;
+import internetbankingficticio.service.transaction.TransactionCreatorServiceIF;
+import internetbankingficticio.utils.BigDecimalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 @Service
 public class DepositTransactionCreatorService implements TransactionCreatorServiceIF {
@@ -35,17 +37,16 @@ public class DepositTransactionCreatorService implements TransactionCreatorServi
     }
 
     @Override
-    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException, TransactionValidationException {
+    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException, TransactionAmmountValidationException {
         AccountDto accountDto = accountService.findAccountById(transactionCreateDto.getAccountId());
-        validate(transactionCreateDto);
-        accountService.updateAccountBalance(accountDto.getId(), accountDto.getBalance().add(transactionCreateDto.getAmmount()));
+        validateTransaction(accountDto.getBalance(), transactionCreateDto.getAmount());
+        accountService.updateAccountBalance(accountDto.getId(), accountDto.getBalance().add(transactionCreateDto.getAmount()));
         return transactionDaoToTransactionDtoMapper.map(transactionRepository.save(transactionCreateDtoToTransactionDaoMapper.map(transactionCreateDto)));
     }
 
-    public void validate(TransactionCreateDto transactionCreateDto) throws TransactionValidationException {
-        if (null == transactionCreateDto.getExecutedOn()) {
-            transactionCreateDto.setExecutedOn(new Date());
+    private void validateTransaction(BigDecimal accountBalance, BigDecimal transactionAmount) throws TransactionAmmountValidationException {
+        if (BigDecimalUtils.lessThanOrEqualsToZero(transactionAmount)) {
+            throw new TransactionAmmountValidationException("Valor da transação não pode ser igual ou menor do que zero");
         }
     }
-
 }
