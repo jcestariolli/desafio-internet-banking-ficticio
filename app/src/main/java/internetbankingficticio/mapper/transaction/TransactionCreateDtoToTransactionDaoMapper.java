@@ -11,6 +11,6 @@ public class TransactionCreateDtoToTransactionDaoMapper implements DtoToDaoMappe
 
     @Override
     public TransactionDao map(TransactionCreateDto dto) {
-        return TransactionDao.builder().account(AccountDao.builder().id(dto.getAccountId()).build()).command(dto.getCommand()).ammount(dto.getAmmount()).build();
+        return TransactionDao.builder().account(AccountDao.builder().id(dto.getAccountId()).build()).command(dto.getCommand()).ammount(dto.getAmmount()).executedOn(dto.getExecutedOn()).build();
     }
 }

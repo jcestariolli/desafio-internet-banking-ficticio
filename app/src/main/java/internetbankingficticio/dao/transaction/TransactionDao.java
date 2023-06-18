@@ -29,7 +29,6 @@ public class TransactionDao extends AbstractInternetBankingDao {
     private AccountDao account;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     @Convert(converter = TransactionCommandConverter.class)
     private TransactionCommand command;
 

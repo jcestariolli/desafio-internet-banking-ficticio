@@ -3,7 +3,7 @@ package internetbankingficticio.service.transaction;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.exception.EntityNotFoundException;
-import internetbankingficticio.exception.ValidationException;
+import internetbankingficticio.exception.TransactionValidationException;
 
 import java.util.Date;
 import java.util.List;
@@ -13,7 +13,7 @@ public interface TransactionServiceIF {
 
     boolean existsById(Long transactionId);
 
-    List<TransactionDto> listAllTransactions();
+    List<TransactionDto> findAllTransactions();
 
     Optional<TransactionDto> findTransactionById(Long transactionId);
 
@@ -24,7 +24,7 @@ public interface TransactionServiceIF {
 
     List<TransactionDto> findAllByAccountIdAndExecutedOnBetween(String accountId, Date executedOnStart, Date executedOnEnd);
 
-    TransactionDto createTransaction(TransactionCreateDto transactionDto) throws ValidationException, EntityNotFoundException;
+    TransactionDto createTransaction(TransactionCreateDto transactionDto) throws TransactionValidationException, EntityNotFoundException;
 
 
 }

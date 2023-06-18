@@ -4,7 +4,7 @@ import internetbankingficticio.dao.transaction.TransactionDao;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.exception.EntityNotFoundException;
-import internetbankingficticio.exception.ValidationException;
+import internetbankingficticio.exception.TransactionValidationException;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
 import internetbankingficticio.service.transaction.creator.TransactionCreatorServiceFactory;
@@ -28,7 +28,7 @@ public class TransactionService implements TransactionServiceIF {
     TransactionCreatorServiceFactory transactionCreatorServiceFactory;
 
     @Override
-    public List<TransactionDto> listAllTransactions() {
+    public List<TransactionDto> findAllTransactions() {
         return transactionRepository.findAll().stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
     }
 
@@ -59,7 +59,7 @@ public class TransactionService implements TransactionServiceIF {
     }
 
     @Override
-    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws ValidationException, EntityNotFoundException {
+    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws TransactionValidationException, EntityNotFoundException {
         return transactionCreatorServiceFactory.provide(transactionCreateDto.getCommand()).createTransaction(transactionCreateDto);
     }
 

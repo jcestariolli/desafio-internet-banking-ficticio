@@ -1,5 +1,8 @@
 package internetbankingficticio.enums.transaction;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum TransactionCommand {
     DEPOSIT("deposito"), WITHDRAW("saque");
 
@@ -9,6 +12,7 @@ public enum TransactionCommand {
         this.command = command;
     }
 
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static TransactionCommand valueOfCommand(String command) {
         for (TransactionCommand v : values())
             if (v.getCommand().equalsIgnoreCase(command)) return v;
@@ -20,6 +24,7 @@ public enum TransactionCommand {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return getCommand();
     }

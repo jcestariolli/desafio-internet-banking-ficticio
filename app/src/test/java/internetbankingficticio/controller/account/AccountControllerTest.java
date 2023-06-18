@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.service.account.AccountServiceIF;
 import internetbankingficticio.service.customeraccount.CustomerAccountServiceIF;
+import internetbankingficticio.service.transaction.TransactionServiceIF;
 import internetbankingficticio.test.AbstractTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -39,9 +40,10 @@ public class AccountControllerTest extends AbstractTest {
     private MockMvc mvc;
     @MockBean
     private AccountServiceIF accountService;
-
     @MockBean
     private CustomerAccountServiceIF customerAccountServiceIF;
+    @MockBean
+    private TransactionServiceIF transactionServiceIF;
 
     @BeforeAll
     public static void configureObjectMapperBeforeTests() {
@@ -56,7 +58,8 @@ public class AccountControllerTest extends AbstractTest {
 
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(API_ENDPOINT).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn();
 
-        List<AccountDto> returnedAccountDtoList = parseResponse(MAPPER, mvcResult, new TypeReference<List<AccountDto>>() {});
+        List<AccountDto> returnedAccountDtoList = parseResponse(MAPPER, mvcResult, new TypeReference<List<AccountDto>>() {
+        });
         assertThat(returnedAccountDtoList).isNotEmpty();
         assertThat(returnedAccountDtoList).size().isEqualTo(expectedAccountDtoList.size());
         assertEquals(returnedAccountDtoList, expectedAccountDtoList);

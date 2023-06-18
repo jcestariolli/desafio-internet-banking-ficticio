@@ -5,7 +5,7 @@ import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
 import internetbankingficticio.exception.EntityNotFoundException;
-import internetbankingficticio.exception.ValidationException;
+import internetbankingficticio.exception.TransactionValidationException;
 import internetbankingficticio.mapper.transaction.TransactionCreateDtoToTransactionDaoMapper;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
@@ -36,7 +36,7 @@ public class DepositTransactionCreatorService implements TransactionCreatorServi
     }
 
     @Override
-    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException, ValidationException {
+    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException, TransactionValidationException {
         AccountDto accountDto = getAccountDtoFrom(transactionCreateDto);
         validate(transactionCreateDto);
         accountService.updateAccountBalance(accountDto.getId(), accountDto.getBalance().add(transactionCreateDto.getAmmount()));
@@ -49,7 +49,7 @@ public class DepositTransactionCreatorService implements TransactionCreatorServi
         return accountDtoOpt.get();
     }
 
-    public void validate(TransactionCreateDto transactionCreateDto) throws ValidationException {
+    public void validate(TransactionCreateDto transactionCreateDto) throws TransactionValidationException {
         if (null == transactionCreateDto.getExecutedOn()) {
             transactionCreateDto.setExecutedOn(new Date());
         }
