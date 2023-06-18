@@ -3,6 +3,7 @@ package internetbankingficticio.service.account;
 import internetbankingficticio.dto.account.AccountCreateDto;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
+import internetbankingficticio.dto.transaction.TransactionDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,5 @@ public interface AccountServiceIF {
     AccountDto createAccount(AccountCreateDto accountDto);
 
     Optional<AccountDto> updateAccount(String accountId, AccountUpdateDto accountDto);
+    List<TransactionDto> findAllTransactionsByAccountId(String accountId);
 }

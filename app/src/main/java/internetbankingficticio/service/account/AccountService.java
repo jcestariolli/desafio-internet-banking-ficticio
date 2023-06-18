@@ -4,10 +4,12 @@ import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dto.account.AccountCreateDto;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
+import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.mapper.account.AccountCreateDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountUpdateDtoToAccountDaoMapper;
 import internetbankingficticio.repository.account.AccountRepository;
+import internetbankingficticio.service.transaction.TransactionServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ public class AccountService implements AccountServiceIF {
 
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    TransactionServiceIF transactionService;
     @Autowired
     AccountDaoToAccountDtoMapper accountDaoToAccountDtoMapper;
     @Autowired
@@ -60,5 +64,10 @@ public class AccountService implements AccountServiceIF {
             return Optional.of(accountDaoToAccountDtoMapper.map(accountRepository.save(accountToUpdate)));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<TransactionDto> findAllTransactionsByAccountId(String accountId) {
+        return transactionService.findAllByAccountId(accountId);
     }
 }
