@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
 import internetbankingficticio.service.customer.CustomerServiceIF;
+import internetbankingficticio.service.customeraccount.CustomerAccountServiceIF;
 import internetbankingficticio.test.AbstractTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +38,8 @@ public class CustomerControllerTest extends AbstractTest {
     private MockMvc mvc;
     @MockBean
     private CustomerServiceIF customerService;
+    @MockBean
+    private CustomerAccountServiceIF customerAccountServiceIF;
 
     @BeforeAll
     public static void configureObjectMapperBeforeTests() {

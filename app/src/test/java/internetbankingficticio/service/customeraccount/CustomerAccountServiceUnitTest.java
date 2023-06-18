@@ -134,4 +134,17 @@ public class CustomerAccountServiceUnitTest extends AbstractTest {
         assertThat(customerAccountDto).isNotNull();
     }
 
+    @Test
+    @DisplayName("Should return CustomerAccount List when listAll()")
+    public void shouldReturnCustomerAccountList_whenListAll() {
+        String accountId = "12345678";
+        Long customerId = 1L;
+        CustomerAccountCreateDto customerAccountCreateDto = generateCustomerAccountCreateDtoObject();
+
+        mockRepositoryFindAllWithCustomerAccountList(customerAccountRepository, List.of(generateCustomerAccountDaoObject()));
+
+        List<CustomerAccountDto> customerAccountDtoList = customerAccountService.listAllCustomerAccounts();
+        assertThat(customerAccountDtoList.size()).isEqualTo(1);
+    }
+
 }

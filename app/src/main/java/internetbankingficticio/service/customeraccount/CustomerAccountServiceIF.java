@@ -12,4 +12,5 @@ public interface CustomerAccountServiceIF {
     Optional<List<AccountDto>> findAccountsByCustomerId(Long customerId);
     Optional<List<CustomerDto>> findCustomersByAccountId(String accountId);
     CustomerAccountDto createCustomerWithAccount(CustomerAccountCreateDto customerAccountCreateDto);
+    List<CustomerAccountDto> listAllCustomerAccounts();
 }
