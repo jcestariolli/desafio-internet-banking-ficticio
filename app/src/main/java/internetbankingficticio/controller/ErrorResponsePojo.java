@@ -17,7 +17,4 @@ public class ErrorResponsePojo {
 
     @JsonProperty(value = "mensagem")
     private String message;
-
-    @JsonProperty(value = "path")
-    private String path;
 }

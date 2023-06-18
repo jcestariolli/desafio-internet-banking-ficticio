@@ -24,8 +24,6 @@ public class TransactionService implements TransactionServiceIF {
     TransactionRepository transactionRepository;
 
     @Autowired
-    AccountServiceIF accountService;
-    @Autowired
     TransactionDaoToTransactionDtoMapper transactionDaoToTransactionDtoMapper;
 
     @Autowired
