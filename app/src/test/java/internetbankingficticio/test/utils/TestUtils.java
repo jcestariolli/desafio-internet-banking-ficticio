@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.TimeZone;
 
 public class TestUtils {
     public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("America/Sao_Paulo");
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     public static Date getDateNow() {
         Calendar now = Calendar.getInstance(TIME_ZONE);
@@ -21,6 +23,12 @@ public class TestUtils {
         now.set(Calendar.SECOND, 0);
         now.set(Calendar.MILLISECOND, 0);
         return now.getTime();
+    }
+
+    public static Date getDateByString(String date) throws ParseException {
+        Calendar calendar = Calendar.getInstance(TIME_ZONE);
+        calendar.setTime(SIMPLE_DATE_FORMAT.parse(date));
+        return calendar.getTime();
     }
 
     public static ObjectMapper configureObjectMapper() {
