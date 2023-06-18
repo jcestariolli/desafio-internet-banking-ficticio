@@ -22,7 +22,7 @@ import static internetbankingficticio.test.utils.customer.CustomerObjectsTestUti
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class CustomerAccountRepositoryTest extends AbstractTest {
+public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -165,6 +165,23 @@ public class CustomerAccountRepositoryTest extends AbstractTest {
         assertThat(accountList.size()).isEqualTo(2);
         assertThat(accountList.get(0).getAccountId()).isEqualTo(account1);
         assertThat(accountList.get(1).getAccountId()).isEqualTo(account2);
+    }
+
+    @Test
+    @DisplayName("Should find all Accounts")
+    public void shouldFindAllCustomerAccounts() {
+        AccountDao account1 = AccountDao.builder().id("accountIdTestYYY").balance(new BigDecimal("100.00")).exclusivePlan(true).build();
+        AccountDao account2 = AccountDao.builder().id("accountIdTestZZZ").balance(new BigDecimal("50.10")).exclusivePlan(false).build();
+        testEntityManager.persist(account1);
+        testEntityManager.persist(account2);
+        CustomerDao customerDao = testEntityManager.persist(CustomerDao.builder().name("Customer Test").birthday(getDateNow()).build());
+        testEntityManager.persist(CustomerAccountDao.builder().customerId(customerDao).accountId(account1).build());
+        testEntityManager.persist(CustomerAccountDao.builder().customerId(customerDao).accountId(account2).build());
+
+        List<CustomerAccountDao> accountList = customerAccountRepository.findAll();
+
+        assertThat(accountList).isNotEmpty();
+        assertThat(accountList.size()).isEqualTo(2);
     }
 
 }
