@@ -52,10 +52,10 @@ public class TransactionRepositoryIntegrationTest extends AbstractTest {
     public void shouldFindTransactionsByPeriod() throws ParseException {
         BigDecimal ammount = new BigDecimal(100);
         AccountDao account1 = testEntityManager.persist(generateAccountDaoObject("12345678", ammount, true));
-        TransactionDao transactionDao1 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.DEPOSIT, ammount, getDateByString("2023-06-01")));
+        testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.DEPOSIT, ammount, getDateByString("2023-06-01")));
         TransactionDao transactionDao2 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.DEPOSIT, new BigDecimal(50), getDateByString("2023-06-02")));
         TransactionDao transactionDao3 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.WITHDRAW, new BigDecimal("10.10"), getDateByString("2023-06-03")));
-        TransactionDao transactionDao4 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.WITHDRAW, new BigDecimal("10.10"), getDateByString("2023-06-04")));
+        testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.WITHDRAW, new BigDecimal("10.10"), getDateByString("2023-06-04")));
 
         List<TransactionDao> transactionDaoList = transactionRepository.findAllByExecutedOnBetween(getDateByString("2023-06-02"), getDateByString("2023-06-03"));
         assertThat(transactionDaoList).isNotEmpty();
@@ -67,6 +67,26 @@ public class TransactionRepositoryIntegrationTest extends AbstractTest {
     @Test
     @DisplayName("Should find all Transactions by AccountId")
     public void shouldFindAllTransactionsByAccountId() throws ParseException {
+        BigDecimal ammount = new BigDecimal(100);
+        AccountDao account1 = testEntityManager.persist(generateAccountDaoObject("12345678", ammount, true));
+        testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.DEPOSIT, ammount, getDateByString("2023-06-01")));
+        TransactionDao transactionDao2 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.DEPOSIT, new BigDecimal(50), getDateByString("2023-06-02")));
+        TransactionDao transactionDao3 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.WITHDRAW, new BigDecimal("10.10"), getDateByString("2023-06-03")));
+        testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.WITHDRAW, new BigDecimal("10.10"), getDateByString("2023-06-04")));
+
+        AccountDao account2 = testEntityManager.persist(generateAccountDaoObject("abcdef", ammount, true));
+        testEntityManager.persist(generateTransactionDaoObject(account2, TransactionCommand.DEPOSIT, new BigDecimal(50), getDateByString("2023-06-02")));
+        testEntityManager.persist(generateTransactionDaoObject(account2, TransactionCommand.WITHDRAW, new BigDecimal(25), getDateByString("2023-06-02")));
+
+        List<TransactionDao> transactionDaoList = transactionRepository.findAllByAccountIdAndExecutedOnBetween(account1.getId(), getDateByString("2023-06-02"), getDateByString("2023-06-03"));
+
+        assertThat(transactionDaoList).size().isEqualTo(2);
+        assertThat(transactionDaoList).contains(transactionDao2, transactionDao3);
+    }
+
+    @Test
+    @DisplayName("Should find all Transactions by AccountId and Period")
+    public void shouldFindAllTransactionsByAccountIdAndPeriod() throws ParseException {
         BigDecimal ammount = new BigDecimal(100);
         AccountDao account1 = testEntityManager.persist(generateAccountDaoObject("12345678", ammount, true));
         TransactionDao transactionDao1 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.DEPOSIT, ammount, getDateByString("2023-06-01")));

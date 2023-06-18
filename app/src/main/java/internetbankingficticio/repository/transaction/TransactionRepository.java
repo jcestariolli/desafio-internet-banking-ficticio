@@ -13,4 +13,5 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Lon
     List<TransactionDao> findAllByExecutedOnBetween(Date executedOnStart, Date executedOnEnd);
 
     List<TransactionDao> findByAccountId(String accountId);
+    List<TransactionDao> findAllByAccountIdAndExecutedOnBetween(String accountId, Date executedOnStart, Date executedOnEnd);
 }
