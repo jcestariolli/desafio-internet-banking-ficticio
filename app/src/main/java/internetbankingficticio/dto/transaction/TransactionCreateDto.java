@@ -1,5 +1,6 @@
 package internetbankingficticio.dto.transaction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -9,6 +10,7 @@ import internetbankingficticio.utils.serializer.MoneySerializer;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,5 +29,9 @@ public class TransactionCreateDto extends AbstractInternetBankingDto {
     @JsonProperty(value = "valor", required = true)
     @JsonSerialize(using = MoneySerializer.class)
     private BigDecimal ammount;
+
+    @JsonProperty(value = "data_transacao")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Sao_Paulo")
+    private Date executedOn;
 
 }

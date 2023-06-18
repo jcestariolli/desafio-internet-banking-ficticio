@@ -3,7 +3,7 @@ package internetbankingficticio.enums.transaction;
 public enum TransactionCommand {
     DEPOSIT("deposito"), WITHDRAW("saque");
 
-    private final String command;
+    public final String command;
 
     TransactionCommand(String command) {
         this.command = command;
