@@ -4,7 +4,10 @@ import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dto.account.AccountCreateDto;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
+import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
+import internetbankingficticio.exception.EntityNotFoundException;
+import internetbankingficticio.exception.ValidationException;
 import internetbankingficticio.mapper.account.AccountCreateDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountUpdateDtoToAccountDaoMapper;
@@ -13,6 +16,8 @@ import internetbankingficticio.service.transaction.TransactionServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,7 +72,31 @@ public class AccountService implements AccountServiceIF {
     }
 
     @Override
+    public AccountDto updateAccountBalance(String accountId, BigDecimal ammout) throws EntityNotFoundException {
+        Optional<AccountDao> accountDao = accountRepository.findById(accountId);
+        if (accountDao.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        AccountDao accountToUpdate = accountDao.get();
+        accountToUpdate.setBalance(ammout);
+        return accountDaoToAccountDtoMapper.map(accountRepository.save(accountToUpdate));
+
+    }
+
+    @Override
     public List<TransactionDto> findAllTransactionsByAccountId(String accountId) {
         return transactionService.findAllByAccountId(accountId);
     }
+
+    @Override
+    public List<TransactionDto> findAllByAccountIdAndExecutedOnBetween(String accountId, Date executedOnStart, Date executedOnEnd) {
+        return transactionService.findAllByAccountIdAndExecutedOnBetween(accountId, executedOnStart, executedOnEnd);
+    }
+
+    @Override
+    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException, ValidationException {
+        return transactionService.createTransaction(transactionCreateDto);
+    }
+
+
 }
