@@ -65,6 +65,22 @@ public class TransactionRepositoryIntegrationTest extends AbstractTest {
     }
 
     @Test
+    @DisplayName("Should find all Transactions by AccountId")
+    public void shouldFindAllTransactionsByAccountId() throws ParseException {
+        BigDecimal ammount = new BigDecimal(100);
+        AccountDao account1 = testEntityManager.persist(generateAccountDaoObject("12345678", ammount, true));
+        TransactionDao transactionDao1 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.DEPOSIT, ammount, getDateByString("2023-06-01")));
+        TransactionDao transactionDao2 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.DEPOSIT, new BigDecimal(50), getDateByString("2023-06-02")));
+        TransactionDao transactionDao3 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.WITHDRAW, new BigDecimal("10.10"), getDateByString("2023-06-03")));
+        TransactionDao transactionDao4 = testEntityManager.persist(generateTransactionDaoObject(account1, TransactionCommand.WITHDRAW, new BigDecimal("10.10"), getDateByString("2023-06-04")));
+
+        List<TransactionDao> transactionDaoList = transactionRepository.findByAccountId(account1.getId());
+
+        assertThat(transactionDaoList).size().isEqualTo(4);
+        assertThat(transactionDaoList).contains(transactionDao1, transactionDao2, transactionDao3, transactionDao4);
+    }
+
+    @Test
     @DisplayName("Should find all Transactions when Repository has data")
     public void shouldFindAllTransactions_whenRepositoryHasData() throws ParseException {
         BigDecimal ammount = new BigDecimal(100);

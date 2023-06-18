@@ -11,4 +11,6 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<TransactionDao, Long> {
 
     List<TransactionDao> findAllByExecutedOnBetween(Date executedOnStart, Date executedOnEnd);
+
+    List<TransactionDao> findByAccountId(String accountId);
 }
