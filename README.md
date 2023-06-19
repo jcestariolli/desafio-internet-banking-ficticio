@@ -78,7 +78,7 @@ http://localhost:8080/internetbanking-api-docs
 ### Coleção Postman das chamadas da API
 Há também uma collection Postman anexada a este repositório, no seguinte caminho:
 
-[docs/postman-collections/Internet Banking Ficticio.postman_collection.json](docs/postman-collections/Internet Banking Ficticio.postman_collection.json)
+[docs/postman-collections](docs/postman-collections)
 
 ## Acessando o banco de dados em memória
 Ao subir a aplicação, a interface para a base em memória fica disponível em:
