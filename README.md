@@ -68,7 +68,7 @@ Basta compilar, utilizando Maven, e executar a classe:
 ### Interface de usuário da API usando Swagger
 Ao subir a aplicação, a interface do Swagger para utilização da API fica disponível em:
 
-http://localhost:8080/swagger-ui/index.html
+http://localhost:8080/internetbanking-api-ui.html
 
 ### Documentação da API usando Open API Docs
 Ao subir a aplicação, a documentação da API fica disponivel em:
