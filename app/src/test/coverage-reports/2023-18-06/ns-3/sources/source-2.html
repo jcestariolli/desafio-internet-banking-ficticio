@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > InternetBankingControllerAdvice</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">internetbankingficticio.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: InternetBankingControllerAdvice (internetbankingficticio.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InternetBankingControllerAdvice</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42,9%
+  </span>
+  <span class="absValue">
+    (3/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    36,8%
+  </span>
+  <span class="absValue">
+    (7/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package internetbankingficticio.controller;
+&nbsp;
+&nbsp;import internetbankingficticio.exception.DateParseException;
+&nbsp;import internetbankingficticio.exception.validation.TransactionAmmountValidationException;
+&nbsp;import internetbankingficticio.exception.notfound.AccountResourceNotFoundException;
+&nbsp;import internetbankingficticio.exception.notfound.CustomerResourceNotFoundException;
+&nbsp;import internetbankingficticio.exception.notfound.ResourceNotFoundException;
+&nbsp;import internetbankingficticio.exception.notfound.TransactionEntityNotFoundException;
+&nbsp;import internetbankingficticio.utils.DateUtils;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.ControllerAdvice;
+&nbsp;import org.springframework.web.bind.annotation.ExceptionHandler;
+&nbsp;import org.springframework.web.context.request.WebRequest;
+&nbsp;import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+&nbsp;
+&nbsp;@ControllerAdvice
+<b class="fc">&nbsp;public class InternetBankingControllerAdvice extends ResponseEntityExceptionHandler {</b>
+&nbsp;
+&nbsp;    @ExceptionHandler(value = {AccountResourceNotFoundException.class})
+&nbsp;    public ResponseEntity&lt;ErrorResponsePojo&gt; accountEntityNotFoundException(AccountResourceNotFoundException ex, WebRequest request) {
+<b class="fc">&nbsp;        HttpStatus status = HttpStatus.NOT_FOUND;</b>
+<b class="fc">&nbsp;        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message(&quot;Conta de numero %s nao encontrado&quot;.formatted(ex.getEntityId())).status(status.value()).build();</b>
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(errorResponsePojo, status);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler(value = {CustomerResourceNotFoundException.class})
+&nbsp;    public ResponseEntity&lt;ErrorResponsePojo&gt; customerEntityNotFoundException(CustomerResourceNotFoundException ex, WebRequest request) {
+<b class="fc">&nbsp;        HttpStatus status = HttpStatus.NOT_FOUND;</b>
+<b class="fc">&nbsp;        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message(&quot;Cliente de id %s nao encontrado&quot;.formatted(ex.getEntityId())).status(status.value()).build();</b>
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(errorResponsePojo, status);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler(value = {TransactionEntityNotFoundException.class})
+&nbsp;    public ResponseEntity&lt;ErrorResponsePojo&gt; transactionEntityNotFoundException(TransactionEntityNotFoundException ex, WebRequest request) {
+<b class="nc">&nbsp;        HttpStatus status = HttpStatus.NOT_FOUND;</b>
+<b class="nc">&nbsp;        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message(&quot;Transação de id %s não encontrada&quot;.formatted(ex.getEntityId())).status(status.value()).build();</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(errorResponsePojo, status);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler(value = {ResourceNotFoundException.class})
+&nbsp;    public ResponseEntity&lt;ErrorResponsePojo&gt; entityNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+<b class="nc">&nbsp;        HttpStatus status = HttpStatus.NOT_FOUND;</b>
+<b class="nc">&nbsp;        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message(&quot;Recurso de id %s não encontrada&quot;.formatted(ex.getEntityId())).status(status.value()).build();</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(errorResponsePojo, status);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler(value = {TransactionAmmountValidationException.class})
+&nbsp;    public ResponseEntity&lt;ErrorResponsePojo&gt; transactionValidationException(TransactionAmmountValidationException ex, WebRequest request) {
+<b class="nc">&nbsp;        HttpStatus status = HttpStatus.BAD_REQUEST;</b>
+<b class="nc">&nbsp;        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message(&quot;Erro ao validar valor da transação. Causa: %s&quot;.formatted(ex.getMessage())).status(status.value()).build();</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(errorResponsePojo, status);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler(value = {DateParseException.class})
+&nbsp;    public ResponseEntity&lt;ErrorResponsePojo&gt; dateParseException(DateParseException ex, WebRequest request) {
+<b class="nc">&nbsp;        HttpStatus status = HttpStatus.BAD_REQUEST;</b>
+<b class="nc">&nbsp;        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message(&quot;Formato de data invalido. Formato esperado é sempre: %s&quot;.formatted(DateUtils.DATE_FORMAT_STRING)).status(status.value()).build();</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(errorResponsePojo, status);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-18 22:43</div>
+</div>
+</body>
+</html>
