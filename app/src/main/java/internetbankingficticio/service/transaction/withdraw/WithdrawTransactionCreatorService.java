@@ -5,7 +5,7 @@ import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
 import internetbankingficticio.exception.TransactionAmmountValidationException;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
 import internetbankingficticio.mapper.transaction.TransactionCreateDtoToTransactionDaoMapper;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
@@ -40,7 +40,7 @@ public class WithdrawTransactionCreatorService implements TransactionCreatorServ
     }
 
     @Override
-    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException, TransactionAmmountValidationException {
+    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws ResourceNotFoundException, TransactionAmmountValidationException {
         AccountDto accountDto = accountService.findAccountById(transactionCreateDto.getAccountId());
         transactionCreateDto.setAmount(withdrawTransactionAmmountCalculator.applyBusinessRuleInTransactionAmount(transactionCreateDto.getAmount(), accountDto));
         validateTransaction(accountDto.getBalance(), transactionCreateDto.getAmount());

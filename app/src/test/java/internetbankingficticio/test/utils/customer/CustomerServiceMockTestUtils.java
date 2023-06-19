@@ -3,8 +3,8 @@ package internetbankingficticio.test.utils.customer;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.entity.CustomerEntityNotFoundException;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.CustomerResourceNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
 import internetbankingficticio.service.customer.CustomerServiceIF;
 
 import java.util.List;
@@ -19,23 +19,23 @@ public class CustomerServiceMockTestUtils {
         when(customerServiceMock.listAllCustomers()).thenReturn(customerDtoList);
     }
 
-    public static void mockServiceFindCustomerByIdWithCustomer(CustomerServiceIF customerServiceMock, Long customerId, CustomerDto customerDto) throws EntityNotFoundException {
+    public static void mockServiceFindCustomerByIdWithCustomer(CustomerServiceIF customerServiceMock, Long customerId, CustomerDto customerDto) throws ResourceNotFoundException {
         when(customerServiceMock.findCustomerById(customerId)).thenReturn(customerDto);
     }
 
-    public static void mockServiceFindCustomerByIdThrowCustomerNotFoundExcept(CustomerServiceIF customerServiceMock, Long customerId) throws EntityNotFoundException {
-        when(customerServiceMock.findCustomerById(customerId)).thenThrow(new CustomerEntityNotFoundException(customerId.toString()));
+    public static void mockServiceFindCustomerByIdThrowCustomerNotFoundExcept(CustomerServiceIF customerServiceMock, Long customerId) throws ResourceNotFoundException {
+        when(customerServiceMock.findCustomerById(customerId)).thenThrow(new CustomerResourceNotFoundException(customerId.toString()));
     }
 
     public static void mockServiceCreateCustomerWithCustomer(CustomerServiceIF customerServiceMock, CustomerDto customerDto) {
         when(customerServiceMock.createCustomer(any(CustomerCreateDto.class))).thenReturn(customerDto);
     }
 
-    public static void mockServiceUpdateCustomerWithCustomer(CustomerServiceIF customerServiceMock, CustomerDto customerDto) throws EntityNotFoundException {
+    public static void mockServiceUpdateCustomerWithCustomer(CustomerServiceIF customerServiceMock, CustomerDto customerDto) throws ResourceNotFoundException {
         when(customerServiceMock.updateCustomer(anyLong(), any(CustomerUpdateDto.class))).thenReturn(customerDto);
     }
 
-    public static void mockServiceUpdateCustomerCustomerNotFoundExcept(CustomerServiceIF customerServiceMock, Long customerId) throws EntityNotFoundException {
-        when(customerServiceMock.updateCustomer(any(), any())).thenThrow(new CustomerEntityNotFoundException(customerId.toString()));
+    public static void mockServiceUpdateCustomerCustomerNotFoundExcept(CustomerServiceIF customerServiceMock, Long customerId) throws ResourceNotFoundException {
+        when(customerServiceMock.updateCustomer(any(), any())).thenThrow(new CustomerResourceNotFoundException(customerId.toString()));
     }
 }

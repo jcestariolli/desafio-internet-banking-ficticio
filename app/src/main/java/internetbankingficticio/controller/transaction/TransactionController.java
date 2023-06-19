@@ -1,7 +1,7 @@
 package internetbankingficticio.controller.transaction;
 
 import internetbankingficticio.dto.transaction.TransactionDto;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
 import internetbankingficticio.service.transaction.TransactionServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +44,7 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionDto> findTransactionById(@PathVariable("id") Long transactionId) throws EntityNotFoundException {
+    public ResponseEntity<TransactionDto> findTransactionById(@PathVariable("id") Long transactionId) throws ResourceNotFoundException {
         return new ResponseEntity<>(transactionService.findTransactionById(transactionId), HttpStatus.OK);
     }
 

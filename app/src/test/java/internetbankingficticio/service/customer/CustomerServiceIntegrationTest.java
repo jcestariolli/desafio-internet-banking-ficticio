@@ -4,8 +4,8 @@ import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.entity.CustomerEntityNotFoundException;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.CustomerResourceNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
 import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
@@ -44,7 +44,7 @@ public class CustomerServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findById() when findCustomerById()")
-    public void shouldCallRepositoryFindById_whenFindCustomerById() throws EntityNotFoundException {
+    public void shouldCallRepositoryFindById_whenFindCustomerById() throws ResourceNotFoundException {
         Long customerTestId = 1L;
         mockRepositoryFindByIdWithCustomer(customerRepository, customerTestId, generateCustomerDaoObject(customerTestId, "Customer Test 1"));
         customerService.findCustomerById(customerTestId);
@@ -73,7 +73,7 @@ public class CustomerServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findById() and save() when updateCustomer() finds the Customer to update")
-    public void shouldCallRepositoryFindByIdAndShouldCallSave_whenUpdateCustomerFindsCustomer() throws CustomerEntityNotFoundException {
+    public void shouldCallRepositoryFindByIdAndShouldCallSave_whenUpdateCustomerFindsCustomer() throws CustomerResourceNotFoundException {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockCustomerUpdateDtoToCustomerDaoMapperMap(customerUpdateDtoToCustomerDaoMapperMock, customerDao);
@@ -88,10 +88,10 @@ public class CustomerServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findById() and save() when updateCustomer() does not find the Customer to update")
-    public void shouldCallRepositoryFindByIdAndShouldNotCallSave_whenUpdateCustomerDoesNotFindCustomerToUpdate() throws CustomerEntityNotFoundException {
+    public void shouldCallRepositoryFindByIdAndShouldNotCallSave_whenUpdateCustomerDoesNotFindCustomerToUpdate() throws CustomerResourceNotFoundException {
         Long customerTestId = 1L;
         mockRepositoryFindByIdWithEmptyResult(customerRepository, customerTestId);
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(ResourceNotFoundException.class, () -> {
             customerService.updateCustomer(customerTestId, CustomerUpdateDto.builder().build());
         });
         verify(customerRepository, times(1)).findById(customerTestId);

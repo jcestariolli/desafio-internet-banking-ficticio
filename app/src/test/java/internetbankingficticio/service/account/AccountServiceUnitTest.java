@@ -3,7 +3,7 @@ package internetbankingficticio.service.account;
 import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
-import internetbankingficticio.exception.entity.AccountEntityNotFoundException;
+import internetbankingficticio.exception.AccountResourceNotFoundException;
 import internetbankingficticio.mapper.account.AccountCreateDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountUpdateDtoToAccountDaoMapper;
@@ -55,7 +55,7 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Account when findAccountById() finds an Account")
-    public void shouldReturnAccount_whenFindAccountByIdFindsAccount() throws AccountEntityNotFoundException {
+    public void shouldReturnAccount_whenFindAccountByIdFindsAccount() throws AccountResourceNotFoundException {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockRepositoryFindByIdWithAccount(accountRepository, accountTestId, accountDao);
@@ -65,11 +65,11 @@ public class AccountServiceUnitTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should throw AccountEntityNotFoundException when findAccountById() does not find an Account")
+    @DisplayName("Should throw AccountResourceNotFoundException when findAccountById() does not find an Account")
     public void shouldThrowAccountEntityNotFoundException_whenFindAccountByIdDoesNotFindAccount() {
         String accountTestId = "12345678";
         mockRepositoryFindByIdWithEmptyResult(accountRepository, accountTestId);
-        assertThrows(AccountEntityNotFoundException.class, () -> {
+        assertThrows(AccountResourceNotFoundException.class, () -> {
             accountService.findAccountById(accountTestId);
         });
     }
@@ -102,7 +102,7 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Account when updateAccount() finds the Account to update")
-    public void shouldReturnAccount_whenUpdateAccountFindsTheAccountToUpdate() throws AccountEntityNotFoundException {
+    public void shouldReturnAccount_whenUpdateAccountFindsTheAccountToUpdate() throws AccountResourceNotFoundException {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockRepositoryFindByIdWithAccount(accountRepository, accountTestId, accountDao);
@@ -112,11 +112,11 @@ public class AccountServiceUnitTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should throw AccountEntityNotFoundException when updateAccount() does not find the Account to update")
+    @DisplayName("Should throw AccountResourceNotFoundException when updateAccount() does not find the Account to update")
     public void shouldThrowAccountEntityNotFoundException_whenUpdateAccountDoesNotFindTheAccountToUpdate() {
         String accountTestId = "12345678";
         mockRepositoryFindByIdWithEmptyResult(accountRepository, accountTestId);
-        assertThrows(AccountEntityNotFoundException.class, () -> {
+        assertThrows(AccountResourceNotFoundException.class, () -> {
             accountService.updateAccount(accountTestId, AccountUpdateDto.builder().build());
         });
     }

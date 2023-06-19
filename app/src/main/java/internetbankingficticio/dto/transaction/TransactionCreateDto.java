@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import internetbankingficticio.dto.AbstractInternetBankingDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
-import internetbankingficticio.utils.serializer.MoneySerializer;
+import internetbankingficticio.serializer.MoneySerializer;
 import lombok.*;
 
 import java.math.BigDecimal;

@@ -4,7 +4,7 @@ import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.entity.CustomerEntityNotFoundException;
+import internetbankingficticio.exception.CustomerResourceNotFoundException;
 import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
@@ -56,7 +56,7 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Customer when findCustomerById() finds a Customer")
-    public void shouldReturnCustomer_whenFindCustomerByIdFindsCustomer() throws CustomerEntityNotFoundException {
+    public void shouldReturnCustomer_whenFindCustomerByIdFindsCustomer() throws CustomerResourceNotFoundException {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockRepositoryFindByIdWithCustomer(customerRepository, customerTestId, customerDao);
@@ -66,11 +66,11 @@ public class CustomerServiceUnitTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should throw CustomerEntityNotFoundException when findCustomerById() does not find a Customer")
+    @DisplayName("Should throw CustomerResourceNotFoundException when findCustomerById() does not find a Customer")
     public void shouldThrowCustomerEntityNotFoundException_whenFindCustomerByIdDoesNotFindCustomer() {
         Long customerTestId = 1L;
         mockRepositoryFindByIdWithEmptyResult(customerRepository, customerTestId);
-        assertThrows(CustomerEntityNotFoundException.class, () -> {
+        assertThrows(CustomerResourceNotFoundException.class, () -> {
             customerService.findCustomerById(customerTestId);
         });
     }
@@ -103,7 +103,7 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Customer when updateCustomer() finds the Customer to update")
-    public void shouldReturnCustomer_whenUpdateCustomerFindsTheCustomerToUpdate() throws CustomerEntityNotFoundException {
+    public void shouldReturnCustomer_whenUpdateCustomerFindsTheCustomerToUpdate() throws CustomerResourceNotFoundException {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockRepositoryFindByIdWithCustomer(customerRepository, customerTestId, customerDao);
@@ -114,11 +114,11 @@ public class CustomerServiceUnitTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should throw CustomerEntityNotFoundException when updateCustomer() does not find the Customer to update")
+    @DisplayName("Should throw CustomerResourceNotFoundException when updateCustomer() does not find the Customer to update")
     public void shouldThrowCustomerEntityNotFoundException_whenUpdateCustomerDoesNotFindTheCustomerToUpdate() {
         Long customerTestId = 1L;
         mockRepositoryFindByIdWithEmptyResult(customerRepository, customerTestId);
-        assertThrows(CustomerEntityNotFoundException.class, () -> {
+        assertThrows(CustomerResourceNotFoundException.class, () -> {
             customerService.updateCustomer(customerTestId, CustomerUpdateDto.builder().build());
         });
     }

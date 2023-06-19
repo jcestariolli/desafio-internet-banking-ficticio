@@ -5,7 +5,7 @@ import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
 import internetbankingficticio.exception.TransactionAmmountValidationException;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
 import internetbankingficticio.mapper.transaction.TransactionCreateDtoToTransactionDaoMapper;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
@@ -37,7 +37,7 @@ public class DepositTransactionCreatorService implements TransactionCreatorServi
     }
 
     @Override
-    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws EntityNotFoundException, TransactionAmmountValidationException {
+    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws ResourceNotFoundException, TransactionAmmountValidationException {
         AccountDto accountDto = accountService.findAccountById(transactionCreateDto.getAccountId());
         validateTransaction(accountDto.getBalance(), transactionCreateDto.getAmount());
         accountService.updateAccountBalance(accountDto.getId(), accountDto.getBalance().add(transactionCreateDto.getAmount()));

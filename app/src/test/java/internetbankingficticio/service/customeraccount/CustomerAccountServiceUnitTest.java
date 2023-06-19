@@ -5,9 +5,9 @@ import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customeraccount.CustomerAccountCreateDto;
 import internetbankingficticio.dto.customeraccount.CustomerAccountDto;
-import internetbankingficticio.exception.entity.AccountEntityNotFoundException;
-import internetbankingficticio.exception.entity.CustomerEntityNotFoundException;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.AccountResourceNotFoundException;
+import internetbankingficticio.exception.CustomerResourceNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
@@ -66,7 +66,7 @@ public class CustomerAccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Account List when findAccountsByCustomerId() finds the Customer")
-    public void shouldReturnAccountList_whenFindAccountsByCustomerIdFindsCustomer() throws EntityNotFoundException {
+    public void shouldReturnAccountList_whenFindAccountsByCustomerIdFindsCustomer() throws ResourceNotFoundException {
         Long customerId = 1L;
         mockServiceFindCustomerByIdWithCustomer(customerService, customerId, generateCustomerDtoObject(customerId, "Customer Test 1"));
         mockRepositoryFindByCustomerIdWithCustomerAccountList(customerAccountRepository, new ArrayList<>());
@@ -76,18 +76,18 @@ public class CustomerAccountServiceUnitTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should throw CustomerEntityNotFoundException when findAccountsByCustomerId() does not find the Customer")
-    public void shouldThrowCustomerEntityNotFoundException_whenFindAccountsByCustomerIdDoesNotFindCustomer() throws EntityNotFoundException {
+    @DisplayName("Should throw CustomerResourceNotFoundException when findAccountsByCustomerId() does not find the Customer")
+    public void shouldThrowCustomerEntityNotFoundException_whenFindAccountsByCustomerIdDoesNotFindCustomer() throws ResourceNotFoundException {
         Long customerId = 1L;
         mockServiceFindCustomerByIdThrowCustomerNotFoundExcept(customerService, customerId);
-        assertThrows(CustomerEntityNotFoundException.class, () -> {
+        assertThrows(CustomerResourceNotFoundException.class, () -> {
             customerAccountService.listAccountsByCustomerId(customerId);
         });
     }
 
     @Test
     @DisplayName("Should return Customer List when findCustomersByAccountId() finds the Account")
-    public void shouldReturnCustomerList_whenFindCustomersByAccountIdFindsAccount() throws EntityNotFoundException {
+    public void shouldReturnCustomerList_whenFindCustomersByAccountIdFindsAccount() throws ResourceNotFoundException {
         String accountId = "12345678";
         mockServiceFindAccountByIdWithAccount(accountService, accountId, generateAccountDtoObject(accountId, BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP), true));
         mockRepositoryFindByAccountIdWithCustomerAccountList(customerAccountRepository, new ArrayList<>());
@@ -97,11 +97,11 @@ public class CustomerAccountServiceUnitTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should throw AccountEntityNotFoundException when findCustomersByAccountId() does not find the Account")
-    public void shouldThrowAccountEntityNotFoundException_whenFindCustomersByAccountIdDoesNotFindAccount() throws EntityNotFoundException {
+    @DisplayName("Should throw AccountResourceNotFoundException when findCustomersByAccountId() does not find the Account")
+    public void shouldThrowAccountEntityNotFoundException_whenFindCustomersByAccountIdDoesNotFindAccount() throws ResourceNotFoundException {
         String accountId = "12345678";
         mockServiceFindAccountByIdThrowAccountNotFoundExcept(accountService, accountId);
-        assertThrows(AccountEntityNotFoundException.class, () -> {
+        assertThrows(AccountResourceNotFoundException.class, () -> {
             customerAccountService.listCustomersByAccountId(accountId);
         });
     }

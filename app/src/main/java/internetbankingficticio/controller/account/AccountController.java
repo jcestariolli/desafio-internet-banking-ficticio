@@ -7,7 +7,7 @@ import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.exception.TransactionAmmountValidationException;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
 import internetbankingficticio.service.account.AccountServiceIF;
 import internetbankingficticio.service.customeraccount.CustomerAccountServiceIF;
 import internetbankingficticio.service.transaction.TransactionServiceIF;
@@ -40,7 +40,7 @@ public class AccountController {
     }
 
     @GetMapping("/{numero_conta}")
-    public ResponseEntity<AccountDto> findAccountById(@PathVariable("numero_conta") String accountId) throws EntityNotFoundException {
+    public ResponseEntity<AccountDto> findAccountById(@PathVariable("numero_conta") String accountId) throws ResourceNotFoundException {
         return new ResponseEntity<>(accountService.findAccountById(accountId), HttpStatus.OK);
     }
 
@@ -50,17 +50,17 @@ public class AccountController {
     }
 
     @PutMapping("/{numero_conta}")
-    public ResponseEntity<AccountDto> updateAccount(@PathVariable("numero_conta") String accountId, @RequestBody AccountUpdateDto accountUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable("numero_conta") String accountId, @RequestBody AccountUpdateDto accountUpdateDto) throws ResourceNotFoundException {
         return new ResponseEntity<>(accountService.updateAccount(accountId, accountUpdateDto), HttpStatus.OK);
     }
 
     @GetMapping("/{numero_conta}/clientes")
-    public ResponseEntity<List<CustomerDto>> findAccountsByCustomerId(@PathVariable("numero_conta") String accountId) throws EntityNotFoundException {
+    public ResponseEntity<List<CustomerDto>> findAccountsByCustomerId(@PathVariable("numero_conta") String accountId) throws ResourceNotFoundException {
         return new ResponseEntity<>(customerAccountServiceIF.listCustomersByAccountId(accountId), HttpStatus.OK);
     }
 
     @GetMapping("/{numero_conta}/transacoes")
-    public ResponseEntity<List<TransactionDto>> findAllAccountTransactions(@PathVariable("numero_conta") String accountId, @RequestParam(value = "data_inicio", required = false) String startDateString, @RequestParam(value = "data_fim", required = false) String endDateString) throws EntityNotFoundException {
+    public ResponseEntity<List<TransactionDto>> findAllAccountTransactions(@PathVariable("numero_conta") String accountId, @RequestParam(value = "data_inicio", required = false) String startDateString, @RequestParam(value = "data_fim", required = false) String endDateString) throws ResourceNotFoundException {
         if (!((startDateString == null) == (endDateString == null))) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -82,7 +82,7 @@ public class AccountController {
     }
 
     @PostMapping("/{numero_conta}/transacoes")
-    public ResponseEntity<TransactionDto> createAccountTransaction(@PathVariable("numero_conta") String accountId, @RequestBody TransactionCreateDto transactionCreateDto) throws TransactionAmmountValidationException, EntityNotFoundException {
+    public ResponseEntity<TransactionDto> createAccountTransaction(@PathVariable("numero_conta") String accountId, @RequestBody TransactionCreateDto transactionCreateDto) throws TransactionAmmountValidationException, ResourceNotFoundException {
         transactionCreateDto.setAccountId(accountId);
         return new ResponseEntity<>(transactionServiceIF.createTransaction(transactionCreateDto), HttpStatus.OK);
     }

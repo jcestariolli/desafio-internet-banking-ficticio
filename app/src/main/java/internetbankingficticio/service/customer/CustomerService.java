@@ -4,7 +4,7 @@ import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.entity.CustomerEntityNotFoundException;
+import internetbankingficticio.exception.CustomerResourceNotFoundException;
 import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
@@ -34,9 +34,9 @@ public class CustomerService implements CustomerServiceIF {
     }
 
     @Override
-    public CustomerDto findCustomerById(Long customerId) throws CustomerEntityNotFoundException {
+    public CustomerDto findCustomerById(Long customerId) throws CustomerResourceNotFoundException {
         Optional<CustomerDao> customerDaoOpt = customerRepository.findById(customerId);
-        if (customerDaoOpt.isEmpty()) throw new CustomerEntityNotFoundException(customerId.toString());
+        if (customerDaoOpt.isEmpty()) throw new CustomerResourceNotFoundException(customerId.toString());
         return customerDaoToCustomerDtoMapper.map(customerDaoOpt.get());
     }
 
@@ -52,9 +52,9 @@ public class CustomerService implements CustomerServiceIF {
     }
 
     @Override
-    public CustomerDto updateCustomer(Long customerId, CustomerUpdateDto customerDto) throws CustomerEntityNotFoundException {
+    public CustomerDto updateCustomer(Long customerId, CustomerUpdateDto customerDto) throws CustomerResourceNotFoundException {
         if (customerRepository.findById(customerId).isEmpty())
-            throw new CustomerEntityNotFoundException(customerId.toString());
+            throw new CustomerResourceNotFoundException(customerId.toString());
         CustomerDao customerToUpdate = customerUpdateDtoToCustomerDaoMapper.map(customerDto);
         customerToUpdate.setId(customerId);
         return customerDaoToCustomerDtoMapper.map(customerRepository.save(customerToUpdate));

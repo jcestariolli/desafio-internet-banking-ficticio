@@ -4,7 +4,7 @@ import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
 import internetbankingficticio.service.customer.CustomerServiceIF;
 import internetbankingficticio.service.customeraccount.CustomerAccountServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id_cliente}")
-    public ResponseEntity<CustomerDto> findCustomerById(@PathVariable("id_cliente") Long customerId) throws EntityNotFoundException {
+    public ResponseEntity<CustomerDto> findCustomerById(@PathVariable("id_cliente") Long customerId) throws ResourceNotFoundException {
         return new ResponseEntity<>(customerService.findCustomerById(customerId), HttpStatus.OK);
     }
 
@@ -40,12 +40,12 @@ public class CustomerController {
     }
 
     @PutMapping("/{id_cliente}")
-    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable("id_cliente") Long customerId, @RequestBody CustomerUpdateDto customerUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable("id_cliente") Long customerId, @RequestBody CustomerUpdateDto customerUpdateDto) throws ResourceNotFoundException {
         return new ResponseEntity<>(customerService.updateCustomer(customerId, customerUpdateDto), HttpStatus.OK);
     }
 
     @GetMapping("/{id_cliente}/contas")
-    public ResponseEntity<List<AccountDto>> findAccountsByCustomerId(@PathVariable("id_cliente") Long customerId) throws EntityNotFoundException {
+    public ResponseEntity<List<AccountDto>> findAccountsByCustomerId(@PathVariable("id_cliente") Long customerId) throws ResourceNotFoundException {
         return new ResponseEntity<>(customerAccountServiceIF.listAccountsByCustomerId(customerId), HttpStatus.OK);
     }
 

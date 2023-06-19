@@ -4,11 +4,10 @@ import internetbankingficticio.dao.transaction.TransactionDao;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.exception.TransactionAmmountValidationException;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
-import internetbankingficticio.exception.entity.TransactionEntityNotFoundException;
+import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.TransactionEntityNotFoundException;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
-import internetbankingficticio.service.account.AccountServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +61,7 @@ public class TransactionService implements TransactionServiceIF {
     }
 
     @Override
-    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws TransactionAmmountValidationException, EntityNotFoundException {
+    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws TransactionAmmountValidationException, ResourceNotFoundException {
         if (null == transactionCreateDto.getExecutedOn()) {
             transactionCreateDto.setExecutedOn(new Date());
         }
