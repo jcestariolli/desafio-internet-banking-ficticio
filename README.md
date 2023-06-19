@@ -62,18 +62,27 @@ A aplicação Java presente neste projeto encontra-se dentro do diretório `app/
 Além da configuração do Java em máquina local, a aplicação não possui nenhum outro pré-requisito de configuração.
 Basta compilar, utilizando Maven, e executar a classe:
 
-`app/src/main/java/internetbankingficticio/InternetBankingFicticioApplication.java`
+[app/src/main/java/internetbankingficticio/InternetBankingFicticioApplication.java](app/src/main/java/internetbankingficticio/InternetBankingFicticioApplication.java)
 
 ## Utilizando a API disponível
-Ao subir a aplicação, a interface do Swagger fica disponível em:
+### Interface de usuário da API usando Swagger
+Ao subir a aplicação, a interface do Swagger para utilização da API fica disponível em:
+
 http://localhost:8080/swagger-ui/index.html
 
+### Documentação da API usando Open API Docs
+Ao subir a aplicação, a documentação da API fica disponivel em:
+
+http://localhost:8080/internetbanking-api-docs
+
+### Coleção Postman das chamadas da API
 Há também uma collection Postman anexada a este repositório, no seguinte caminho:
 
-`docs/postman-collections/Internet Banking Ficticio.postman_collection.json`
+[docs/postman-collections/Internet Banking Ficticio.postman_collection.json](docs/postman-collections/Internet Banking Ficticio.postman_collection.json)
 
 ## Acessando o banco de dados em memória
 Ao subir a aplicação, a interface para a base em memória fica disponível em:
+
 http://localhost:8080/internetbanking-db-ui/
 
 Usuário e senha da base local podem ser verificados / alterados dentro do arquivo `app/src/main/resources/application.yaml`
