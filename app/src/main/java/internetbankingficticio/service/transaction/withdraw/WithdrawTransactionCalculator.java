@@ -1,6 +1,7 @@
 package internetbankingficticio.service.transaction.withdraw;
 
 import internetbankingficticio.dto.account.AccountDto;
+import internetbankingficticio.enums.transaction.WithdrawFeeFactorEnum;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

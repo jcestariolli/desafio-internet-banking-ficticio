@@ -1,4 +1,4 @@
-package internetbankingficticio.service.transaction.withdraw;
+package internetbankingficticio.enums.transaction;
 
 import internetbankingficticio.utils.BigDecimalUtils;
 
