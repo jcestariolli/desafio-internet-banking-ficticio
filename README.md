@@ -85,7 +85,7 @@ Ao subir a aplicação, a interface para a base em memória fica disponível em:
 
 http://localhost:8080/internetbanking-db-ui/
 
-Usuário e senha da base local podem ser verificados / alterados dentro do arquivo:
+Usuário e senha da base local podem ser verificados / alterados dentro do arquivo abaixo, dentro das configs de `spring.datasource.username` e `spring.datasource.password`
 
 [app/src/main/resources/application.yaml](app/src/main/resources/application.yaml)
 
