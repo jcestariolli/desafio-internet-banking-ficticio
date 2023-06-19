@@ -16,7 +16,7 @@ import static internetbankingficticio.utils.DateUtils.getDateNow;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class CustomerRepositoryIntegrationTest extends AbstractTest {
+class CustomerRepositoryIntegrationTest extends AbstractTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -26,7 +26,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should not find any Customer when Repository is empty")
-    public void shouldNotFindAnyCustomer_whenRepositoryIsEmpty() {
+    void shouldNotFindAnyCustomer_whenRepositoryIsEmpty() {
         List<CustomerDao> customerList = customerRepository.findAll();
 
         assertThat(customerList).isEmpty();
@@ -34,7 +34,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should find all Customers when Repository has data")
-    public void shouldFindAllCustomers_whenRepositoryHasData() {
+    void shouldFindAllCustomers_whenRepositoryHasData() {
         CustomerDao customer1 = testEntityManager.persist(CustomerDao.builder().name("Customer Test 1").birthday(getDateNow()).build());
         CustomerDao customer2 = testEntityManager.persist(CustomerDao.builder().name("Customer Test 2").birthday(getDateNow()).build());
         CustomerDao customer3 = testEntityManager.persist(CustomerDao.builder().name("Customer Test 3").birthday(getDateNow()).build());
@@ -47,30 +47,27 @@ public class CustomerRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should find Customer by CustomerId")
-    public void shouldFindCustomerById() {
+    void shouldFindCustomerById() {
         CustomerDao customerXpto = testEntityManager.persist(CustomerDao.builder().name("Customer Test XPTO").birthday(getDateNow()).build());
 
         Optional<CustomerDao> foundCustomer = customerRepository.findById(customerXpto.getId());
 
-        assertThat(foundCustomer).isPresent();
-        assertThat(foundCustomer.get()).isEqualTo(customerXpto);
+        assertThat(foundCustomer).isPresent().get().isEqualTo(customerXpto);
     }
 
     @Test
     @DisplayName("Should store the Customer")
-    public void shouldStoreCustomer() {
+    void shouldStoreCustomer() {
         CustomerDao customer = CustomerDao.builder().name("Customer Test Single").birthday(getDateNow()).build();
 
         CustomerDao storedCustomer = customerRepository.save(customer);
 
-        assertThat(storedCustomer).hasFieldOrProperty("id");
-        assertThat(storedCustomer).hasFieldOrPropertyWithValue("name", customer.getName());
-        assertThat(storedCustomer).hasFieldOrPropertyWithValue("birthday", new Timestamp(customer.getBirthday().getTime()));
+        assertThat(storedCustomer).hasFieldOrProperty("id").hasFieldOrPropertyWithValue("name", customer.getName()).hasFieldOrPropertyWithValue("birthday", new Timestamp(customer.getBirthday().getTime()));
     }
 
     @Test
     @DisplayName("Should update the Customer by CustomerId")
-    public void shouldUpdateCustomerById() {
+    void shouldUpdateCustomerById() {
         CustomerDao customer5 = testEntityManager.persist(CustomerDao.builder().name("Customer Test 5").birthday(getDateNow()).build());
 
         CustomerDao foundCustomerToUpdate = customerRepository.findById(customer5.getId()).get();
@@ -88,7 +85,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should delete the Customer by CustomerId")
-    public void shouldDeleteCustomerById() {
+    void shouldDeleteCustomerById() {
         CustomerDao customer9 = testEntityManager.persist(CustomerDao.builder().name("Customer Test 9").birthday(getDateNow()).build());
         CustomerDao customer10 = testEntityManager.persist(CustomerDao.builder().name("Customer Test 10").birthday(getDateNow()).build());
 
@@ -100,7 +97,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should delete all Customers")
-    public void shouldDeleteAllCustomers() {
+    void shouldDeleteAllCustomers() {
         testEntityManager.persist(CustomerDao.builder().name("Customer Test A").birthday(getDateNow()).build());
         testEntityManager.persist(CustomerDao.builder().name("Customer Test B").birthday(getDateNow()).build());
         testEntityManager.persist(CustomerDao.builder().name("Customer Test C").birthday(getDateNow()).build());

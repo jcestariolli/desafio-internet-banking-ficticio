@@ -3,6 +3,8 @@ package internetbankingficticio.utils;
 import java.math.BigDecimal;
 
 public class BigDecimalUtils {
+    private BigDecimalUtils() {
+    }
 
     public static boolean greaterThan(BigDecimal d1, BigDecimal d2) {
         return d1.compareTo(d2) > 0;
@@ -17,7 +19,7 @@ public class BigDecimalUtils {
     }
 
     public static boolean greaterThanZero(BigDecimal d1) {
-        return greaterThan(d1,BigDecimal.ZERO);
+        return greaterThan(d1, BigDecimal.ZERO);
     }
 
     public static boolean equalsZero(BigDecimal d1) {
@@ -33,7 +35,7 @@ public class BigDecimalUtils {
     }
 
     public static boolean lessThanZero(BigDecimal d1) {
-        return lessThan(d1,BigDecimal.ZERO);
+        return lessThan(d1, BigDecimal.ZERO);
     }
 
     public static boolean lessThanOrEqualsToZero(BigDecimal d1) {

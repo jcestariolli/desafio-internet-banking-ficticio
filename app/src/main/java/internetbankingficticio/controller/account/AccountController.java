@@ -6,8 +6,8 @@ import internetbankingficticio.dto.account.AccountUpdateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
-import internetbankingficticio.exception.TransactionAmmountValidationException;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.validation.TransactionAmmountValidationException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.service.account.AccountServiceIF;
 import internetbankingficticio.service.customeraccount.CustomerAccountServiceIF;
 import internetbankingficticio.service.transaction.TransactionServiceIF;
@@ -61,7 +61,7 @@ public class AccountController {
 
     @GetMapping("/{numero_conta}/transacoes")
     public ResponseEntity<List<TransactionDto>> findAllAccountTransactions(@PathVariable("numero_conta") String accountId, @RequestParam(value = "data_inicio", required = false) String startDateString, @RequestParam(value = "data_fim", required = false) String endDateString) throws ResourceNotFoundException {
-        if (!((startDateString == null) == (endDateString == null))) {
+        if ((startDateString == null) != (endDateString == null)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<TransactionDto> transactionDtoList;

@@ -4,7 +4,7 @@ import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.CustomerResourceNotFoundException;
+import internetbankingficticio.exception.notfound.CustomerResourceNotFoundException;
 import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerService implements CustomerServiceIF {
@@ -30,7 +29,7 @@ public class CustomerService implements CustomerServiceIF {
 
     @Override
     public List<CustomerDto> listAllCustomers() {
-        return customerRepository.findAll().stream().map(customerDao -> customerDaoToCustomerDtoMapper.map(customerDao)).collect(Collectors.toList());
+        return customerRepository.findAll().stream().map(customerDao -> customerDaoToCustomerDtoMapper.map(customerDao)).toList();
     }
 
     @Override

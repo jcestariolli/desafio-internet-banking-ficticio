@@ -22,7 +22,7 @@ import static internetbankingficticio.utils.DateUtils.getDateNow;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
+class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -36,7 +36,7 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should not find any CustomerAccountDao when Repository is empty")
-    public void shouldNotFindAnyCustomerAccount_whenRepositoryIsEmpty() {
+    void shouldNotFindAnyCustomerAccount_whenRepositoryIsEmpty() {
         List<CustomerAccountDao> customerAccountList = customerAccountRepository.findAll();
 
         assertThat(customerAccountList).isEmpty();
@@ -44,7 +44,7 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should find all CustomerAccounts when Repository has data")
-    public void shouldFindAllCustomerAccounts_whenRepositoryHasData() {
+    void shouldFindAllCustomerAccounts_whenRepositoryHasData() {
         AccountDao accountABC = AccountDao.builder().id("accountIdTestABC").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountABC);
         CustomerDao customerDaoAbc = generateCustomerDaoObject("Customer Test 1");
@@ -66,7 +66,7 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should find CustomerAccountDao by CustomerAccountId")
-    public void shouldFindCustomerAccountByCustomerAccountId() {
+    void shouldFindCustomerAccountByCustomerAccountId() {
         AccountDao accountABC = AccountDao.builder().id("accountIdTestABC").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountABC);
         CustomerDao customerDaoAbc = generateCustomerDaoObject("Customer Test 1");
@@ -84,13 +84,12 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
         CustomerAccountIdDaoKey customerAccountId = CustomerAccountIdDaoKey.builder().customerId(customerAccountXpto.getCustomerId().getId()).accountId(customerAccountXpto.getAccountId().getId()).build();
         Optional<CustomerAccountDao> foundCustomerAccountDao = customerAccountRepository.findById(customerAccountId);
 
-        assertThat(foundCustomerAccountDao).isPresent();
-        assertThat(foundCustomerAccountDao.get()).isEqualTo(customerAccountXpto);
+        assertThat(foundCustomerAccountDao).isPresent().get().isEqualTo(customerAccountXpto);
     }
 
     @Test
     @DisplayName("Should find CustomerAccountDao by Customer")
-    public void shouldFindCustomerAccountByCustomer() {
+    void shouldFindCustomerAccountByCustomer() {
         AccountDao accountABC = AccountDao.builder().id("accountIdTestABC").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountABC);
         CustomerDao customerDaoAbc = generateCustomerDaoObject("Customer Test 1");
@@ -112,7 +111,7 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should find CustomerAccountDao by AccountId")
-    public void shouldFindCustomerAccountByAccountId() {
+    void shouldFindCustomerAccountByAccountId() {
         AccountDao accountABC = AccountDao.builder().id("accountIdTestABC").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountABC);
         CustomerDao customerDaoAbc = generateCustomerDaoObject("Customer Test 1");
@@ -134,7 +133,7 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should store the CustomerAccount")
-    public void shouldStoreCustomerAccount() {
+    void shouldStoreCustomerAccount() {
         AccountDao accountIdTestSingle = AccountDao.builder().id("accountIdTestSingle").balance(BigDecimal.valueOf(10.0)).exclusivePlan(true).build();
         testEntityManager.persist(accountIdTestSingle);
         CustomerDao customerTestSingle = generateCustomerDaoObject("Customer Test 1");
@@ -144,13 +143,12 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
         CustomerAccountDao storedCustomerAccountDao = customerAccountRepository.save(customerAccountDao);
 
-        assertThat(storedCustomerAccountDao).hasFieldOrPropertyWithValue("customerId", customerAccountDao.getCustomerId());
-        assertThat(storedCustomerAccountDao).hasFieldOrPropertyWithValue("accountId", customerAccountDao.getAccountId());
+        assertThat(storedCustomerAccountDao).hasFieldOrPropertyWithValue("customerId", customerAccountDao.getCustomerId()).hasFieldOrPropertyWithValue("accountId", customerAccountDao.getAccountId());
     }
 
     @Test
     @DisplayName("Should find all Accounts by CustomerId")
-    public void shouldFindAllAccountsByCustomerId() {
+    void shouldFindAllAccountsByCustomerId() {
         AccountDao account1 = AccountDao.builder().id("accountIdTestYYY").balance(new BigDecimal("100.00")).exclusivePlan(true).build();
         AccountDao account2 = AccountDao.builder().id("accountIdTestZZZ").balance(new BigDecimal("50.10")).exclusivePlan(false).build();
         testEntityManager.persist(account1);
@@ -161,15 +159,14 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
         List<CustomerAccountDao> accountList = customerAccountRepository.findByCustomerId(customerDao);
 
-        assertThat(accountList).isNotEmpty();
-        assertThat(accountList.size()).isEqualTo(2);
+        assertThat(accountList).isNotEmpty().size().isEqualTo(2);
         assertThat(accountList.get(0).getAccountId()).isEqualTo(account1);
         assertThat(accountList.get(1).getAccountId()).isEqualTo(account2);
     }
 
     @Test
     @DisplayName("Should find all Accounts")
-    public void shouldFindAllCustomerAccounts() {
+    void shouldFindAllCustomerAccounts() {
         AccountDao account1 = AccountDao.builder().id("accountIdTestYYY").balance(new BigDecimal("100.00")).exclusivePlan(true).build();
         AccountDao account2 = AccountDao.builder().id("accountIdTestZZZ").balance(new BigDecimal("50.10")).exclusivePlan(false).build();
         testEntityManager.persist(account1);
@@ -180,8 +177,7 @@ public class CustomerAccountRepositoryIntegrationTest extends AbstractTest {
 
         List<CustomerAccountDao> accountList = customerAccountRepository.findAll();
 
-        assertThat(accountList).isNotEmpty();
-        assertThat(accountList.size()).isEqualTo(2);
+        assertThat(accountList).isNotEmpty().size().isEqualTo(2);
     }
 
 }

@@ -4,8 +4,8 @@ import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
-import internetbankingficticio.exception.TransactionAmmountValidationException;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.validation.TransactionAmmountValidationException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.mapper.transaction.TransactionCreateDtoToTransactionDaoMapper;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
@@ -39,12 +39,12 @@ public class DepositTransactionCreatorService implements TransactionCreatorServi
     @Override
     public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws ResourceNotFoundException, TransactionAmmountValidationException {
         AccountDto accountDto = accountService.findAccountById(transactionCreateDto.getAccountId());
-        validateTransaction(accountDto.getBalance(), transactionCreateDto.getAmount());
+        validateTransaction(transactionCreateDto.getAmount());
         accountService.updateAccountBalance(accountDto.getId(), accountDto.getBalance().add(transactionCreateDto.getAmount()));
         return transactionDaoToTransactionDtoMapper.map(transactionRepository.save(transactionCreateDtoToTransactionDaoMapper.map(transactionCreateDto)));
     }
 
-    private void validateTransaction(BigDecimal accountBalance, BigDecimal transactionAmount) throws TransactionAmmountValidationException {
+    private void validateTransaction(BigDecimal transactionAmount) throws TransactionAmmountValidationException {
         if (BigDecimalUtils.lessThanOrEqualsToZero(transactionAmount)) {
             throw new TransactionAmmountValidationException("Valor da transação não pode ser igual ou menor do que zero");
         }

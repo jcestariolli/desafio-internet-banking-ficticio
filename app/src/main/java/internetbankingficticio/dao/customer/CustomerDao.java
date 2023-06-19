@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "customer")
-public class CustomerDao extends AbstractInternetBankingDao {
+public class CustomerDao implements AbstractInternetBankingDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

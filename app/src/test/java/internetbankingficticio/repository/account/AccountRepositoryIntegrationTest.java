@@ -15,7 +15,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class AccountRepositoryIntegrationTest extends AbstractTest {
+class AccountRepositoryIntegrationTest extends AbstractTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -25,7 +25,7 @@ public class AccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should not find any Account when Repository is empty")
-    public void shouldNotFindAnyAccount_whenRepositoryIsEmpty() {
+    void shouldNotFindAnyAccount_whenRepositoryIsEmpty() {
         List<AccountDao> accountList = accountRepository.findAll();
 
         assertThat(accountList).isEmpty();
@@ -33,7 +33,7 @@ public class AccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should find all Accounts when Repository has data")
-    public void shouldFindAllAccounts_whenRepositoryHasData() {
+    void shouldFindAllAccounts_whenRepositoryHasData() {
         AccountDao account1 = testEntityManager.persist(AccountDao.builder().id("12345678").balance(new BigDecimal(100)).exclusivePlan(true).build());
         AccountDao account2 = testEntityManager.persist(AccountDao.builder().id("00000001").balance(new BigDecimal(50)).exclusivePlan(false).build());
         AccountDao account3 = testEntityManager.persist(AccountDao.builder().id("99999999").balance(new BigDecimal("10.10")).exclusivePlan(true).build());
@@ -46,30 +46,27 @@ public class AccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should find Account by AccountId")
-    public void shouldFindAccountById() {
+    void shouldFindAccountById() {
         AccountDao accountXpto = testEntityManager.persist(AccountDao.builder().id("12345678").balance(new BigDecimal(100)).exclusivePlan(true).build());
 
         Optional<AccountDao> foundAccount = accountRepository.findById(accountXpto.getId());
 
-        assertThat(foundAccount).isPresent();
-        assertThat(foundAccount.get()).isEqualTo(accountXpto);
+        assertThat(foundAccount).isPresent().get().isEqualTo(accountXpto);
     }
 
     @Test
     @DisplayName("Should store the Account")
-    public void shouldStoreAccount() {
+    void shouldStoreAccount() {
         AccountDao account = AccountDao.builder().id("12345678").balance(new BigDecimal(100)).exclusivePlan(true).build();
 
         AccountDao storedAccount = accountRepository.save(account);
 
-        assertThat(storedAccount).hasFieldOrPropertyWithValue("id", account.getId());
-        assertThat(storedAccount).hasFieldOrPropertyWithValue("balance", account.getBalance());
-        assertThat(storedAccount).hasFieldOrPropertyWithValue("exclusivePlan", account.getExclusivePlan());
+        assertThat(storedAccount).hasFieldOrPropertyWithValue("id", account.getId()).hasFieldOrPropertyWithValue("balance", account.getBalance()).hasFieldOrPropertyWithValue("exclusivePlan", account.getExclusivePlan());
     }
 
     @Test
     @DisplayName("Should update the Account by AccountId")
-    public void shouldUpdateAccountById() {
+    void shouldUpdateAccountById() {
         AccountDao account5 = testEntityManager.persist(AccountDao.builder().id("12345678").balance(new BigDecimal(100)).exclusivePlan(true).build());
 
         AccountDao updatedAccount5 = AccountDao.builder().id("updated test5").balance(new BigDecimal("10.00")).exclusivePlan(false).build();
@@ -87,7 +84,7 @@ public class AccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should delete the Account by AccountId")
-    public void shouldDeleteAccountById() {
+    void shouldDeleteAccountById() {
         AccountDao account9 = testEntityManager.persist(AccountDao.builder().id("12345678").balance(new BigDecimal(100)).exclusivePlan(true).build());
         AccountDao account10 = testEntityManager.persist(AccountDao.builder().id("00000001").balance(new BigDecimal(50)).exclusivePlan(false).build());
 
@@ -99,7 +96,7 @@ public class AccountRepositoryIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should delete all Accounts")
-    public void shouldDeleteAllAccounts() {
+    void shouldDeleteAllAccounts() {
         testEntityManager.persist(AccountDao.builder().id("12345678").balance(new BigDecimal(100)).exclusivePlan(true).build());
         testEntityManager.persist(AccountDao.builder().id("00000001").balance(new BigDecimal(50)).exclusivePlan(false).build());
         testEntityManager.persist(AccountDao.builder().id("99999999").balance(new BigDecimal("10.10")).exclusivePlan(true).build());

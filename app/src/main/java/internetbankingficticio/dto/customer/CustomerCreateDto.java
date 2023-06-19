@@ -14,7 +14,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CustomerCreateDto extends AbstractInternetBankingDto {
+public class CustomerCreateDto implements AbstractInternetBankingDto {
 
     @JsonProperty(value = "nome", required = true)
     private String name;

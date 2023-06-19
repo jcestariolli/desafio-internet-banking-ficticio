@@ -3,9 +3,9 @@ package internetbankingficticio.service.transaction;
 import internetbankingficticio.dao.transaction.TransactionDao;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
-import internetbankingficticio.exception.TransactionAmmountValidationException;
-import internetbankingficticio.exception.ResourceNotFoundException;
-import internetbankingficticio.exception.TransactionEntityNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
+import internetbankingficticio.exception.notfound.TransactionEntityNotFoundException;
+import internetbankingficticio.exception.validation.TransactionAmmountValidationException;
 import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
 import internetbankingficticio.repository.transaction.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TransactionService implements TransactionServiceIF {
@@ -30,7 +29,7 @@ public class TransactionService implements TransactionServiceIF {
 
     @Override
     public List<TransactionDto> listAllTransactions() {
-        return transactionRepository.findAll().stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
+        return transactionRepository.findAll().stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).toList();
     }
 
     @Override
@@ -47,17 +46,17 @@ public class TransactionService implements TransactionServiceIF {
 
     @Override
     public List<TransactionDto> listAllTransactionsByExecutedOnBetween(Date executedOnStart, Date executedOnEnd) {
-        return transactionRepository.findAllByExecutedOnBetween(executedOnStart, executedOnEnd).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
+        return transactionRepository.findAllByExecutedOnBetween(executedOnStart, executedOnEnd).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).toList();
     }
 
     @Override
     public List<TransactionDto> listAllTransactionsByAccountId(String accountId) {
-        return transactionRepository.findByAccountId(accountId).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
+        return transactionRepository.findByAccountId(accountId).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).toList();
     }
 
     @Override
     public List<TransactionDto> listAllTransactionsByAccountIdAndExecutedOnBetween(String accountId, Date executedOnStart, Date executedOnEnd) {
-        return transactionRepository.findAllByAccountIdAndExecutedOnBetween(accountId, executedOnStart, executedOnEnd).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).collect(Collectors.toList());
+        return transactionRepository.findAllByAccountIdAndExecutedOnBetween(accountId, executedOnStart, executedOnEnd).stream().map(transactionDao -> transactionDaoToTransactionDtoMapper.map(transactionDao)).toList();
     }
 
     @Override

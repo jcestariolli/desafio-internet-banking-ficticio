@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountCreateDto extends AbstractInternetBankingDto {
+public class AccountCreateDto implements AbstractInternetBankingDto {
 
     @JsonProperty(value = "numero_conta", required = true)
     private String id;

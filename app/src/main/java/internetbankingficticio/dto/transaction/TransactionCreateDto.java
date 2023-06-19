@@ -19,7 +19,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransactionCreateDto extends AbstractInternetBankingDto {
+public class TransactionCreateDto implements AbstractInternetBankingDto {
 
     @JsonIgnore
     private String accountId;

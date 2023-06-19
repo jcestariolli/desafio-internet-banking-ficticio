@@ -3,8 +3,8 @@ package internetbankingficticio.service.account;
 import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
-import internetbankingficticio.exception.AccountResourceNotFoundException;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.notfound.AccountResourceNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.mapper.account.AccountCreateDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountUpdateDtoToAccountDaoMapper;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class AccountServiceIntegrationTest extends AbstractTest {
+class AccountServiceIntegrationTest extends AbstractTest {
     @Autowired
     AccountService accountService;
     @MockBean
@@ -38,14 +38,14 @@ public class AccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findAll() List when listAllAccounts()")
-    public void shouldCallRepositoryFindAll_whenListAllAccounts() {
+    void shouldCallRepositoryFindAll_whenListAllAccounts() {
         accountService.listAllAccounts();
         verify(accountRepository, times(1)).findAll();
     }
 
     @Test
     @DisplayName("Should call repository findById() when findAccountById()")
-    public void shouldCallRepositoryFindById_whenFindAccountById() throws AccountResourceNotFoundException {
+    void shouldCallRepositoryFindById_whenFindAccountById() throws AccountResourceNotFoundException {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockRepositoryFindByIdWithAccount(accountRepository, accountTestId, accountDao);
@@ -55,7 +55,7 @@ public class AccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository existsById() when existsById()")
-    public void shouldCallRepositoryExistsById_whenExistsById() {
+    void shouldCallRepositoryExistsById_whenExistsById() {
         String accountTestId = "12345678";
         accountService.existsById(accountTestId);
         verify(accountRepository, times(1)).existsById(accountTestId);
@@ -63,7 +63,7 @@ public class AccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository save() when createAccount()")
-    public void shouldCallRepositorySave_whenCreateAccount() {
+    void shouldCallRepositorySave_whenCreateAccount() {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockAccountCreateDtoToAccountDaoMapperMap(accountCreateDtoToAccountDaoMapperMock, accountDao);
@@ -75,7 +75,7 @@ public class AccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findById() and save() when updateAccount() finds the Account to update")
-    public void shouldCallRepositoryFindByIdAndShouldCallSave_whenUpdateAccountFindsAccount() throws AccountResourceNotFoundException {
+    void shouldCallRepositoryFindByIdAndShouldCallSave_whenUpdateAccountFindsAccount() throws AccountResourceNotFoundException {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockAccountUpdateDtoToAccountDaoMapperMap(accountUpdateDtoToAccountDaoMapperMock, accountDao);
@@ -90,7 +90,7 @@ public class AccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findById() and save() when updateAccount() does not find the Account to update")
-    public void shouldCallRepositoryFindByIdAndShouldNotCallSave_whenUpdateAccountDoesNotFindAccountToUpdate() {
+    void shouldCallRepositoryFindByIdAndShouldNotCallSave_whenUpdateAccountDoesNotFindAccountToUpdate() {
         String accountTestId = "12345678";
         mockRepositoryFindByIdWithEmptyResult(accountRepository, accountTestId);
         assertThrows(ResourceNotFoundException.class, () -> {

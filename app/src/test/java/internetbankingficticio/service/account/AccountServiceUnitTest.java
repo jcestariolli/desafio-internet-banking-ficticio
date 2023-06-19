@@ -3,7 +3,7 @@ package internetbankingficticio.service.account;
 import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
-import internetbankingficticio.exception.AccountResourceNotFoundException;
+import internetbankingficticio.exception.notfound.AccountResourceNotFoundException;
 import internetbankingficticio.mapper.account.AccountCreateDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountUpdateDtoToAccountDaoMapper;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-public class AccountServiceUnitTest extends AbstractTest {
+class AccountServiceUnitTest extends AbstractTest {
 
     @Autowired
     AccountService accountService;
@@ -41,21 +41,19 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Account List when listAllAccounts()")
-    public void shouldReturnAccountList_whenListAllAccounts() {
+    void shouldReturnAccountList_whenListAllAccounts() {
         List<AccountDao> accountDaoList = generateAccountDaoListObject();
         mockRepositoryFindAllWithAccountList(accountRepository, accountDaoList);
 
         List<AccountDto> expectedAccountDtoList = accountDaoList.stream().map(accountDao -> accountDaoToAccountDtoMapper.map(accountDao)).collect(Collectors.toList());
         List<AccountDto> returnedAccountDtoList = accountService.listAllAccounts();
 
-        assertThat(returnedAccountDtoList).isNotEmpty();
-        assertThat(returnedAccountDtoList).hasSize(expectedAccountDtoList.size());
-        assertThat(returnedAccountDtoList).containsExactlyElementsOf(expectedAccountDtoList);
+        assertThat(returnedAccountDtoList).isNotEmpty().hasSize(expectedAccountDtoList.size()).containsExactlyElementsOf(expectedAccountDtoList);
     }
 
     @Test
     @DisplayName("Should return Account when findAccountById() finds an Account")
-    public void shouldReturnAccount_whenFindAccountByIdFindsAccount() throws AccountResourceNotFoundException {
+    void shouldReturnAccount_whenFindAccountByIdFindsAccount() throws AccountResourceNotFoundException {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockRepositoryFindByIdWithAccount(accountRepository, accountTestId, accountDao);
@@ -66,7 +64,7 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should throw AccountResourceNotFoundException when findAccountById() does not find an Account")
-    public void shouldThrowAccountEntityNotFoundException_whenFindAccountByIdDoesNotFindAccount() {
+    void shouldThrowAccountEntityNotFoundException_whenFindAccountByIdDoesNotFindAccount() {
         String accountTestId = "12345678";
         mockRepositoryFindByIdWithEmptyResult(accountRepository, accountTestId);
         assertThrows(AccountResourceNotFoundException.class, () -> {
@@ -76,7 +74,7 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return true when existsById() finds an Account")
-    public void shouldReturnTrue_whenExistsByIdFindsAccount() {
+    void shouldReturnTrue_whenExistsByIdFindsAccount() {
         String accountTestId = "12345678";
         mockRepositoryExistsByIdWithBoolean(accountRepository, accountTestId, true);
         assertThat(accountService.existsById(accountTestId)).isTrue();
@@ -84,7 +82,7 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return false when existsById() does not find an Account")
-    public void shouldReturnFalse_whenExistsByIdDoesNotFindAccount() {
+    void shouldReturnFalse_whenExistsByIdDoesNotFindAccount() {
         String accountTestId = "12345678";
         mockRepositoryExistsByIdWithBoolean(accountRepository, accountTestId, false);
         assertThat(accountService.existsById(accountTestId)).isFalse();
@@ -92,7 +90,7 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Account when createAccount()")
-    public void shouldReturnAccount_whenCreateAccount() {
+    void shouldReturnAccount_whenCreateAccount() {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockRepositorySaveWithAccount(accountRepository, accountDao);
@@ -102,7 +100,7 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Account when updateAccount() finds the Account to update")
-    public void shouldReturnAccount_whenUpdateAccountFindsTheAccountToUpdate() throws AccountResourceNotFoundException {
+    void shouldReturnAccount_whenUpdateAccountFindsTheAccountToUpdate() throws AccountResourceNotFoundException {
         String accountTestId = "12345678";
         AccountDao accountDao = generateAccountDaoObject(accountTestId, new BigDecimal(100), true);
         mockRepositoryFindByIdWithAccount(accountRepository, accountTestId, accountDao);
@@ -113,7 +111,7 @@ public class AccountServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should throw AccountResourceNotFoundException when updateAccount() does not find the Account to update")
-    public void shouldThrowAccountEntityNotFoundException_whenUpdateAccountDoesNotFindTheAccountToUpdate() {
+    void shouldThrowAccountEntityNotFoundException_whenUpdateAccountDoesNotFindTheAccountToUpdate() {
         String accountTestId = "12345678";
         mockRepositoryFindByIdWithEmptyResult(accountRepository, accountTestId);
         assertThrows(AccountResourceNotFoundException.class, () -> {

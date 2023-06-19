@@ -3,8 +3,8 @@ package internetbankingficticio.test.utils.customer;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.CustomerResourceNotFoundException;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.notfound.CustomerResourceNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.service.customer.CustomerServiceIF;
 
 import java.util.List;

@@ -13,18 +13,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 
 @SpringBootTest
-public class AccountDaoToAccountDtoMapperUnitTest extends AbstractTest {
+class AccountDaoToAccountDtoMapperUnitTest extends AbstractTest {
 
     @Autowired
     AccountDaoToAccountDtoMapper mapper;
 
     @Test
     @DisplayName("Should map AccountDao to AccountDto")
-    public void shouldMapAccountDaoToAccountDto() {
+    void shouldMapAccountDaoToAccountDto() {
         AccountDao accountDao = AccountDao.builder().id("12345678").balance(new BigDecimal(100)).exclusivePlan(true).build();
         AccountDto accountDto = mapper.map(accountDao);
         Assertions.assertThat(accountDto.getId()).isEqualTo(accountDao.getId());
         Assertions.assertThat(accountDto.getBalance()).isEqualTo(accountDao.getBalance());
-        Assertions.assertThat(accountDto.getExclusivePlan()).isEqualTo(accountDao.getExclusivePlan());
+        Assertions.assertThat(accountDto.isExclusivePlan()).isEqualTo(accountDao.getExclusivePlan());
     }
 }

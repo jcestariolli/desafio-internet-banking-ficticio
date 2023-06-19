@@ -12,14 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static internetbankingficticio.utils.DateUtils.getDateNow;
 
 @SpringBootTest
-public class CustomerDaoToCustomerDtoMapperUnitTest extends AbstractTest {
+class CustomerDaoToCustomerDtoMapperUnitTest extends AbstractTest {
 
     @Autowired
     CustomerDaoToCustomerDtoMapper mapper;
 
     @Test
     @DisplayName("Should map CustomerDao to CustomerDto")
-    public void shouldMapCustomerDaoToCustomerDto() {
+    void shouldMapCustomerDaoToCustomerDto() {
         CustomerDao customerDao = CustomerDao.builder().id(1).name("Customer Test").birthday(getDateNow()).build();
         CustomerDto customerDto = mapper.map(customerDao);
         Assertions.assertThat(customerDto.getId()).isEqualTo(customerDao.getId());

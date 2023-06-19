@@ -4,8 +4,8 @@ import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dto.account.AccountCreateDto;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
-import internetbankingficticio.exception.AccountResourceNotFoundException;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.notfound.AccountResourceNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.mapper.account.AccountCreateDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountUpdateDtoToAccountDaoMapper;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AccountService implements AccountServiceIF {
@@ -32,7 +31,7 @@ public class AccountService implements AccountServiceIF {
 
     @Override
     public List<AccountDto> listAllAccounts() {
-        return accountRepository.findAll().stream().map(accountDao -> accountDaoToAccountDtoMapper.map(accountDao)).collect(Collectors.toList());
+        return accountRepository.findAll().stream().map(accountDao -> accountDaoToAccountDtoMapper.map(accountDao)).toList();
     }
 
     @Override

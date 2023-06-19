@@ -16,9 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 
 import static internetbankingficticio.utils.DateUtils.getDateNow;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class CustomerAccountDaoToCustomerAccountDtoMapperUnitTest extends AbstractTest {
+class CustomerAccountDaoToCustomerAccountDtoMapperUnitTest extends AbstractTest {
 
     @Autowired
     CustomerAccountDaoToCustomerAccountDtoMapper mapper;
@@ -29,12 +30,12 @@ public class CustomerAccountDaoToCustomerAccountDtoMapperUnitTest extends Abstra
 
     @Test
     @DisplayName("Should map CustomerDao to CustomerDto")
-    public void shouldMapCustomerDaoToCustomerDto() {
+    void shouldMapCustomerDaoToCustomerDto() {
         CustomerDao customerDao = CustomerDao.builder().id(1).name("Customer Test").birthday(getDateNow()).build();
         AccountDao accountDao = AccountDao.builder().id("12345678").balance(new BigDecimal(100)).exclusivePlan(true).build();
         CustomerAccountDao customerAccountDao = CustomerAccountDao.builder().accountId(accountDao).customerId(customerDao).build();
         CustomerAccountDto customerAccountDto = mapper.map(customerAccountDao);
-        Assertions.assertThat(customerAccountDto.getCustomerDto()).isEqualTo(customerDaoToCustomerDtoMapper.map(customerDao));
-        Assertions.assertThat(customerAccountDto.getAccountDto()).isEqualTo(accountDaoToAccountDtoMapper.map(accountDao));
+        assertThat(customerAccountDto.getCustomerDto()).isEqualTo(customerDaoToCustomerDtoMapper.map(customerDao));
+        assertThat(customerAccountDto.getAccountDto()).isEqualTo(accountDaoToAccountDtoMapper.map(accountDao));
     }
 }

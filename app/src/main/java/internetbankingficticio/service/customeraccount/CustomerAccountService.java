@@ -6,7 +6,7 @@ import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customeraccount.CustomerAccountCreateDto;
 import internetbankingficticio.dto.customeraccount.CustomerAccountDto;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerAccountService implements CustomerAccountServiceIF {
@@ -48,12 +47,12 @@ public class CustomerAccountService implements CustomerAccountServiceIF {
 
     @Override
     public List<AccountDto> listAccountsByCustomerId(Long customerId) throws ResourceNotFoundException {
-        return customerAccountRepository.findByCustomerId(customerDtoToCustomerDaoMapper.map(customerService.findCustomerById(customerId))).stream().map(customerAccountDao -> accountDaoToAccountDtoMapper.map(customerAccountDao.getAccountId())).collect(Collectors.toList());
+        return customerAccountRepository.findByCustomerId(customerDtoToCustomerDaoMapper.map(customerService.findCustomerById(customerId))).stream().map(customerAccountDao -> accountDaoToAccountDtoMapper.map(customerAccountDao.getAccountId())).toList();
     }
 
     @Override
     public List<CustomerDto> listCustomersByAccountId(String accountId) throws ResourceNotFoundException {
-        return customerAccountRepository.findByAccountId(accountDtoToAccountDaoMapper.map(accountService.findAccountById(accountId))).stream().map(customerAccountDao -> customerDaoToCustomerDtoMapper.map(customerAccountDao.getCustomerId())).collect(Collectors.toList());
+        return customerAccountRepository.findByAccountId(accountDtoToAccountDaoMapper.map(accountService.findAccountById(accountId))).stream().map(customerAccountDao -> customerDaoToCustomerDtoMapper.map(customerAccountDao.getCustomerId())).toList();
     }
 
     @Override
@@ -70,6 +69,6 @@ public class CustomerAccountService implements CustomerAccountServiceIF {
     }
 
     public List<CustomerAccountDto> listAllCustomerAccounts() {
-        return customerAccountRepository.findAll().stream().map(customerAccountDao -> customerAccountDaoToCustomerAccountDtoMapper.map(customerAccountDao)).collect(Collectors.toList());
+        return customerAccountRepository.findAll().stream().map(customerAccountDao -> customerAccountDaoToCustomerAccountDtoMapper.map(customerAccountDao)).toList();
     }
 }

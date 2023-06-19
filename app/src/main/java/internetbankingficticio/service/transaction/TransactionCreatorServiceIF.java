@@ -3,8 +3,8 @@ package internetbankingficticio.service.transaction;
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
-import internetbankingficticio.exception.ResourceNotFoundException;
-import internetbankingficticio.exception.TransactionAmmountValidationException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
+import internetbankingficticio.exception.validation.TransactionAmmountValidationException;
 
 public interface TransactionCreatorServiceIF {
     TransactionCommand getTransactionCreatorCommand();

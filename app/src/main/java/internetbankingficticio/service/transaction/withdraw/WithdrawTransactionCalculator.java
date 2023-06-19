@@ -11,7 +11,7 @@ public class WithdrawTransactionCalculator implements WithdrawTransactionCalcula
 
     @Override
     public BigDecimal applyBusinessRuleInTransactionAmount(BigDecimal transactionAmmount, AccountDto accountDto) {
-        if (accountDto.getExclusivePlan()) return transactionAmmount;
+        if (accountDto.isExclusivePlan()) return transactionAmmount;
         return transactionAmmount.multiply(WithdrawFeeFactorEnum.getFeeFactorForAmount(transactionAmmount));
     }
 

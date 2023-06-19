@@ -4,7 +4,7 @@ import internetbankingficticio.dao.customer.CustomerDao;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.CustomerResourceNotFoundException;
+import internetbankingficticio.exception.notfound.CustomerResourceNotFoundException;
 import internetbankingficticio.mapper.customer.CustomerCreateDtoToCustomerDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
 import internetbankingficticio.mapper.customer.CustomerUpdateDtoToCustomerDaoMapper;
@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-public class CustomerServiceUnitTest extends AbstractTest {
+class CustomerServiceUnitTest extends AbstractTest {
 
     @Autowired
     CustomerService customerService;
@@ -42,21 +42,19 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Customer List when listAllCustomers()")
-    public void shouldReturnCustomerList_whenListAllCustomers() {
+    void shouldReturnCustomerList_whenListAllCustomers() {
         List<CustomerDao> customerDaoList = generateCustomerDaoListObject();
         mockRepositoryFindAllWithCustomerList(customerRepository, customerDaoList);
 
         List<CustomerDto> expectedCustomerDtoList = customerDaoList.stream().map(customerDao -> customerDaoToCustomerDtoMapper.map(customerDao)).collect(Collectors.toList());
         List<CustomerDto> returnedCustomerDtoList = customerService.listAllCustomers();
 
-        assertThat(returnedCustomerDtoList).isNotEmpty();
-        assertThat(returnedCustomerDtoList).hasSize(expectedCustomerDtoList.size());
-        assertThat(returnedCustomerDtoList).containsExactlyElementsOf(expectedCustomerDtoList);
+        assertThat(returnedCustomerDtoList).isNotEmpty().hasSize(expectedCustomerDtoList.size()).containsExactlyElementsOf(expectedCustomerDtoList);
     }
 
     @Test
     @DisplayName("Should return Customer when findCustomerById() finds a Customer")
-    public void shouldReturnCustomer_whenFindCustomerByIdFindsCustomer() throws CustomerResourceNotFoundException {
+    void shouldReturnCustomer_whenFindCustomerByIdFindsCustomer() throws CustomerResourceNotFoundException {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockRepositoryFindByIdWithCustomer(customerRepository, customerTestId, customerDao);
@@ -67,7 +65,7 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should throw CustomerResourceNotFoundException when findCustomerById() does not find a Customer")
-    public void shouldThrowCustomerEntityNotFoundException_whenFindCustomerByIdDoesNotFindCustomer() {
+    void shouldThrowCustomerEntityNotFoundException_whenFindCustomerByIdDoesNotFindCustomer() {
         Long customerTestId = 1L;
         mockRepositoryFindByIdWithEmptyResult(customerRepository, customerTestId);
         assertThrows(CustomerResourceNotFoundException.class, () -> {
@@ -77,7 +75,7 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return true when existsById() finds a Customer")
-    public void shouldReturnTrue_whenExistsByIdFindsCustomer() {
+    void shouldReturnTrue_whenExistsByIdFindsCustomer() {
         Long customerTestId = 1L;
         mockRepositoryExistsByIdWithBoolean(customerRepository, customerTestId, true);
         assertThat(customerService.existsById(customerTestId)).isTrue();
@@ -85,7 +83,7 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return false when existsById() does not find a Customer")
-    public void shouldReturnFalse_whenExistsByIdDoesNotFindCustomer() {
+    void shouldReturnFalse_whenExistsByIdDoesNotFindCustomer() {
         Long customerTestId = 1L;
         mockRepositoryExistsByIdWithBoolean(customerRepository, customerTestId, false);
         assertThat(customerService.existsById(customerTestId)).isFalse();
@@ -93,7 +91,7 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Customer when createCustomer()")
-    public void shouldReturnCustomer_whenCreateCustomer() {
+    void shouldReturnCustomer_whenCreateCustomer() {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockRepositorySaveWithCustomer(customerRepository, customerDao);
@@ -103,7 +101,7 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Customer when updateCustomer() finds the Customer to update")
-    public void shouldReturnCustomer_whenUpdateCustomerFindsTheCustomerToUpdate() throws CustomerResourceNotFoundException {
+    void shouldReturnCustomer_whenUpdateCustomerFindsTheCustomerToUpdate() throws CustomerResourceNotFoundException {
         Long customerTestId = 1L;
         CustomerDao customerDao = generateCustomerDaoObject(customerTestId, "Customer Test 1");
         mockRepositoryFindByIdWithCustomer(customerRepository, customerTestId, customerDao);
@@ -115,13 +113,11 @@ public class CustomerServiceUnitTest extends AbstractTest {
 
     @Test
     @DisplayName("Should throw CustomerResourceNotFoundException when updateCustomer() does not find the Customer to update")
-    public void shouldThrowCustomerEntityNotFoundException_whenUpdateCustomerDoesNotFindTheCustomerToUpdate() {
+    void shouldThrowCustomerEntityNotFoundException_whenUpdateCustomerDoesNotFindTheCustomerToUpdate() {
         Long customerTestId = 1L;
         mockRepositoryFindByIdWithEmptyResult(customerRepository, customerTestId);
         assertThrows(CustomerResourceNotFoundException.class, () -> {
             customerService.updateCustomer(customerTestId, CustomerUpdateDto.builder().build());
         });
     }
-
-
 }

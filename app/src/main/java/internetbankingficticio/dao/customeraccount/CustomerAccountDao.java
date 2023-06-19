@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "customer_account")
 @IdClass(CustomerAccountIdDaoKey.class)
-public class CustomerAccountDao extends AbstractInternetBankingDao {
+public class CustomerAccountDao implements AbstractInternetBankingDao {
 
     @Id
     @OneToOne

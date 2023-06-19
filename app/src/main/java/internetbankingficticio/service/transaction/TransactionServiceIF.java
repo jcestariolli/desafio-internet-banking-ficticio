@@ -2,8 +2,8 @@ package internetbankingficticio.service.transaction;
 
 import internetbankingficticio.dto.transaction.TransactionCreateDto;
 import internetbankingficticio.dto.transaction.TransactionDto;
-import internetbankingficticio.exception.ResourceNotFoundException;
-import internetbankingficticio.exception.TransactionAmmountValidationException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
+import internetbankingficticio.exception.validation.TransactionAmmountValidationException;
 
 import java.util.Date;
 import java.util.List;

@@ -3,7 +3,7 @@ package internetbankingficticio.service.customer;
 import internetbankingficticio.dto.customer.CustomerCreateDto;
 import internetbankingficticio.dto.customer.CustomerDto;
 import internetbankingficticio.dto.customer.CustomerUpdateDto;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 
 import java.util.List;
 

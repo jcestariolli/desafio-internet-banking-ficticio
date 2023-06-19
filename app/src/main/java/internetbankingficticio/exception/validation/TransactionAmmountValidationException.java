@@ -1,4 +1,4 @@
-package internetbankingficticio.exception;
+package internetbankingficticio.exception.validation;
 
 public class TransactionAmmountValidationException extends Exception {
     public TransactionAmmountValidationException(String message) {

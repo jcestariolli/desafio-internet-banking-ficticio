@@ -1,10 +1,10 @@
-package internetbankingficticio.exception;
+package internetbankingficticio.exception.notfound;
 
 import lombok.Data;
 
 @Data
 public class ResourceNotFoundException extends Exception {
-    String entityId;
+    final String entityId;
 
     public ResourceNotFoundException(String entityId) {
         super();

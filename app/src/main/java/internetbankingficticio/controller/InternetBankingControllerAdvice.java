@@ -1,10 +1,12 @@
 package internetbankingficticio.controller;
 
-import internetbankingficticio.exception.TransactionAmmountValidationException;
-import internetbankingficticio.exception.AccountResourceNotFoundException;
-import internetbankingficticio.exception.CustomerResourceNotFoundException;
-import internetbankingficticio.exception.ResourceNotFoundException;
-import internetbankingficticio.exception.TransactionEntityNotFoundException;
+import internetbankingficticio.exception.DateParseException;
+import internetbankingficticio.exception.validation.TransactionAmmountValidationException;
+import internetbankingficticio.exception.notfound.AccountResourceNotFoundException;
+import internetbankingficticio.exception.notfound.CustomerResourceNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
+import internetbankingficticio.exception.notfound.TransactionEntityNotFoundException;
+import internetbankingficticio.utils.DateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,7 +41,7 @@ public class InternetBankingControllerAdvice extends ResponseEntityExceptionHand
     @ExceptionHandler(value = {ResourceNotFoundException.class})
     public ResponseEntity<ErrorResponsePojo> entityNotFoundException(ResourceNotFoundException ex, WebRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
-        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message("Entidade de id %s não encontrada".formatted(ex.getEntityId())).status(status.value()).build();
+        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message("Recurso de id %s não encontrada".formatted(ex.getEntityId())).status(status.value()).build();
         return new ResponseEntity<>(errorResponsePojo, status);
     }
 
@@ -47,6 +49,13 @@ public class InternetBankingControllerAdvice extends ResponseEntityExceptionHand
     public ResponseEntity<ErrorResponsePojo> transactionValidationException(TransactionAmmountValidationException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message("Erro ao validar valor da transação. Causa: %s".formatted(ex.getMessage())).status(status.value()).build();
+        return new ResponseEntity<>(errorResponsePojo, status);
+    }
+
+    @ExceptionHandler(value = {DateParseException.class})
+    public ResponseEntity<ErrorResponsePojo> dateParseException(DateParseException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponsePojo errorResponsePojo = ErrorResponsePojo.builder().message("Formato de data invalido. Formato esperado é sempre: %s".formatted(DateUtils.DATE_FORMAT_STRING)).status(status.value()).build();
         return new ResponseEntity<>(errorResponsePojo, status);
     }
 

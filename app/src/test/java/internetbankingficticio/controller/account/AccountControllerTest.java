@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AccountController.class)
-public class AccountControllerTest extends AbstractTest {
+class AccountControllerTest extends AbstractTest {
 
     private static final String API_ENDPOINT = "/contas";
     private static ObjectMapper MAPPER;
@@ -51,7 +51,7 @@ public class AccountControllerTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Status Ok (200) And AccountDtoList when listAllAccounts API")
-    public void shouldReturnStatusOkAndAccountDtoList_whenListAllAccounts() throws Exception {
+    void shouldReturnStatusOkAndAccountDtoList_whenListAllAccounts() throws Exception {
         List<AccountDto> expectedAccountDtoList = generateAccountDtoListObject();
         mockServiceListAllAccountsWithAccountList(accountService, expectedAccountDtoList);
 
@@ -59,14 +59,12 @@ public class AccountControllerTest extends AbstractTest {
 
         List<AccountDto> returnedAccountDtoList = parseResponse(MAPPER, mvcResult, new TypeReference<List<AccountDto>>() {
         });
-        assertThat(returnedAccountDtoList).isNotEmpty();
-        assertThat(returnedAccountDtoList).size().isEqualTo(expectedAccountDtoList.size());
-        assertEquals(returnedAccountDtoList, expectedAccountDtoList);
+        assertThat(returnedAccountDtoList).isNotEmpty().hasSize(expectedAccountDtoList.size()).isEqualTo(expectedAccountDtoList);
     }
 
     @Test
     @DisplayName("Should return Status Ok (200) And AccountDto when findAccountById API finds a Account")
-    public void shouldReturnStatusOkAndAccountDto_whenFindAccountByIdApiFindsAccount() throws Exception {
+    void shouldReturnStatusOkAndAccountDto_whenFindAccountByIdApiFindsAccount() throws Exception {
         String accountId = "12345678";
         AccountDto expectedAccountDto = generateAccountDtoObject(accountId, BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP), true);
         mockServiceFindAccountByIdWithAccount(accountService, accountId, expectedAccountDto);
@@ -79,7 +77,7 @@ public class AccountControllerTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Status NotFound (404) when findAccountById API does not find the Resource")
-    public void shouldReturnStatusNotFound_whenFindAccountByIdApiDoesNotFindTheResource() throws Exception {
+    void shouldReturnStatusNotFound_whenFindAccountByIdApiDoesNotFindTheResource() throws Exception {
         String accountId = "12345678";
         mockServiceFindAccountByIdThrowAccountNotFoundExcept(accountService, accountId);
         mvc.perform(MockMvcRequestBuilders.get(API_ENDPOINT + "/" + accountId).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNotFound()).andReturn();
@@ -87,7 +85,7 @@ public class AccountControllerTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Status Created (201) when createAccount API")
-    public void shouldReturnStatusCreated_whenCreateAccountApi() throws Exception {
+    void shouldReturnStatusCreated_whenCreateAccountApi() throws Exception {
         AccountDto expectedAccountDto = generateAccountDtoObject("12345678", BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP), true);
         mockServiceCreateAccountWithAccount(accountService, expectedAccountDto);
 
@@ -99,7 +97,7 @@ public class AccountControllerTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Status Ok (200) when updateAccount API")
-    public void shouldReturnStatusOk_whenUpdateAccountApi() throws Exception {
+    void shouldReturnStatusOk_whenUpdateAccountApi() throws Exception {
         String accountId = "12345678";
         AccountDto expectedAccountDto = generateAccountDtoObject(accountId, BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP), true);
         mockServiceUpdateAccountWithAccount(accountService, expectedAccountDto);
@@ -112,7 +110,7 @@ public class AccountControllerTest extends AbstractTest {
 
     @Test
     @DisplayName("Should return Status NotFound (404) when updateAccount API does not find the Resource")
-    public void shouldReturnStatusNotFound_whenUpdateAccountApiDoesNotFindTheResource() throws Exception {
+    void shouldReturnStatusNotFound_whenUpdateAccountApiDoesNotFindTheResource() throws Exception {
         String accountId = "12345678";
         mockServiceUpdateAccountThrowAccountNotFoundExcept(accountService, accountId, generateAccountUpdateDtoObject(true));
         mvc.perform(MockMvcRequestBuilders.put(API_ENDPOINT + "/" + accountId).content(asJsonString(MAPPER, generateAccountUpdateDtoObject(true))).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNotFound()).andReturn();

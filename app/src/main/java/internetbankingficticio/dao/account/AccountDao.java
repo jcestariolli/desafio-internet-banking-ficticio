@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @Builder
 @Entity
 @Table(name = "account")
-public class AccountDao extends AbstractInternetBankingDao {
+public class AccountDao implements AbstractInternetBankingDao {
 
     @Id
     private String id;

@@ -3,8 +3,8 @@ package internetbankingficticio.test.utils.account;
 import internetbankingficticio.dto.account.AccountCreateDto;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
-import internetbankingficticio.exception.AccountResourceNotFoundException;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.notfound.AccountResourceNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.service.account.AccountServiceIF;
 
 import java.util.List;

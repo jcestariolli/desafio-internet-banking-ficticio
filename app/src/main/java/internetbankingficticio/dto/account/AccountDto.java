@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountDto extends AbstractInternetBankingDto {
+public class AccountDto implements AbstractInternetBankingDto {
 
     @JsonProperty(value = "numero_conta", required = true)
     private String id;
@@ -25,5 +25,5 @@ public class AccountDto extends AbstractInternetBankingDto {
     private BigDecimal balance;
 
     @JsonProperty(value = "plano_exclusive", defaultValue = "false")
-    private Boolean exclusivePlan;
+    private boolean exclusivePlan;
 }

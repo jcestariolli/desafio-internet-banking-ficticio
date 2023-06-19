@@ -1,7 +1,8 @@
 package internetbankingficticio.controller.transaction;
 
 import internetbankingficticio.dto.transaction.TransactionDto;
-import internetbankingficticio.exception.ResourceNotFoundException;
+import internetbankingficticio.exception.DateParseException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.service.transaction.TransactionServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,8 @@ public class TransactionController {
     private TransactionServiceIF transactionService;
 
     @GetMapping
-    public ResponseEntity<List<TransactionDto>> listAllTransactions(@RequestParam(value = "data_inicio", required = false) String startDateString, @RequestParam(value = "data_fim", required = false) String endDateString) {
-        if (!((startDateString == null) == (endDateString == null))) {
+    public ResponseEntity<List<TransactionDto>> listAllTransactions(@RequestParam(value = "data_inicio", required = false) String startDateString, @RequestParam(value = "data_fim", required = false) String endDateString) throws DateParseException {
+        if ((startDateString == null) != (endDateString == null)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<TransactionDto> transactionDtoList;
@@ -34,7 +35,7 @@ public class TransactionController {
                 startDate = getDateByString(startDateString);
                 endDate = getDateByString(endDateString);
             } catch (ParseException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                throw new DateParseException();
             }
             transactionDtoList = transactionService.listAllTransactionsByExecutedOnBetween(startDate, endDate);
         } else {
