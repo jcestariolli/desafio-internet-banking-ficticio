@@ -47,11 +47,11 @@ ter as seguintes funcionalidades:
 
 #  Stack de Tecnologias
 - **Java 17** - pré-requisito para execução;
-- **Maven** - como ferramenta de gerenciamento de dependências e empacotamento;
-- **Spring Boot** - como Framework para autoconfiguração da aplicação e injeção de dependências;
+- **Maven 3** - como ferramenta de gerenciamento de dependências e empacotamento;
+- **Spring Boot 3.1.0** - como Framework para autoconfiguração da aplicação e injeção de dependências;
+- **JPA + Hibernate** - como Framework para integração ao banco de dados;
 - **H2 Database** - como base de dados para execução local (em memória);
-- **JPA com Hibernate** - como Framework para integração ao banco de dados;
-- **TODO** - outras tecnologias e frameworks utilizados.
+- **Spring Docs - Open API 3.0 + Swagger** - Spring Docs como framework para geração de documentações de OpenAPI das APis da aplicação, e Swagger para disponibilizar uma interface para uso da API.
 
 <br>
 
