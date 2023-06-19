@@ -50,7 +50,7 @@ ter as seguintes funcionalidades:
 - **Maven 3** - como ferramenta de gerenciamento de dependências e empacotamento;
 - **Spring Boot 3.1.0** - como Framework para autoconfiguração da aplicação e injeção de dependências;
 - **JPA + Hibernate** - como Framework para integração ao banco de dados;
-- - **H2 Database** - como base de dados para execução local (em memória);
+- **H2 Database** - como base de dados para execução local (em memória);
 - **Spring Docs - Open API 3.0 + Swagger** - Spring Docs como framework para geração de documentações de OpenAPI das APis da aplicação, e Swagger para disponibilizar uma interface para uso da API.
 
 <br>
