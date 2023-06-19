@@ -1,0 +1,174 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TransactionService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">internetbankingficticio.service.transaction</a>
+</div>
+
+<h1>Coverage Summary for Class: TransactionService (internetbankingficticio.service.transaction)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TransactionService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12,5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8,3%
+  </span>
+  <span class="absValue">
+    (1/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package internetbankingficticio.service.transaction;
+&nbsp;
+&nbsp;import internetbankingficticio.dao.transaction.TransactionDao;
+&nbsp;import internetbankingficticio.dto.transaction.TransactionCreateDto;
+&nbsp;import internetbankingficticio.dto.transaction.TransactionDto;
+&nbsp;import internetbankingficticio.exception.notfound.ResourceNotFoundException;
+&nbsp;import internetbankingficticio.exception.notfound.TransactionEntityNotFoundException;
+&nbsp;import internetbankingficticio.exception.validation.TransactionAmmountValidationException;
+&nbsp;import internetbankingficticio.mapper.transaction.TransactionDaoToTransactionDtoMapper;
+&nbsp;import internetbankingficticio.repository.transaction.TransactionRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class TransactionService implements TransactionServiceIF {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    TransactionRepository transactionRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    TransactionDaoToTransactionDtoMapper transactionDaoToTransactionDtoMapper;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    TransactionCreatorServiceFactory transactionCreatorServiceFactory;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;TransactionDto&gt; listAllTransactions() {
+<b class="nc">&nbsp;        return transactionRepository.findAll().stream().map(transactionDao -&gt; transactionDaoToTransactionDtoMapper.map(transactionDao)).toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public TransactionDto findTransactionById(Long transactionId) throws TransactionEntityNotFoundException {
+<b class="nc">&nbsp;        Optional&lt;TransactionDao&gt; transactionDaoOpt = transactionRepository.findById(transactionId);</b>
+<b class="nc">&nbsp;        if (transactionDaoOpt.isEmpty()) throw new TransactionEntityNotFoundException(transactionId.toString());</b>
+<b class="nc">&nbsp;        return transactionDaoToTransactionDtoMapper.map(transactionDaoOpt.get());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean existsById(Long transactionId) {
+<b class="nc">&nbsp;        return transactionRepository.existsById(transactionId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;TransactionDto&gt; listAllTransactionsByExecutedOnBetween(Date executedOnStart, Date executedOnEnd) {
+<b class="nc">&nbsp;        return transactionRepository.findAllByExecutedOnBetween(executedOnStart, executedOnEnd).stream().map(transactionDao -&gt; transactionDaoToTransactionDtoMapper.map(transactionDao)).toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;TransactionDto&gt; listAllTransactionsByAccountId(String accountId) {
+<b class="nc">&nbsp;        return transactionRepository.findByAccountId(accountId).stream().map(transactionDao -&gt; transactionDaoToTransactionDtoMapper.map(transactionDao)).toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;TransactionDto&gt; listAllTransactionsByAccountIdAndExecutedOnBetween(String accountId, Date executedOnStart, Date executedOnEnd) {
+<b class="nc">&nbsp;        return transactionRepository.findAllByAccountIdAndExecutedOnBetween(accountId, executedOnStart, executedOnEnd).stream().map(transactionDao -&gt; transactionDaoToTransactionDtoMapper.map(transactionDao)).toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) throws TransactionAmmountValidationException, ResourceNotFoundException {
+<b class="nc">&nbsp;        if (null == transactionCreateDto.getExecutedOn()) {</b>
+<b class="nc">&nbsp;            transactionCreateDto.setExecutedOn(new Date());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return transactionCreatorServiceFactory.provide(transactionCreateDto.getCommand()).createTransaction(transactionCreateDto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-18 22:43</div>
+</div>
+</body>
+</html>

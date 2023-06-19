@@ -1,0 +1,96 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CustomerServiceIF</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">internetbankingficticio.service.customer</a>
+</div>
+
+<h1>Coverage Summary for Class: CustomerServiceIF (internetbankingficticio.service.customer)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">CustomerServiceIF$MockitoMock$zaJrDSfd</td>
+  </tr>
+  <tr>
+    <td class="name">CustomerServiceIF$MockitoMock$zaJrDSfd$auxiliary$s2eTFrSC</td>
+  </tr>
+  <tr>
+    <td class="name">CustomerServiceIF$MockitoMock$zaJrDSfd$auxiliary$uw7fAQb7</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package internetbankingficticio.service.customer;
+&nbsp;
+&nbsp;import internetbankingficticio.dto.customer.CustomerCreateDto;
+&nbsp;import internetbankingficticio.dto.customer.CustomerDto;
+&nbsp;import internetbankingficticio.dto.customer.CustomerUpdateDto;
+&nbsp;import internetbankingficticio.exception.notfound.ResourceNotFoundException;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface CustomerServiceIF {
+&nbsp;    List&lt;CustomerDto&gt; listAllCustomers();
+&nbsp;
+&nbsp;    CustomerDto findCustomerById(Long customerId) throws ResourceNotFoundException;
+&nbsp;
+&nbsp;    boolean existsById(Long customerId);
+&nbsp;
+&nbsp;    CustomerDto createCustomer(CustomerCreateDto customerDto);
+&nbsp;
+&nbsp;    CustomerDto updateCustomer(Long customerId, CustomerUpdateDto customerDto) throws ResourceNotFoundException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-18 22:43</div>
+</div>
+</body>
+</html>
