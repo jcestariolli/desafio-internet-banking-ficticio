@@ -11,7 +11,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountUpdateDto extends AbstractInternetBankingDto {
+public class AccountUpdateDto implements AbstractInternetBankingDto {
 
     @JsonProperty(value = "plano_exclusive", required = true, defaultValue = "false")
     private Boolean exclusivePlan;

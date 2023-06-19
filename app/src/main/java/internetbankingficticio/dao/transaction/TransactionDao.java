@@ -19,7 +19,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "transaction")
-public class TransactionDao extends AbstractInternetBankingDao {
+public class TransactionDao implements AbstractInternetBankingDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

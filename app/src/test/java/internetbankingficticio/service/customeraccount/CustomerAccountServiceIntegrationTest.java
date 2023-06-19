@@ -2,7 +2,7 @@ package internetbankingficticio.service.customeraccount;
 
 import internetbankingficticio.dao.customeraccount.CustomerAccountDao;
 import internetbankingficticio.dto.customeraccount.CustomerAccountCreateDto;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.customer.CustomerDaoToCustomerDtoMapper;
@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class CustomerAccountServiceIntegrationTest extends AbstractTest {
+class CustomerAccountServiceIntegrationTest extends AbstractTest {
     @Autowired
     CustomerAccountService customerAccountService;
 
@@ -59,7 +59,7 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findByCustomerId() when finds the Customer")
-    public void shouldCallRepositoryFindByCustomerId_whenFindsCustomer() throws EntityNotFoundException {
+    void shouldCallRepositoryFindByCustomerId_whenFindsCustomer() throws ResourceNotFoundException {
         Long customerId = 1L;
         mockServiceFindCustomerByIdWithCustomer(customerService, customerId, generateCustomerDtoObject(customerId, "Customer Test 1"));
         mockRepositoryFindByCustomerIdWithCustomerAccountList(customerAccountRepository, new ArrayList<>());
@@ -71,10 +71,10 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should not call repository findByCustomerId() when does not find the Customer")
-    public void shouldNotCallRepositoryFindByCustomerId_whenDoesNotFindCustomer() throws EntityNotFoundException {
+    void shouldNotCallRepositoryFindByCustomerId_whenDoesNotFindCustomer() throws ResourceNotFoundException {
         Long customerId = 1L;
         mockServiceFindCustomerByIdThrowCustomerNotFoundExcept(customerService, customerId);
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(ResourceNotFoundException.class, () -> {
             customerAccountService.listAccountsByCustomerId(customerId);
         });
         verify(customerService, times(1)).findCustomerById(any());
@@ -83,7 +83,7 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should call repository findByAccountId() when finds the Account")
-    public void shouldCallRepositoryFindByAccountId_whenFindsAccount() throws EntityNotFoundException {
+    void shouldCallRepositoryFindByAccountId_whenFindsAccount() throws ResourceNotFoundException {
         String accountId = "12345678";
         mockServiceFindAccountByIdWithAccount(accountService, accountId, generateAccountDtoObject(accountId, BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP), true));
         mockRepositoryFindByAccountIdWithCustomerAccountList(customerAccountRepository, new ArrayList<>());
@@ -96,10 +96,10 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should not call repository findByAccountId() when does not find the Account")
-    public void shouldNotCallRepositoryFindByAccountId_whenDoesNotFindAccount() throws EntityNotFoundException {
+    void shouldNotCallRepositoryFindByAccountId_whenDoesNotFindAccount() throws ResourceNotFoundException {
         String accountId = "12345678";
         mockServiceFindAccountByIdThrowAccountNotFoundExcept(accountService, accountId);
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(ResourceNotFoundException.class, () -> {
             customerAccountService.listCustomersByAccountId(accountId);
         });
         verify(accountService, times(1)).findAccountById(any());
@@ -108,7 +108,7 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should create Customer and Account before verifying existing CustomerAccount")
-    public void shouldCreateCustomerAndAccount_beforeVerifyingExistingCustomerAccount() {
+    void shouldCreateCustomerAndAccount_beforeVerifyingExistingCustomerAccount() {
         String accountId = "12345678";
         Long customerId = 1L;
         CustomerAccountCreateDto customerAccountCreateDto = generateCustomerAccountCreateDtoObject();
@@ -126,7 +126,7 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should create CustomerAccount when CustomerAccount does not exists")
-    public void shouldCreateCustomerAccount_whenCustomerAccountDoesNotExists() {
+    void shouldCreateCustomerAccount_whenCustomerAccountDoesNotExists() {
         String accountId = "12345678";
         Long customerId = 1L;
         CustomerAccountCreateDto customerAccountCreateDto = generateCustomerAccountCreateDtoObject();
@@ -145,7 +145,7 @@ public class CustomerAccountServiceIntegrationTest extends AbstractTest {
 
     @Test
     @DisplayName("Should not create CustomerAccount when CustomerAccount exists")
-    public void shouldNotCreateCustomerAccount_whenCustomerAccountExists() {
+    void shouldNotCreateCustomerAccount_whenCustomerAccountExists() {
         String accountId = "12345678";
         Long customerId = 1L;
         CustomerAccountCreateDto customerAccountCreateDto = generateCustomerAccountCreateDtoObject();

@@ -13,7 +13,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CustomerAccountDto extends AbstractInternetBankingDto {
+public class CustomerAccountDto implements AbstractInternetBankingDto {
     @JsonProperty(value = "cliente", required = true)
     CustomerDto customerDto;
     @JsonProperty(value = "conta", required = true)

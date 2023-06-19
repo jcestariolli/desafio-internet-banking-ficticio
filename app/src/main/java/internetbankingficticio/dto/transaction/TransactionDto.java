@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import internetbankingficticio.dto.AbstractInternetBankingDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
-import internetbankingficticio.utils.serializer.MoneySerializer;
+import internetbankingficticio.serializer.MoneySerializer;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -18,7 +18,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransactionDto extends AbstractInternetBankingDto {
+public class TransactionDto implements AbstractInternetBankingDto {
 
     @JsonProperty(value = "id")
     private long id;
@@ -49,5 +49,17 @@ public class TransactionDto extends AbstractInternetBankingDto {
         if (this.getCommand() == null ? (other.getCommand() != null) : !(this.getCommand().equals(other.getCommand())))
             return false;
         return (this.getExecutedOn() == null ? (other.getExecutedOn() == null) : (this.getExecutedOn().getDay() == other.getExecutedOn().getDay() && this.getExecutedOn().getMonth() == other.getExecutedOn().getMonth() && this.getExecutedOn().getYear() == other.getExecutedOn().getYear()));
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        int result = 1;
+        result = prime * result + (int) this.getId();
+        result = prime * result + ((this.getAccountId() == null) ? 0 : this.getAccountId().hashCode());
+        result = prime * result + ((this.getAmmount() == null) ? 0 : this.getAmmount().hashCode());
+        result = prime * result + ((this.getCommand() == null) ? 0 : this.getCommand().hashCode());
+        result = prime * result + ((this.getExecutedOn() == null) ? 0 : this.getExecutedOn().hashCode());
+        return result;
     }
 }

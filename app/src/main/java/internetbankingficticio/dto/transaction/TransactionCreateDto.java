@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import internetbankingficticio.dto.AbstractInternetBankingDto;
 import internetbankingficticio.enums.transaction.TransactionCommand;
-import internetbankingficticio.utils.serializer.MoneySerializer;
+import internetbankingficticio.serializer.MoneySerializer;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransactionCreateDto extends AbstractInternetBankingDto {
+public class TransactionCreateDto implements AbstractInternetBankingDto {
 
     @JsonIgnore
     private String accountId;

@@ -1,6 +1,7 @@
 package internetbankingficticio.service.transaction.withdraw;
 
 import internetbankingficticio.dto.account.AccountDto;
+import internetbankingficticio.enums.transaction.WithdrawFeeFactorEnum;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ public class WithdrawTransactionCalculator implements WithdrawTransactionCalcula
 
     @Override
     public BigDecimal applyBusinessRuleInTransactionAmount(BigDecimal transactionAmmount, AccountDto accountDto) {
-        if (accountDto.getExclusivePlan()) return transactionAmmount;
+        if (accountDto.isExclusivePlan()) return transactionAmmount;
         return transactionAmmount.multiply(WithdrawFeeFactorEnum.getFeeFactorForAmount(transactionAmmount));
     }
 

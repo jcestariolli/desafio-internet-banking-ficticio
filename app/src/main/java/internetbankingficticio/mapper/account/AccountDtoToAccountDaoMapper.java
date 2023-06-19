@@ -10,6 +10,6 @@ public class AccountDtoToAccountDaoMapper implements DtoToDaoMapper<AccountDto, 
 
     @Override
     public AccountDao map(AccountDto dto) {
-        return AccountDao.builder().id(dto.getId()).balance(dto.getBalance()).exclusivePlan(dto.getExclusivePlan()).build();
+        return AccountDao.builder().id(dto.getId()).balance(dto.getBalance()).exclusivePlan(dto.isExclusivePlan()).build();
     }
 }

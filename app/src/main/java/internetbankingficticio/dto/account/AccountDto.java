@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import internetbankingficticio.dto.AbstractInternetBankingDto;
-import internetbankingficticio.utils.serializer.MoneySerializer;
+import internetbankingficticio.serializer.MoneySerializer;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountDto extends AbstractInternetBankingDto {
+public class AccountDto implements AbstractInternetBankingDto {
 
     @JsonProperty(value = "numero_conta", required = true)
     private String id;
@@ -25,5 +25,5 @@ public class AccountDto extends AbstractInternetBankingDto {
     private BigDecimal balance;
 
     @JsonProperty(value = "plano_exclusive", defaultValue = "false")
-    private Boolean exclusivePlan;
+    private boolean exclusivePlan;
 }

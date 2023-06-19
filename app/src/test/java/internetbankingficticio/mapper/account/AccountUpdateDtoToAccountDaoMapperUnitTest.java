@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class AccountUpdateDtoToAccountDaoMapperUnitTest extends AbstractTest {
+class AccountUpdateDtoToAccountDaoMapperUnitTest extends AbstractTest {
 
     @Autowired
     AccountUpdateDtoToAccountDaoMapper mapper;
 
     @Test
     @DisplayName("Should map AccountUpdateDto to AccountDao")
-    public void shouldMapAccountUpdateDtoToAccountDao() {
+    void shouldMapAccountUpdateDtoToAccountDao() {
         AccountUpdateDto accountDto = AccountUpdateDto.builder().exclusivePlan(true).build();
         AccountDao accountDao = mapper.map(accountDto);
         Assertions.assertThat(accountDao.getExclusivePlan()).isEqualTo(accountDto.getExclusivePlan());

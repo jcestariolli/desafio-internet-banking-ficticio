@@ -7,8 +7,12 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class DateUtils {
+
     public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("America/Sao_Paulo");
-    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_STRING);
+    private DateUtils() {
+    }
 
     public static Date getDateNow() {
         Calendar now = Calendar.getInstance(TIME_ZONE);

@@ -4,8 +4,8 @@ import internetbankingficticio.dao.account.AccountDao;
 import internetbankingficticio.dto.account.AccountCreateDto;
 import internetbankingficticio.dto.account.AccountDto;
 import internetbankingficticio.dto.account.AccountUpdateDto;
-import internetbankingficticio.exception.entity.AccountEntityNotFoundException;
-import internetbankingficticio.exception.entity.EntityNotFoundException;
+import internetbankingficticio.exception.notfound.AccountResourceNotFoundException;
+import internetbankingficticio.exception.notfound.ResourceNotFoundException;
 import internetbankingficticio.mapper.account.AccountCreateDtoToAccountDaoMapper;
 import internetbankingficticio.mapper.account.AccountDaoToAccountDtoMapper;
 import internetbankingficticio.mapper.account.AccountUpdateDtoToAccountDaoMapper;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AccountService implements AccountServiceIF {
@@ -32,13 +31,13 @@ public class AccountService implements AccountServiceIF {
 
     @Override
     public List<AccountDto> listAllAccounts() {
-        return accountRepository.findAll().stream().map(accountDao -> accountDaoToAccountDtoMapper.map(accountDao)).collect(Collectors.toList());
+        return accountRepository.findAll().stream().map(accountDao -> accountDaoToAccountDtoMapper.map(accountDao)).toList();
     }
 
     @Override
-    public AccountDto findAccountById(String accountId) throws AccountEntityNotFoundException {
+    public AccountDto findAccountById(String accountId) throws AccountResourceNotFoundException {
         Optional<AccountDao> accountDaoOpt = accountRepository.findById(accountId);
-        if (accountDaoOpt.isEmpty()) throw new AccountEntityNotFoundException(accountId);
+        if (accountDaoOpt.isEmpty()) throw new AccountResourceNotFoundException(accountId);
         return accountDaoToAccountDtoMapper.map(accountDaoOpt.get());
     }
 
@@ -54,9 +53,9 @@ public class AccountService implements AccountServiceIF {
     }
 
     @Override
-    public AccountDto updateAccount(String accountId, AccountUpdateDto accountDto) throws AccountEntityNotFoundException {
+    public AccountDto updateAccount(String accountId, AccountUpdateDto accountDto) throws AccountResourceNotFoundException {
         Optional<AccountDao> accountDao = accountRepository.findById(accountId);
-        if (accountDao.isEmpty()) throw new AccountEntityNotFoundException(accountId);
+        if (accountDao.isEmpty()) throw new AccountResourceNotFoundException(accountId);
         AccountDao accountToUpdate = accountUpdateDtoToAccountDaoMapper.map(accountDto);
         accountToUpdate.setId(accountId);
         accountToUpdate.setBalance(accountDao.get().getBalance());
@@ -65,9 +64,9 @@ public class AccountService implements AccountServiceIF {
     }
 
     @Override
-    public AccountDto updateAccountBalance(String accountId, BigDecimal ammout) throws EntityNotFoundException {
+    public AccountDto updateAccountBalance(String accountId, BigDecimal ammout) throws ResourceNotFoundException {
         Optional<AccountDao> accountDao = accountRepository.findById(accountId);
-        if (accountDao.isEmpty()) throw new AccountEntityNotFoundException(accountId);
+        if (accountDao.isEmpty()) throw new AccountResourceNotFoundException(accountId);
         AccountDao accountToUpdate = accountDao.get();
         accountToUpdate.setBalance(ammout);
         return accountDaoToAccountDtoMapper.map(accountRepository.save(accountToUpdate));
